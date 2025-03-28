@@ -23,27 +23,54 @@
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
         <i class="fa-solid fa-percent mr-2"></i> Discounts
         </a>
+
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+<<<<<<< HEAD
         <i class="fa-solid fa-leaf mr-2"></i> Ingredients
         </a>
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
         <i class="fa-solid fa-book mr-2"></i> Recipes
+=======
+            <i class="fas fa-bullhorn mr-2"></i> Discounts
+>>>>>>> origin/thanhtrong
         </a>
+
         <div class="mt-4">
             <span class="text-xs text-gray-500">MAIN MENU</span>
         </div>
+
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+            <i class="fas fa-tachometer-alt mr-2"></i> Stasticts
         </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-shopping-cart mr-2"></i> Orders
-        </a>
+
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
             <i class="fas fa-users mr-2"></i> Customers
         </a>
+
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-chart-line mr-2"></i> Reports
+            <i class="fa-solid fa-cart-shopping mr-2"></i>Orders
         </a>
+
+        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-truck-field mr-2"></i> Producer
+        </a>
+
+        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-file-import mr-2 "></i> Import
+        </a>
+        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-wheat-awn-circle-exclamation mr-2"></i> Ingredient
+        </a>
+
+        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-weight-hanging mr-2"></i> Unit
+        </a>
+
+        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-mug-saucer mr-2"></i> Recipe
+        </a>
+
+
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100 mt-4">
             <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
         </a>

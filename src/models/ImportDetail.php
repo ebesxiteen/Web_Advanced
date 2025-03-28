@@ -1,21 +1,20 @@
 <?php
 
-class ImportDetail {
+class ImportDetails {
     private $id;
     private $importId;
     private $ingredientId;
     private $quantity;
     private $price;
     private $total;
-    private $unitId;
-    public function __construct($id = null, $importId = null, $ingredientId = null, $quantity = null, $price = null, $total = null,$unitId=null) {
+
+    public function __construct($id = null, $importId = null, $ingredientId = null, $quantity = null, $price = null, $total = null) {
         $this->id = $id;
         $this->importId = $importId;
         $this->ingredientId = $ingredientId;
         $this->quantity = $quantity;
         $this->price = $price;
         $this->total = $total;
-        $this->unitId=$unitId;
     }
 
     public function getId() {
@@ -65,13 +64,5 @@ class ImportDetail {
     public function setTotal($total) {
         $this->total = $total;
     }
-
-    public function getUnitId(){
-        return $this->unitId;
-    }
-    public function setUnitId($unitId){
-        $this->unitId=$unitId;
-    }
 }
-
 ?>
