@@ -19,17 +19,15 @@
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100 bg-gray-100">
             <i class="fas fa-box-open mr-2"></i> Products
         </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100 bg-gray-200">
-            <i class="fas fa-list-ul mr-2"></i> Product List
+
+        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+        <i class="fa-solid fa-percent mr-2"></i> Discounts
         </a>
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-tags mr-2"></i> Categories
+        <i class="fa-solid fa-leaf mr-2"></i> Ingredients
         </a>
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-bullhorn mr-2"></i> Promotions
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-cog mr-2"></i> Settings
+        <i class="fa-solid fa-book mr-2"></i> Recipes
         </a>
         <div class="mt-4">
             <span class="text-xs text-gray-500">MAIN MENU</span>

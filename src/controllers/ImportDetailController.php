@@ -24,7 +24,8 @@ class ImportDetailController {
                     $row['INGREDIENTID'],
                     $row['QUANTITY'],
                     $row['PRICE'],
-                    $row['TOTAL']
+                    $row['TOTAL'],
+                    $row['UNITID']
                 );
                 $importDetails[] = $importDetail;
             }
@@ -45,7 +46,8 @@ class ImportDetailController {
                 $row['INGREDIENTID'],
                 $row['QUANTITY'],
                 $row['PRICE'],
-                $row['TOTAL']
+                $row['TOTAL'],
+                $row['UNITID']
             );
         }
 
@@ -53,12 +55,14 @@ class ImportDetailController {
     }
 
     public function createImportDetail(ImportDetail $importDetail) {
-        $sql = "INSERT INTO IMPORTDETAILS (IMPORTID, INGREDIENTID, QUANTITY, PRICE, TOTAL) VALUES (
+        $sql = "INSERT INTO IMPORTDETAILS (IMPORTID, INGREDIENTID, QUANTITY, PRICE, TOTAL,UNITID) VALUES (
             " . $importDetail->getImportId() . ",
             " . $importDetail->getIngredientId() . ",
             " . $importDetail->getQuantity() . ",
             " . $importDetail->getPrice() . ",
-            " . $importDetail->getTotal() . "
+            " . $importDetail->getTotal() . ",
+             " . $importDetail->getUnitId() . "
+
         )";
 
         if ($this->connection->query($sql) === TRUE) {
@@ -74,7 +78,8 @@ class ImportDetailController {
             INGREDIENTID = " . $importDetail->getIngredientId() . ",
             QUANTITY = " . $importDetail->getQuantity() . ",
             PRICE = " . $importDetail->getPrice() . ",
-            TOTAL = " . $importDetail->getTotal() . "
+            TOTAL = " . $importDetail->getTotal() . ",
+            UNITID = " . $importDetail->getUnitId() . "
             WHERE ID = " . $importDetail->getId();
 
         if ($this->connection->query($sql) === TRUE) {

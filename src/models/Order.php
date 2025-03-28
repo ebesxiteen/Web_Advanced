@@ -7,14 +7,15 @@ class Order {
     private $dateOfOrder;
     private $orderStatus;
     private $discountId;
-
-    public function __construct($id = null, $userId = null, $total = null, $dateOfOrder = null, $orderStatus = null, $discountId = null) {
+    private $priceBeforeDiscount;
+    public function __construct($id = null, $userId = null, $total = null, $dateOfOrder = null, $orderStatus = null, $discountId = null,$priceBeforeDiscount=null) {
         $this->id = $id;
         $this->userId = $userId;
         $this->total = $total;
         $this->dateOfOrder = $dateOfOrder;
         $this->orderStatus = $orderStatus;
         $this->discountId = $discountId;
+        $this->priceBeforeDiscount=$priceBeforeDiscount;
     }
 
     // Getters
@@ -41,6 +42,9 @@ class Order {
     public function getDiscountId() {
         return $this->discountId;
     }
+    public function getPriceBeforeDiscount(){
+        return $this->priceBeforeDiscount;
+    }
 
     // Setters
     public function setId($id) {
@@ -65,6 +69,9 @@ class Order {
 
     public function setDiscountId($discountId) {
         $this->discountId = $discountId;
+    }
+    public function setPriceBeforeDiscount($priceBeforeDiscount){
+        $this->$priceBeforeDiscount=$priceBeforeDiscount;
     }
 }
 

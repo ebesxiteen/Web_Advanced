@@ -7,14 +7,15 @@ class ImportDetail {
     private $quantity;
     private $price;
     private $total;
-
-    public function __construct($id = null, $importId = null, $ingredientId = null, $quantity = null, $price = null, $total = null) {
+    private $unitId;
+    public function __construct($id = null, $importId = null, $ingredientId = null, $quantity = null, $price = null, $total = null,$unitId=null) {
         $this->id = $id;
         $this->importId = $importId;
         $this->ingredientId = $ingredientId;
         $this->quantity = $quantity;
         $this->price = $price;
         $this->total = $total;
+        $this->unitId=$unitId;
     }
 
     public function getId() {
@@ -63,6 +64,13 @@ class ImportDetail {
 
     public function setTotal($total) {
         $this->total = $total;
+    }
+
+    public function getUnitId(){
+        return $this->unitId;
+    }
+    public function setUnitId($unitId){
+        $this->unitId=$unitId;
     }
 }
 
