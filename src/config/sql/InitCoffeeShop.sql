@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `IMPORTDETAILS` (
     QUANTITY                    DOUBLE          NOT NULL                                       ,
     PRICE                       DOUBLE          NOT NULL                                       ,
     TOTAL                       DOUBLE          NOT NULL                                       ,
+    UNITID                      INT             NOT NULL                                       ,
     PRIMARY KEY (ID)
 );
 
@@ -121,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `ORDERS` (
     DATEOFORDER                 DATE            NOT NULL                                                 ,
     ORDERSTATUS                 ENUM('PENDING', 'COMPLETED', 'CANCELLED') NOT NULL DEFAULT 'PENDING'     ,
     DISCOUNTID                  INT             NOT NULL                                                 ,
+    PRICEBEFOREDISCOUNT         DOUBLE          NOT NULL                                                 ,
     PRIMARY KEY (ID)
 );
 
@@ -192,8 +194,9 @@ ALTER TABLE `INGREDIENTS`
  
 ALTER TABLE `IMPORTDETAILS`
  ADD CONSTRAINT `FK_IMPORTS` FOREIGN KEY (IMPORTID) REFERENCES IMPORTS(ID),
- ADD CONSTRAINT `FK_INGREDIENTS_IMPORTDETAILS` FOREIGN KEY (INGREDIENTID) REFERENCES INGREDIENTS(ID);
- 
+ ADD CONSTRAINT `FK_INGREDIENTS_IMPORTDETAILS` FOREIGN KEY (INGREDIENTID) REFERENCES INGREDIENTS(ID),
+ ADD CONSTRAINT `FK_UNITS_IMPORTDETAILS` FOREIGN KEY (UNITID) REFERENCES UNITS(ID);
+
 ALTER TABLE `ORDERDETAILS`
  ADD CONSTRAINT `FK_ORDERS_ORDERDETAILS` FOREIGN KEY (ORDERID) REFERENCES ORDERS(ID),
  ADD CONSTRAINT `FK_PRODUCTS_ORDERDETAILS` FOREIGN KEY (PRODUCTID) REFERENCES PRODUCTS(ID);

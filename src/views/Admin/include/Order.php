@@ -3,7 +3,7 @@
 
         <header class="flex justify-between items-center mb-8">
             <div>
-                <h2 class="text-2xl font-semibold">Products</h2>
+                <h2 class="text-2xl font-semibold">Orders</h2>
                 <p class="text-xs text-gray-500">Home / Order </p>
             </div>
             <div class="flex items-center">

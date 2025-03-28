@@ -46,6 +46,18 @@
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
             <i class="fas fa-chart-line mr-2"></i> Reports
         </a>
+
+        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fas fa-chart-line mr-2"></i> Discounts
+        </a>
+
+        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fas fa-chart-line mr-2"></i> Producer
+        </a>
+
+        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fas fa-chart-line mr-2"></i> Import
+        </a>
         <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100 mt-4">
             <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
         </a>
