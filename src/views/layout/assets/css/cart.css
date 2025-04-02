@@ -170,18 +170,40 @@
     font-size: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
     outline: none;
+    z-index: 1 !important;
+    color: black !important;
 }
 
-.search-input::placeholder {
-    color: #6c757d; /* Placeholder text color */
-    font-weight: 500;
-}
+
+
 
 .search-icon {
     position: absolute;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
-    color: #6c757d; /* Icon color */
+    color: black !important;
     font-size: 24px;
+    z-index: 2 !important;
+    cursor: pointer;
+}
+.search-icon:hover {
+    color: rgb(231, 180, 90) !important;
+}
+.card__details-btn {
+  display: inline-block;
+  background-color: rgb(231, 180, 90);
+  color: #fff;
+  border-radius: 5px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+.card__details-btn:hover {
+  background-color: #b88b6f;
+  color: #fff;
+  text-decoration: none;
 }

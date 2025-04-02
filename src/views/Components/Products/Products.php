@@ -6,7 +6,7 @@
                 <h5 class="menu-div-h5  fs-4 mb-4 fw-bold text-dark">Xem món hôm nay</h5>
             </div>
             <div class="search-container">
-                <input type="text" class="search-input" placeholder="Tìm kiếm sản phẩm ">
+                <input type="text" class="search-input" placeholder="Tìm kiếm sản phẩm">
                 <i class="fas fa-search search-icon"></i>
             </div>
             <div class="btn-phantrang d-lg-flex justify-content-center m-5">
@@ -18,8 +18,7 @@
 
             <div class="row row-cols-4 d-flex justify-content-center">
                 <!-- items -->
-                <div
-                    class="col-lg-3 col-sm-6 col wow animate__animated animate__bounce">
+                <div class="col-lg-3 col-sm-6 col wow animate__animated animate__bounce">
                     <div class="card">
                         <div class="card__image">
                             <img
@@ -38,9 +37,12 @@
                         <p class="mt-3 card__content_desc">
                             Cà phê trứng được chọn lọc kỹ lương từ vùng ....
                         </p>
+                        <div class="text-center">
+                            <a href="?page=product-details" class="card__details-btn">Xem chi tiết</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col">
+                <div class="col-lg-3 col-sm-6 col wow animate__animated animate__bounce">
                     <div class="card">
                         <div class="card__image">
                             <img
@@ -59,9 +61,12 @@
                         <p class="mt-3 card__content_desc">
                             Cà phê trứng được chọn lọc kỹ lương từ vùng ....
                         </p>
+                        <div class="text-center">
+                            <a href="#" class="card__details-btn">Xem chi tiết</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col">
+                <div class="col-lg-3 col-sm-6 col wow animate__animated animate__bounce">
                     <div class="card">
                         <div class="card__image">
                             <img
@@ -80,9 +85,12 @@
                         <p class="mt-3 card__content_desc">
                             Cà phê trứng được chọn lọc kỹ lương từ vùng ....
                         </p>
+                        <div class="text-center">
+                            <a href="#" class="card__details-btn">Xem chi tiết</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col">
+                <div class="col-lg-3 col-sm-6 col wow animate__animated animate__bounce">
                     <div class="card">
                         <div class="card__image">
                             <img
@@ -101,9 +109,12 @@
                         <p class="mt-3 card__content_desc">
                             Cà phê trứng được chọn lọc kỹ lương từ vùng ....
                         </p>
+                        <div class="text-center">
+                            <a href="#" class="card__details-btn">Xem chi tiết</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col">
+                <div class="col-lg-3 col-sm-6 col wow animate__animated animate__bounce">
                     <div class="card">
                         <div class="card__image">
                             <img
@@ -122,9 +133,12 @@
                         <p class="mt-3 card__content_desc">
                             Cà phê trứng được chọn lọc kỹ lương từ vùng ....
                         </p>
+                        <div class="text-center">
+                            <a href="#" class="card__details-btn">Xem chi tiết</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col">
+                <div class="col-lg-3 col-sm-6 col wow animate__animated animate__bounce">
                     <div class="card">
                         <div class="card__image">
                             <img
@@ -143,9 +157,12 @@
                         <p class="mt-3 card__content_desc">
                             Cà phê trứng được chọn lọc kỹ lương từ vùng ....
                         </p>
+                        <div class="text-center">
+                            <a href="#" class="card__details-btn">Xem chi tiết</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col">
+                <div class="col-lg-3 col-sm-6 col wow animate__animated animate__bounce">
                     <div class="card">
                         <div class="card__image">
                             <img
@@ -164,9 +181,12 @@
                         <p class="mt-3 card__content_desc">
                             Cà phê trứng được chọn lọc kỹ lương từ vùng ....
                         </p>
+                        <div class="text-center">
+                            <a href="#" class="card__details-btn">Xem chi tiết</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col">
+                <div class="col-lg-3 col-sm-6 col wow animate__animated animate__bounce">
                     <div class="card">
                         <div class="card__image">
                             <img
@@ -185,9 +205,12 @@
                         <p class="mt-3 card__content_desc">
                             Cà phê trứng được chọn lọc kỹ lương từ vùng ....
                         </p>
+                        <div class="text-center">
+                            <a href="#" class="card__details-btn">Xem chi tiết</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col">
+                <div class="col-lg-3 col-sm-6 col wow animate__animated animate__bounce">
                     <div class="card">
                         <div class="card__image">
                             <img
@@ -206,6 +229,9 @@
                         <p class="mt-3 card__content_desc">
                             Cà phê trứng được chọn lọc kỹ lương từ vùng ....
                         </p>
+                        <div class="text-center">
+                            <a href="#" class="card__details-btn">Xem chi tiết</a>
+                        </div>
                     </div>
                 </div>
             </div>

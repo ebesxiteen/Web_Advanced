@@ -1,23 +1,27 @@
 <?php
-$isLogin  = isset($_GET['login']) && $_GET['login'] == 'true';
-$isSignUp = isset($_GET['signup']) && $_GET['signup'] == 'true';
+
+$page = isset($_GET['LoginAndSignUp']) ? 'LoginAndSignUp' : (isset($_GET['page']) ? $_GET['page'] : 'home');
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php include '../config/head.php'; ?>
+<?php require_once '../config/head.php' ?>
 
 <body>
     <?php include '../layout/includes/Header.php'; ?>
+
     <div class="main-content">
-        <?php if ($isLogin): ?>
-        <?php include '../Auth/Login.php'; ?>
-        <?php elseif ($isSignUp): ?>
-        <?php include '../Auth/SignUp.php'; ?>
-        <?php else: ?>
-        <?php include '../Components/Banner/Banner.php'; ?>
-        <?php include '../Components/Products/Products.php'; ?>
-        <?php include '../Components/Feature/Feature.php'; ?>
-        <?php endif; ?>
+        <?php
+        if ($page === 'product-details') {
+
+            include '../Components/Products/ProductDetails.php';
+            include '../layout/includes/Footer.php';
+        } else {
+            include '../Components/Banner/Banner.php';
+            include '../Components/Products/Products.php';
+            include '../Components/Feature/Feature.php';
+            include '../layout/includes/Footer.php';
+        }
+        ?>
     </div>
     <?php include '../config/script.php'; ?>
 </body>

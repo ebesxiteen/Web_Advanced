@@ -64,4 +64,4 @@
             </div>
         </div>
 </footer>
-<a class="back_to_top cd-top text-replace js-cd-top" href="#"><i class="fa fa-angle-up"></i></a>
+<a class="back_to_top cd-top text-replace js-cd-top" href="#"><i class="fa-solid fa-arrow-up"></i></a>
