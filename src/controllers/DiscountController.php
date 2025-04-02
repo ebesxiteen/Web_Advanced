@@ -1,7 +1,7 @@
 <?php
 
-require_once 'config/DatabaseConnection.php';
-require_once 'models/Discount.php'; // Đường dẫn đến file Discount.php
+include __DIR__ ."/../config/DatabaseConnection.php";
+include __DIR__ ."/../models/Discount.php";
 
 class DiscountController {
     private $connection;
@@ -11,14 +11,17 @@ class DiscountController {
         $this->connection = $db->getConnection();
     }
 
+/*************  ✨ Codeium Command ⭐  *************/
+/******  bbac5eed-cb4f-46c3-893c-36547972bd65  *******/
     public function getAllDiscounts() {
         $sql = "SELECT * FROM DISCOUNTS";
-        $result = $this->connection->query($sql);
+        
+        $result = $this->connection->query( $sql );
 
         $discounts = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $discount = new Discount(
+                $discount= new Discount(
                     $row['ID'],
                     $row['DISCOUNTNAME'],
                     $row['DISCOUNTPERCENT'],

@@ -53,6 +53,7 @@
                     ?>
                 </tbody>
                 <tbody id="productTableBodySeacrh">
+
                 </tbody>
             </table>
         </div>
