@@ -33,12 +33,11 @@ CREATE TABLE IF NOT EXISTS `USERS` (
 DROP TABLE IF EXISTS `PRODUCTS`;
 
 CREATE TABLE IF NOT EXISTS  `PRODUCTS` (
-    `ID`                          INT             NOT NULL           AUTO_INCREMENT              ,
+    `ID`                        INT             NOT NULL           AUTO_INCREMENT              ,
     RECIPEID                    INT             NOT NULL                                       ,
     PRODUCTNAME                 VARCHAR(50)     NOT NULL                                       ,
     PRICE                       DOUBLE          NOT NULL                                       ,
     UNITID                      INT             NOT NULL                                       ,
-
     PRIMARY KEY (`ID`)
 );
 

@@ -1,4 +1,4 @@
-<aside class="bg-white w-64 p-4">
+<aside class="bg-white w-64 p-4 h-screen ">
     <div class="flex items-center mb-8">
         <span class="text-xl font-semibold">IMAJI Coffee.</span>
         <button class="ml-auto text-gray-400 focus:outline-none">

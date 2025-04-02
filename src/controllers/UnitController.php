@@ -1,7 +1,7 @@
 <?php
 
-require_once 'config/DatabaseConnection.php';
-require_once 'models/Unit.php'; // Đảm bảo rằng bạn đã bao gồm tệp Unit.php
+require_once (dirname(__FILE__) ."/../config/DatabaseConnection.php");
+require_once (dirname(__FILE__)). '/../models/Unit.php';// Đảm bảo rằng bạn đã bao gồm tệp Unit.php
 
 class UnitController {
     private $connection;

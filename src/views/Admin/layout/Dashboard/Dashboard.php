@@ -7,12 +7,10 @@
         ?>
 
         <main class="flex-1 p-8">
-            <!-- Display -->
+
             <?php
-            include __DIR__ . '/../../../admin/include/Order.php';
+            include __DIR__ . '/../../../admin/include/Product.php';
             ?>
         </main>
     </div>
 </div>
-
-</html>

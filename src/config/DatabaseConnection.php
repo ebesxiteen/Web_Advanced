@@ -11,14 +11,12 @@ class DatabaseConnection {
     public function __construct() {
         if (!isset($this->connection)) {
             $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
-
+            // echo"Ket noi thanh cong ";
             if (!$this->connection) {
                 echo 'Không thể kết nối đến cơ sở dữ liệu: ' . $this->connection->connect_error;
                 exit;
             }
         }
-
-        return $this->connection;
     }
 
     public function getConnection() {
