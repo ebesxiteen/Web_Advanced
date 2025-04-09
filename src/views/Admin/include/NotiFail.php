@@ -38,7 +38,8 @@
             <!-- Nội dung -->
             <h2 class="text-xl font-semibold mb-2">Failed!</h2>
             <p class="text-gray-600 mb-4">Your data was not created</p>
-            <button class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 focus:outline-none">
+            <button onclick="closeFailModal()"
+                class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 focus:outline-none">
                 Close
             </button>
         </div>

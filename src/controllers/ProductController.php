@@ -1,30 +1,33 @@
 <?php
+// File: ProductController.php
 
-require_once (dirname(__FILE__) ."/../config/DatabaseConnection.php");
-require_once (dirname(__FILE__)). '/../models/Product.php'; // Đảm bảo bạn đã include file Product.php
+require_once dirname(__FILE__) . "/../config/DatabaseConnection.php";
+require_once dirname(__FILE__) . '/../models/Product.php';
 
 class ProductController {
     private $db;
     private $conn;
 
     public function __construct() {
+        // Khởi tạo kết nối CSDL từ lớp DatabaseConnection
         $this->db = new DatabaseConnection();
         $this->conn = $this->db->getConnection();
     }
 
+    // Lấy danh sách tất cả sản phẩm
     public function getAllProducts() {
         $sql = "SELECT * FROM PRODUCTS";
-        
         $result = $this->conn->query($sql);
 
         $products = [];
-        if ($result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $product = new Product(
                     $row['ID'],
                     $row['RECIPEID'],
                     $row['PRODUCTNAME'],
                     $row['PRICE'],
+                    $row['LINKIMAGE'] ?? null, // Nếu có cột LINKIMAGE
                     $row['UNITID']
                 );
                 $products[] = $product;
@@ -33,102 +36,96 @@ class ProductController {
         return $products;
     }
 
+    // Lấy thông tin sản phẩm theo id
     public function getProductById($id) {
         $sql = "SELECT * FROM PRODUCTS WHERE ID = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
-
-        
-
         $result = $stmt->get_result();
 
-        if ($result->num_rows == 1) {
+        if ($result && $result->num_rows == 1) {
             $row = $result->fetch_assoc();
             return new Product(
                 $row['ID'],
                 $row['RECIPEID'],
                 $row['PRODUCTNAME'],
                 $row['PRICE'],
+                $row['LINKIMAGE'] ?? null,
                 $row['UNITID']
             );
         }
         return null;
     }
 
+    // Tìm sản phẩm theo từ khóa (có hỗ trợ tìm kiếm số hoặc chuỗi)
     public function searchProducts($keyword): array {
-        $sql = 'SELECT * FROM PRODUCTS WHERE PRODUCTNAME LIKE ?';
+        $sql = "SELECT * FROM PRODUCTS WHERE PRODUCTNAME LIKE ?";
         $stmt = $this->conn->prepare($sql);
+
+        // Nếu $keyword là số, ta vẫn sử dụng LIKE (không bind kiểu integer)
+        $keyword = "%" . $keyword . "%";
+        $stmt->bind_param("s", $keyword);
     
-        if (is_numeric($keyword)) {
-            // Nếu $keyword là số, sử dụng kiểu 'i' (integer)
-            $stmt->bind_param('i', $keyword);
-        } else {
-            // Nếu $keyword là chuỗi, sử dụng kiểu 's' (string)
-            $keyword = "%" . $keyword . "%"; // Thêm ký tự % cho tìm kiếm LIKE
-            $stmt->bind_param('s', $keyword);
-        }
-    
+        $products = [];
         if ($stmt->execute()) {
             $result = $stmt->get_result();
-    
-            $products = [];
-            if ($result->num_rows > 0) {
+            if ($result && $result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     $product = new Product(
-                        id: $row['ID'],
-                        recipeId: $row['RECIPEID'],
-                        productName: $row['PRODUCTNAME'],
-                        price: $row['PRICE'],
-                        unitId: $row['UNITID']
+                        $row['ID'],
+                        $row['RECIPEID'],
+                        $row['PRODUCTNAME'],
+                        $row['PRICE'],
+                        $row['LINKIMAGE'] ?? null,
+                        $row['UNITID']
                     );
                     $products[] = $product;
                 }
             }
-            
-            return $products;
-        } else {
-            // Xử lý lỗi nếu câu lệnh SQL không thực thi thành công
-            return []; 
         }
+        return $products;
     }
-    public function createProduct($productName,$recipeId,$price,$unitId) {
-        try {
-            $query = "INSERT INTO PRODUCTS (RECIPEID,PRODUCTNAME,  PRICE, UNITID) VALUES (?, ?, ?, ?)";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("isdi", $recipeId,$productName,  $price, $unitId);
-            // Thực thi truy vấn
-            // if ($stmt->execute()) {
-            //     echo "Sản phẩm mới đã được tạo thành công.";
-            // } else {
-            //     echo "Lỗi khi tạo sản phẩm: " . $stmt->error;
-            // }
 
-            $result = $stmt->execute();
+    // Thêm sản phẩm mới vào CSDL
+    public function createProduct($productName, $recipeId, $price,$linkImage, $unitId) {
 
-            // Đóng statement và kết nối
+        $sql = 'INSERT INTO PRODUCTS (RECIPEID, PRODUCTNAME, PRICE, LINKIMAGE, UNITID) VALUES (?, ?, ?, ?, ?)';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("isdsi", $recipeId, $productName, $price, $linkImage, $unitId);
+        $result = $stmt->execute();
+        if($result) {
+            $productId = $this->conn->insert_id;
             $stmt->close();
+            return $productId;
+        } else {
+        
+            $stmt->close();
+            return false;
+        }
+        
+    }
 
-            return $result;
-        } catch (PDOException $e) {
-            // Ghi log lỗi nếu cần: error_log($e->getMessage());
-            echo($e->getMessage());
+    // Cập nhật thông tin sản phẩm
+    public function updateProduct($recipeId,$productName, $price,$linkImage, $unitId, $id) {
+        $sql = "UPDATE PRODUCTS SET RECIPEID = ?, PRODUCTNAME = ?, PRICE = ?, LINKIMAGE = ?, UNITID = ? WHERE ID = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("isdsii",$recipeId,$productName, $price, $linkImage, $unitId, $id);
+        $result = $stmt->execute();
+        if($result) {
+            $stmt->close();
+            return true;
+        } else {
+            $stmt->close();
             return false;
         }
     }
 
-    public function updateProduct(Product $product) {
-        $sql = "UPDATE PRODUCTS SET RECIPEID = ?, PRODUCTNAME = ?, PRICE = ?, UNITID = ? WHERE ID = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("isdii", $product->getRecipeId(), $product->getProductName(), $product->getPrice(), $product->getUnitId(), $product->getId());
-
-        return $stmt->execute();
-    }
-
+    // Xóa sản phẩm theo id (bao gồm xóa các dữ liệu liên quan trong các bảng khác)
     public function deleteProduct($id) {
         $this->conn->begin_transaction();
         try {
-            // Xóa các đánh giá sản phẩm trong bảng productreviews
+            // Xóa đánh giá sản phẩm trong bảng productreviews
             $stmt = $this->conn->prepare("DELETE FROM productreviews WHERE PRODUCTID = ?");
             $stmt->bind_param("i", $id);
             $stmt->execute();
@@ -146,28 +143,21 @@ class ProductController {
             $stmt->execute();
             $stmt->close();
     
-            // Cuối cùng, xóa sản phẩm khỏi bảng products
-            $stmt = $this->conn->prepare("DELETE FROM products WHERE ID = ?");
+            // Cuối cùng, xóa sản phẩm khỏi bảng PRODUCTS
+            $stmt = $this->conn->prepare("DELETE FROM PRODUCTS WHERE ID = ?");
             $stmt->bind_param("i", $id);
             $stmt->execute();
             $stmt->close();
     
-            // Commit transaction nếu tất cả các câu lệnh đều thực hiện thành công
+            // Commit transaction nếu tất cả câu lệnh đều thực hiện thành công
             $this->conn->commit();
-
-            echo "Xóa thanh cong";
-            
             return true;
-        
         } catch (Exception $e) {
-            // Nếu có lỗi xảy ra, rollback toàn bộ transaction
+            // Nếu có lỗi, rollback transaction
             $this->conn->rollback();
-            
             echo "Lỗi khi xóa sản phẩm: " . $e->getMessage();
-
             return false;
         }
     }
 }
-
 ?>

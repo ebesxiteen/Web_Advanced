@@ -1,14 +1,14 @@
 <aside class="bg-white w-64 p-4 h-screen ">
     <div class="flex items-center mb-8">
-        <span class="text-xl font-semibold">IMAJI Coffee.</span>
+        <span class="text-xl font-semibold">CoffeeShop</span>
         <button class="ml-auto text-gray-400 focus:outline-none">
             <i class="fas fa-chevron-left"></i>
         </button>
     </div>
     <div class="flex items-center mb-6">
-        <img src="#" alt="Avatar" class="w-12 h-12 rounded-full mr-4">
+
         <div>
-            <span class="block text-sm font-semibold">Louis Carter</span>
+            <span class="block text-sm font-semibold">CoffeeShop_SGU</span>
             <span class="block text-xs text-gray-500">Administrator</span>
         </div>
     </div>

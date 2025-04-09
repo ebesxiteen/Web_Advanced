@@ -1,6 +1,7 @@
-<div id="successProductModal" class="absolute top-[-12] left-0 right-0 bottom-0 hidden">
+<div id="successProductModal"
+    class="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center ">
 
-    <div class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class=" flex h-[100px] items-center justify-center min-h-screen">
 
         <!-- Hộp thông báo thành công -->
         <div class="bg-white w-80 rounded-lg shadow p-6 text-center">

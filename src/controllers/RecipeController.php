@@ -1,6 +1,6 @@
 <?php
 
-// include __DIR__ ."/../config/DatabaseConnection.php";
+include __DIR__ ."/../config/DatabaseConnection.php";
 require_once (dirname(__FILE__) ."/../models/Recipe.php");
 
 class RecipeController {
@@ -23,17 +23,40 @@ class RecipeController {
         }
     }
 
-    public function deleteRecipe($recipeName) {
-        $sql = "DELETE FROM RECIPES WHERE RECIPENAME = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("s", $recipeName);
-
-        if ($stmt->execute()) {
+    public function deleteRecipeById($id): bool {
+        // Bắt đầu transaction để đảm bảo toàn vẹn dữ liệu
+        $this->conn->begin_transaction();
+    
+        try {
+            // 1. Xóa chi tiết công thức
+            $sql1 = "DELETE FROM recipedetails WHERE RECIPEID = ?";
+            $stmt1 = $this->conn->prepare($sql1);
+            $stmt1->bind_param("i", $id);
+            $stmt1->execute();
+    
+            // 2. Xóa sản phẩm liên quan
+            $sql2 = "DELETE FROM products WHERE RECIPEID = ?";
+            $stmt2 = $this->conn->prepare($sql2);
+            $stmt2->bind_param("i", $id);
+            $stmt2->execute();
+    
+            // 3. Xóa công thức chính
+            $sql3 = "DELETE FROM recipes WHERE ID = ?";
+            $stmt3 = $this->conn->prepare($sql3);
+            $stmt3->bind_param("i", $id);
+            $stmt3->execute();
+    
+            // Commit nếu không có lỗi
+            $this->conn->commit();
             return true;
-        } else {
+    
+        } catch (Exception $e) {
+            // Rollback nếu có lỗi
+            $this->conn->rollback();
             return false;
         }
     }
+    
 
     public function getRecipebyName($recipeName) {
         $sql = "SELECT * FROM RECIPES WHERE RECIPENAME = ?";
@@ -53,13 +76,15 @@ class RecipeController {
     public function getAllRecipes(){
         $sql = 'SELECT * FROM RECIPES';
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $recipes = [];
-        while ($row = $result->fetch_assoc()) {
-            $recipes[] = new Recipe($row['ID'], $row['RECIPENAME']);
+        if($stmt->execute()){
+            $result = $stmt->get_result();
+            $recipes = [];
+            while($row = $result->fetch_assoc()){
+                $recipes[] = new Recipe($row['ID'], $row['RECIPENAME']);
+            }
+            return $recipes;
         }
-        return $recipes;
+        return null;
     }
 
     

@@ -10,12 +10,12 @@ INSERT INTO `USERS` (`ACCOUNTID`, `FULLNAME`, `ADDRESS`, `PHONE`, `EMAIL`, `DATE
 (3, 'Peter Jones', '789 Pine Ln', '555-123-4567', 'peter.jones@example.com', '1992-11-08'),
 (4, 'Alice Wonderland', '10 Downing St', '012-345-6789', 'alice.wonder@example.com', '2000-03-22');
 
-INSERT INTO `UNITS` (`TYPE`) VALUES
-('kg'),
-('g'),
-('ml'),
-('pcs'),
-('l');
+
+INSERT INTO `UNITS` (`TYPE`,`DESCRIPTION`) VALUES
+('kg', 'Kilograms'),
+('ml', 'Milliliters'),
+('cup', 'Cups'),
+('oz', 'Ounces');
 
 INSERT INTO `PRODUCERS` (`PRODUCERNAME`, `ADDRESS`, `PHONE`) VALUES
 ('Local Farm', '12 Farm Rd', '111-222-3333'),
@@ -45,11 +45,11 @@ INSERT INTO `RECIPEDETAILS` (`RECIPEID`, `INGREDIENTID`, `QUANTITY`, `UNITID`) V
 (4, 3, 25, 1), -- 25 kg
 (4, 4, 125, 3); -- 125 ml
 
-INSERT INTO `PRODUCTS` ( `ID`,`RECIPEID`, `PRODUCTNAME`, `PRICE`, `UNITID`) VALUES
-(1, 1, 'Espresso', 2.50, 1),
-(2, 2, 'Latte', 4.00, 1),
-(3, 3, 'Americano', 3.50, 1),
-(4, 4, 'Mocha', 5.00, 1);
+INSERT INTO `PRODUCTS` ( `ID`,`RECIPEID`, `PRODUCTNAME`, `PRICE`,`LINKIMAGE`, `UNITID`) VALUES
+(1, 1, 'Espresso', 2.50,'assets/img/Americano_3.jpg', 1),
+(2, 2, 'Latte', 4.00,'assets/img/Espresso_1.jpeg', 1),
+(3, 3, 'Americano', 3.50,'assets/img/Latte_2.jpg', 1),
+(4, 4, 'Mocha', 5.00,'assets/img/Mocha_4.jpg', 1);
 
 INSERT INTO `IMPORTS` (`PRODUCERID`, `DATE`, `TOTAL`) VALUES
 (1, '2023-10-26', 5000),
@@ -64,7 +64,7 @@ INSERT INTO `IMPORTDETAILS` (`IMPORTID`, `INGREDIENTID`, `QUANTITY`, `PRICE`, `T
 (2, 2, 1000, 2.00, 2000, 3); 
 
 INSERT INTO `DISCOUNTS` (`DISCOUNTNAME`, `DISCOUNTPERCENT`, `REQUIREMENT`, `STARTDATE`, `ENDDATE`) VALUES
-('Summer Sale', 10, 20, '2023-06-01', '2023-08-31'),
+('Summer Sale', 10, 20, '2024-04-02', '2023-08-31'),
 ('Winter Deal', 15, 30, '2023-12-01', '2023-12-31');
 
 INSERT INTO `ORDERS` (`USERID`, `TOTAL`, `DATEOFORDER`, `ORDERSTATUS`, `DISCOUNTID`,`PRICEBEFOREDISCOUNT`) VALUES

@@ -1,6 +1,6 @@
 <?php
 
-require_once (dirname(__FILE__) ."/../config/DatabaseConnection.php");
+include __DIR__ ."/../config/DatabaseConnection.php";
 require_once (dirname(__FILE__)). '/../models/Unit.php';// Đảm bảo rằng bạn đã bao gồm tệp Unit.php
 
 class UnitController {
@@ -13,16 +13,19 @@ class UnitController {
 
     public function getAllUnits() {
         $sql = "SELECT * FROM UNITS";
-        $result = $this->connection->query($sql);
+        $stmt = $this->connection->prepare($sql);
 
-        $units = [];
-        if ($result->num_rows > 0) {
+        if( $stmt->execute() ) {
+            
+            $result = $stmt->get_result();
+            $units = [];
             while ($row = $result->fetch_assoc()) {
                 $units[] = new Unit($row['ID'], $row['TYPE']);
             }
+            return $units;
+            
         }
-
-        return $units;
+        return null;
     }
 
     public function getUnitById($id) {

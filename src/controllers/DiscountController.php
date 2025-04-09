@@ -11,8 +11,6 @@ class DiscountController {
         $this->connection = $db->getConnection();
     }
 
-/*************  ✨ Codeium Command ⭐  *************/
-/******  bbac5eed-cb4f-46c3-893c-36547972bd65  *******/
     public function getAllDiscounts() {
         $sql = "SELECT * FROM DISCOUNTS";
         
@@ -72,22 +70,41 @@ class DiscountController {
         return false;
     }
 
-    public function updateDiscount(Discount $discount) {
-        $sql = "UPDATE DISCOUNTS SET DISCOUNTNAME = ?, DISCOUNTPERCENT = ?, REQUIREMENT = ?, STARTDATE = ?, ENDDATE = ? WHERE ID = ?";
+    public function updateDiscount($voucherName, $percent, $requirement, $startDate, $endDate, $id) {
+        $sql = "UPDATE DISCOUNTS 
+                SET DISCOUNTNAME = ?, DISCOUNTPERCENT = ?, REQUIREMENT = ?, STARTDATE = ?, ENDDATE = ? 
+                WHERE ID = ?";
+    
         $stmt = $this->connection->prepare($sql);
-        $id = $discount->getId();
-        $discountName = $discount->getDiscountName();
-        $discountPercent = $discount->getDiscountPercent();
-        $requirement = $discount->getRequirement();
-        $startDate = $discount->getStartDate();
-        $endDate = $discount->getEndDate();
-
-        $stmt->bind_param("sddssi", $discountName, $discountPercent, $requirement, $startDate, $endDate, $id);
-        if ($stmt->execute()) {
-            return true;
+    
+        if (!$stmt) {
+            return [
+                "success" => false,
+                "message" => "Lỗi chuẩn bị truy vấn: " . $this->connection->error
+            ];
         }
-        return false;
+    
+        if (!$stmt->bind_param("sdsssi", $voucherName, $percent, $requirement, $startDate, $endDate, $id)) {
+            return [
+                "success" => false,
+                "message" => "Lỗi khi bind tham số: " . $stmt->error
+            ];
+        }
+    
+        if (!$stmt->execute()) {
+            return [
+                "success" => false,
+                "message" => "Lỗi thực thi truy vấn: " . $stmt->error
+            ];
+        }
+    
+        return [
+            "success" => true,
+            "message" => "Cập nhật khuyến mãi thành công!"
+        ];
     }
+    
+    
 
     public function deleteDiscount($id) {
         $sql = "DELETE FROM DISCOUNTS WHERE ID = ?";

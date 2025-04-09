@@ -13,6 +13,7 @@ function openSuccessModal() {
   event.preventDefault();
 }
 function closeSuccessModal() {
+  console.log("closeSuccessModal");
   document.getElementById("successProductModal").classList.add("hidden");
 }
 
@@ -25,24 +26,12 @@ function closeFailModal() {
   document.getElementById("failProductModal").classList.add("hidden");
 }
 
-document
-  .getElementById("searchForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault(); // Ngăn chặn gửi biểu mẫu mặc định
+function closeAddDiscountModal() {
+  document.getElementById("addVoucher").classList.add("hidden");
+  document.getElementById("discount").classList.remove("hidden");
+}
 
-    const formData = new FormData(this);
-
-    fetch("../../views/Admin/php/searchProduct.php", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        document.getElementById("productTableBodySeacrh").innerHTML = data.html;
-        document.getElementById("productTableBody").innerHTML = ""; // Xóa dữ liệu cũ
-        window.location.href = "../../views/Admin/index.php"; // Chuyển hướng về index.php
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  });
+function openAddDiscountModal() {
+  document.getElementById("addVoucher").classList.remove("hidden");
+  document.getElementById("discount").classList.add("hidden");
+}

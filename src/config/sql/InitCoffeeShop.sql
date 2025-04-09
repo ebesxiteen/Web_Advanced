@@ -34,10 +34,11 @@ CREATE TABLE IF NOT EXISTS `USERS` (
 DROP TABLE IF EXISTS `PRODUCTS`;
 
 CREATE TABLE IF NOT EXISTS  `PRODUCTS` (
-    `ID`                          INT             NOT NULL           AUTO_INCREMENT              ,
+    `ID`                          INT             NOT NULL           AUTO_INCREMENT            ,
     RECIPEID                    INT             NOT NULL                                       ,
     PRODUCTNAME                 VARCHAR(50)     NOT NULL                                       ,
     PRICE                       DOUBLE          NOT NULL                                       ,
+    LINKIMAGE                   VARCHAR(255)     NOT NULL                                      ,
     UNITID                      INT             NOT NULL                                       ,
 
     PRIMARY KEY (`ID`)
@@ -76,6 +77,7 @@ DROP TABLE IF EXISTS `UNITS`;
 CREATE TABLE IF NOT EXISTS `UNITS` (
     ID                          INT             NOT NULL           AUTO_INCREMENT              ,
     TYPE                        VARCHAR(50)     NOT NULL                                       ,
+    DESCRIPTION                 VARCHAR(255)     NOT NULL                                      ,
     PRIMARY KEY (ID)
 );
 
