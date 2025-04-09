@@ -42,9 +42,4 @@ class DatabaseConnection
         }
     }
 
-   
-    public function __destruct()
-    {
-        $this->closeConnection();
-    }
 }
