@@ -39,8 +39,36 @@
     <script>
     document.getElementById("unit-form").addEventListener("submit", function(e) {
         e.preventDefault();
-        alert("Đơn vị đã được lưu!");
-        // Tại đây bạn có thể tích hợp gọi API hoặc chuyển hướng trang sau khi lưu.
+
+        const formData = new FormData(this);
+
+        fetch("./php/Unit/addUnit.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log("Data received:", data);
+                try {
+                    const jsonData = JSON.parse(data.trim());
+                    return jsonData;
+                    console.log("Parsed JSON:", jsonData);
+                } catch (error) {
+                    console.error("Error parsing JSON:", error);
+                }
+            })
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload(); // Reload the page
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+
     });
     </script>
 </body>

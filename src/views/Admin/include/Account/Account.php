@@ -141,22 +141,22 @@
     </div>
 
     <script>
-    const rowsPerPage = 10;
-    let currentPage = 1;
-    const tableBody = document.getElementById('accountTable').getElementsByTagName('tbody')[0];
-    const searchInput = document.getElementById('searchAccount');
-    let allRows = Array.from(tableBody.getElementsByTagName('tr'));
-    let filteredRows = allRows;
+    const rowsPerPageAccount = 10;
+    let currentPageAccount = 1;
+    const tableBodyAccount = document.getElementById('accountTable').getElementsByTagName('tbody')[0];
+    const searchInputAccount = document.getElementById('searchAccount');
+    let allRowsAccount = Array.from(tableBodyAccount.getElementsByTagName('tr'));
+    let filteredRowsAccount = allRowsAccount;
 
     function displayRows() {
         // Ẩn tất cả hàng
-        allRows.forEach(row => row.style.display = 'none');
+        allRowsAccount.forEach(row => row.style.display = 'none');
 
         // Tính toán vị trí hiển thị
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
+        const start = (currentPageAccount - 1) * rowsPerPageAccount;
+        const end = start + rowsPerPageAccount;
 
-        const rowsToShow = filteredRows.slice(start, end);
+        const rowsToShow = filteredRowsAccount.slice(start, end);
 
         rowsToShow.forEach(row => row.style.display = '');
 
@@ -164,16 +164,16 @@
     }
 
     function updatePaginationInfo() {
-        const totalFiltered = filteredRows.length;
-        const startRow = (currentPage - 1) * rowsPerPage + 1;
-        const endRow = Math.min(currentPage * rowsPerPage, totalFiltered);
+        const totalFiltered = filteredRowsAccount.length;
+        const startRow = (currentPageAccount - 1) * rowsPerPageAccount + 1;
+        const endRow = Math.min(currentPageAccount * rowsPerPageAccount, totalFiltered);
         document.getElementById('paginationInfo').innerText = `${startRow} - ${endRow} of ${totalFiltered}`;
     }
 
     function filterRows() {
-        const keyword = searchInput.value.trim().toUpperCase();
+        const keyword = searchInputAccount.value.trim().toUpperCase();
 
-        filteredRows = allRows.filter(row => {
+        filteredRowsAccount = allRowsAccount.filter(row => {
             const tds = row.getElementsByTagName('td');
             const name = tds[1]?.textContent.toUpperCase() || '';
             const phone = tds[2]?.textContent.toUpperCase() || '';
@@ -182,26 +182,26 @@
             return name.includes(keyword) || phone.includes(keyword) || email.includes(keyword);
         });
 
-        currentPage = 1; // reset to first page
+        currentPageAccount = 1; // reset to first page
         displayRows();
     }
 
     document.getElementById('prevPage').addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
+        if (currentPageAccount > 1) {
+            currentPageAccount--;
             displayRows();
         }
     });
 
     document.getElementById('nextPage').addEventListener('click', () => {
-        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-        if (currentPage < totalPages) {
-            currentPage++;
+        const totalPages = Math.ceil(filteredRowsAccount.length / rowsPerPageAccount);
+        if (currentPageAccount < totalPages) {
+            currentPageAccount++;
             displayRows();
         }
     });
 
-    searchInput.addEventListener('input', filterRows);
+    searchInputAccount.addEventListener('input', filterRows);
 
     // Initial load
     filterRows();

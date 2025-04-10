@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" class="hiden">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách sản phẩm</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
-
 <body class="bg-gray-50 min-h-screen p-4">
     <div class="mx-auto max-w-7xl bg-white p-6 rounded-md shadow-sm">
         <!-- Tiêu đề -->
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-2xl font-bold text-gray-700">Sản phẩm</h1>
-            <button onclick="openAddProductModal()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            <button onclick="switchSection('productsAdd')"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                 Thêm sản phẩm
             </button>
         </div>
@@ -38,13 +28,13 @@
                         <th class="py-3 font-medium">ID</th>
                         <th class="py-3 font-medium">Tên sản phẩm</th>
                         <th class="py-3 font-medium">Giá</th>
-                        <th class="py-3 font-medium">Recipe ID</th>
+                        <th class="py-3 font-medium">Mã công thức</th>
                         <th class="py-3 font-medium">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 text-gray-700">
                     <?php
-                    include __DIR__ . '/../../../../controllers/ProductController.php';
+                    include_once __DIR__ . '/../../../../controllers/ProductController.php';
                     $productController = new ProductController();
                     $productListItem = $productController->getAllProducts();
                     foreach ($productListItem as $product) {
@@ -58,7 +48,7 @@
                             <td class="py-3">' . $product->getPrice() . '</td>
                             <td class="py-3">' . $product->getRecipeId() . '</td>
                             <td class="py-3">
-                                <button onclick="openEditProductModal(' . $product->getId() . ')" class="text-blue-500 hover:text-blue-700 font-medium">Sửa</button>
+                                <button onclick="switchSection(\'productsEdit\', ' . $product->getId() . ')" class="text-blue-500 hover:text-blue-700 font-medium">Sửa</button>
                                 <span class="mx-1">|</span>
                                 <button onclick="deleteProduct(' . $product->getId() . ')" class="text-red-500 hover:text-red-700 font-medium">Xoá</button>
                             </td>
@@ -161,12 +151,22 @@
         }
     }
 
-    function openAddProductModal() {
-        alert("Mở form thêm sản phẩm");
-    }
+    function switchSection(sectionId, productId) {
+        // Lấy tất cả các section con trong main
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(section => {
+            section.classList.remove('active-section');
+        });
 
-    function openEditProductModal(productId) {
-        alert("Sửa sản phẩm ID: " + productId);
+        // Hiển thị section tương ứng
+        const activeSection = document.getElementById(sectionId);
+        if (activeSection) {
+            activeSection.classList.add('active-section');
+        }
+        if (productId !== null) {
+            // Lưu id vào localStorage hoặc gọi API/load dữ liệu để hiển thị ở form edit
+            localStorage.setItem('editProductId', productId);
+        }
     }
     </script>
 </body>

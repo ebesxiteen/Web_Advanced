@@ -1,6 +1,6 @@
 <?php
+include_once __DIR__ ."/../config/DatabaseConnection.php";
 
-include __DIR__ ."/../config/DatabaseConnection.php";
 require_once (dirname(__FILE__) ."/../models/Recipe.php");
 
 class RecipeController {
@@ -10,15 +10,36 @@ class RecipeController {
         $db = new DatabaseConnection();
         $this->conn = $db->getConnection();
     }
+    public function updateRecipe($recipeName,$recipeid) {
+        $sql = "UPDATE RECIPES SET RECIPENAME = ? WHERE ID = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("si", $recipeName, $recipeid);
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true;
+        } else {
+            $stmt->close();
+            return false;
+        }
+    }
 
     public function createRecipe($recipeName) {
         $sql = "INSERT INTO RECIPES (RECIPENAME) VALUES (?)";
         $stmt = $this->conn->prepare($sql);
+    
+        if (!$stmt) {
+            // Nếu không thể chuẩn bị câu lệnh, trả về null
+            return null;
+        }
+    
         $stmt->bind_param("s", $recipeName);
-
+    
         if ($stmt->execute()) {
-            return new Recipe($this->conn->insert_id, $recipeName);
+            $recipeId = $this->conn->insert_id; // Lấy ID recipe vừa được thêm vào
+            $stmt->close();
+            return $recipeId;
         } else {
+            $stmt->close();
             return null;
         }
     }

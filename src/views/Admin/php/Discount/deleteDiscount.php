@@ -15,13 +15,13 @@ header('Content-Type: application/json');
                 'success' => true,
                 'message' => 'Xóa mã giảm giá thành công!'
             ]);
-            // echo 'Xóa tài khoản thanh cong!';
+            
         } else {
             echo json_encode([
                 'success' => false,
-                'message' => 'Không thể xóa mã giảmgiảm hoặc mã giảm giá không tồn tại.'
+                'message' => 'Không thể xóa mã giảm hoặc mã giảm giá không tồn tại.'
             ]);
-            // echo 'Không thể xóa tài khoản hoặc tài khoản không tồn tại.';
+            
         }
     } else {
         echo json_encode([

@@ -172,7 +172,7 @@ $ordersUsers= $userController->getOrderByAccountId(9);
     </div>
 
     <script>
-    const rowsPerPage = 10;
+    const rowsPerPageAccount = 10;
     let currentPage = 1;
     const tableBody = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
     const allRows = Array.from(tableBody.getElementsByTagName('tr'));
@@ -183,14 +183,14 @@ $ordersUsers= $userController->getOrderByAccountId(9);
 
     function displayRows() {
         const totalRows = filteredRows.length;
-        const totalPages = Math.ceil(totalRows / rowsPerPage);
+        const totalPages = Math.ceil(totalRows / rowsPerPageAccount);
 
         // Ẩn tất cả các dòng
         allRows.forEach(row => row.style.display = 'none');
 
         // Hiển thị các dòng sau khi phân trang
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = Math.min(start + rowsPerPage, totalRows);
+        const start = (currentPage - 1) * rowsPerPageAccount;
+        const end = Math.min(start + rowsPerPageAccount, totalRows);
         for (let i = start; i < end; i++) {
             filteredRows[i].style.display = '';
         }
@@ -242,7 +242,7 @@ $ordersUsers= $userController->getOrderByAccountId(9);
     });
 
     document.getElementById('nextPage').addEventListener('click', function() {
-        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPageAccount);
         if (currentPage < totalPages) {
             currentPage++;
             displayRows();

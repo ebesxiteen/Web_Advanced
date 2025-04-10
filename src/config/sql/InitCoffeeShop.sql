@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS  `PRODUCTS` (
     RECIPEID                    INT             NOT NULL                                       ,
     PRODUCTNAME                 VARCHAR(50)     NOT NULL                                       ,
     PRICE                       DOUBLE          NOT NULL                                       ,
-    LINKIMAGE                   VARCHAR(255)     NOT NULL                                      ,
-    UNITID                      INT             NOT NULL                                       ,
+    LINKIMAGE                   VARCHAR(255)    NOT NULL                                      ,
+    UNITID                      INT                                                    ,
 
     PRIMARY KEY (`ID`)
 );
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `RECIPEDETAILS` (
     RECIPEID                    INT             NOT NULL                                       ,
     INGREDIENTID                INT             NOT NULL                                       ,
     QUANTITY                    DOUBLE          NOT NULL                                       ,
-    UNITID                      INT             NOT NULL                                       
+    UNITID                      INT                                                   
 );
 
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `INGREDIENTS` (
     PRODUCERID                  INT             NOT NULL                                       ,
     INGREDIENTNAME              VARCHAR(50)     NOT NULL                                       ,
     QUANTITY                    DOUBLE          NOT NULL                                       ,
-    UNITID                      INT             NOT NULL                                       ,
+    UNITID                      INT                                                    ,
     PRIMARY KEY (ID)
 );
 
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `IMPORTDETAILS` (
     QUANTITY                    DOUBLE          NOT NULL                                       ,
     PRICE                       DOUBLE          NOT NULL                                       ,
     TOTAL                       DOUBLE          NOT NULL                                       ,
-    UNITID                      INT             NOT NULL                                       ,
+    UNITID                      INT                                                    ,
     PRIMARY KEY (ID)
 );
 
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `ORDERS` (
     TOTAL                       DOUBLE          NOT NULL                                                 ,
     DATEOFORDER                 DATE            NOT NULL                                                 ,
     ORDERSTATUS                 ENUM('PENDING', 'COMPLETED', 'CANCELLED') NOT NULL DEFAULT 'PENDING'     ,
-    DISCOUNTID                  INT             NOT NULL                                                 ,
+    DISCOUNTID                  INT                                                              ,
     PRICEBEFOREDISCOUNT         DOUBLE          NOT NULL                                                 ,
     PRIMARY KEY (ID)
 );

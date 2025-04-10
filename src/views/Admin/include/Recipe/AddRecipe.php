@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html lang="vi">
+<?php
+include __DIR__ ."/../../../../controllers/UnitController.php";
+$unitController = new UnitController();
+$units = $unitController->getAllUnits();
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.2.7/dist/tailwind.min.css" rel="stylesheet">
-    <title>Thêm Công Thức Pha Chế</title>
-</head>
+include __DIR__ ."/../../../../controllers/IngredientController.php";
+$ingredientController = new IngredientController();
+$ingredients = $ingredientController->getAllIngredients();
+
+
+
+?>
 
 <body class="bg-gray-100 p-6">
-
-
     <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
         <h2 class="text-2xl font-bold text-gray-700 mb-6">Thêm Công Thức Pha Chế</h2>
 
@@ -23,27 +24,43 @@
             </div>
 
             <!-- Mô tả -->
-            <div>
+            <!-- <div>
                 <label class="block text-sm font-medium text-gray-600 mb-1">Mô tả</label>
                 <textarea name="description" rows="3"
                     class="w-full border rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
-            </div>
+            </div> -->
 
             <!-- Nguyên liệu -->
             <div>
                 <label class="block text-sm font-medium text-gray-600 mb-2">Nguyên liệu</label>
-                <div id="ingredients" class="space-y-2  h-[150px] overflow-auto">
+                <div id="ingredients" class="space-y-2   w-full  h-[150px] overflow-auto">
                     <!-- Dòng nguyên liệu -->
-                    <div class="flex space-x-2">
-                        <input type="text" name="ingredient_name[]" placeholder="Tên nguyên liệu"
-                            class="flex-1 border rounded-md px-2 py-1" required />
+                    <div class="flex space-x-2 ">
+
+                        <select name="ingredient_name[]" class="w-64 border rounded-md px-2 py-1" required>
+                            <option value="" disabled selected>-- Chọn nguyên liệu --</option>
+                            <?php
+
+                            foreach ($ingredients as $ingredient) { 
+                                echo '<option value="' .$ingredient->getId() . '">' . $ingredient->getIngredientName() . '</option>';
+                            }
+                    
+                            ?>
+
+                        </select>
+
                         <input type="number" name="ingredient_quantity[]" placeholder="Số lượng"
-                            class="w-24 border rounded-md px-2 py-1" required />
-                        <select name="ingredient_unit[]" class="w-32 border rounded-md px-2 py-1">
-                            <option value="ml">ml</option>
-                            <option value="g">g</option>
-                            <option value="cup">cup</option>
-                            <option value="tbsp">tbsp</option>
+                            class="w-24 border rounded-md px-2 py-1" min="1" required />
+
+
+
+                        <select name=" ingredient_unit[]" id="unit" class="w-64 border rounded-md px-2 py-1" required>
+                            <option value="" disabled selected>-- Chọn đơn vị --</option>
+                            <?php
+                            foreach ($units as $unit) {
+                                echo '<option value="' . $unit->getId() . '">' . $unit->getType() . '</option>';
+                            }
+                            ?>
                         </select>
                         <button type="button" onclick="removeIngredient(this)"
                             class="text-red-600 hover:underline text-sm bg-red-100 rounded-md px-2 py-1">X</button>
@@ -57,8 +74,7 @@
 
             <!-- Nút lưu -->
             <div class="pt-4">
-                <button onclick="addRecipe()" type="submit"
-                    class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700">Lưu công
+                <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700">Lưu công
                     thức</button>
             </div>
         </form>
@@ -74,7 +90,7 @@
 
         const element = document.createElement("div"); // Container cho thông báo
 
-        fetch("./php/RecipeController.php?action=store", {
+        fetch("./php/Recipe/addRecipe.php", {
                 method: "POST",
                 body: formData
             })
@@ -127,14 +143,25 @@
         div.className = "flex space-x-2";
 
         div.innerHTML = `
-        <input type="text" name="ingredient_name[]" placeholder="Tên nguyên liệu" class="flex-1 border rounded-md px-2 py-1" required />
+        <select name="ingredient_name[]" class="w-64 border rounded-md px-2 py-1" required>
+        <option value="" disabled selected>-- Chọn nguyên liệu --</option>
+                            <?php
+                            foreach ($ingredients as $ingredient) { 
+                                echo '<option value="' .$ingredient->getId() . '">' . $ingredient->getIngredientName() . '</option>';
+                            }
+                    
+                            ?>
+
+                        </select>
         <input type="number" name="ingredient_quantity[]" placeholder="Số lượng" class="w-24 border rounded-md px-2 py-1" required />
-        <select name="ingredient_unit[]" class="w-32 border rounded-md px-2 py-1">
-          <option value="ml">ml</option>
-          <option value="g">g</option>
-          <option value="cup">cup</option>
-          <option value="tbsp">tbsp</option>
-        </select>
+        <select name="ingredient_unit[]" id="unit" class="w-64 border rounded-md px-2 py-1" required>
+        <option value="" disabled selected>-- Chọn đơn vị --</option>
+                            <?php
+                            foreach ($units as $unit) {
+                                echo '<option value="' . $unit->getId() . '">' . $unit->getType() . '</option>';
+                            }
+                            ?>
+                        </select>
         <button type="button" onclick="removeIngredient(this)" class="text-red-600 hover:underline text-sm bg-red-100 rounded-md px-2 py-1">X</button>
       `;
         ingredientsDiv.appendChild(div);

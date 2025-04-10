@@ -9,14 +9,14 @@
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
-                Add New Discount
+                Tạo khuyến mãi
             </button>
         </div>
 
         <!-- Thanh tìm kiếm (nếu cần) -->
         <div class="mb-6">
             <div class="relative max-w-sm">
-                <input type="text" id="searchInput"
+                <input type="text" id="searchInputDiscount"
                     class="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Search discount..." />
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 absolute top-2 left-2" fill="none"
@@ -32,11 +32,11 @@
             <table id="discountTable" class="min-w-full text-left ">
                 <thead class="bg-gray-100">
                     <tr>
-                        <th class="py-3 px-4 font-medium text-gray-700">No</th>
-                        <th class="py-3 px-4 font-medium text-gray-700">Discount Name</th>
-                        <th class="py-3 px-4 font-medium text-gray-700">Active Period</th>
-                        <th class="py-3 px-4 font-medium text-gray-700">Status</th>
-                        <th class="py-3 px-4 font-medium text-gray-700 text-right">Actions</th>
+                        <th class="py-3 px-4 font-medium text-gray-700">Mã giãm giá</th>
+                        <th class="py-3 px-4 font-medium text-gray-700">Tên chương trình</th>
+                        <th class="py-3 px-4 font-medium text-gray-700">Thời gian hoạt động</th>
+                        <th class="py-3 px-4 font-medium text-gray-700">Trạng thái</th>
+                        <th class="py-3 px-4 font-medium text-gray-700 text-right">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -109,12 +109,12 @@
             <!-- Phân trang -->
             <div class="flex items-center justify-between mt-6">
                 <span class="text-sm text-gray-600">
-                    <span id="paginationInfo">1 - 10</span>
+                    <span id="paginationInfoDiscount">1 - 10</span>
                 </span>
                 <div class="flex space-x-2">
-                    <button id="prevPage"
+                    <button id="prevPageDiscount"
                         class="px-3 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200">Prev</button>
-                    <button id="nextPage"
+                    <button id="nextPageDiscount"
                         class="px-3 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200">Next</button>
                 </div>
             </div>
@@ -123,7 +123,9 @@
 
     <script>
     function deleteDiscount(discountId) {
+        alert(discountId);
         if (confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) {
+
             fetch('./php/Discount/deleteDiscount.php', {
                     method: 'POST',
                     headers: {
@@ -146,9 +148,10 @@
                     }
                 })
                 .then(data => {
-                    alert(data.message);
                     if (data.success) {
-                        location.reload(); // Reload nếu xóa thành công
+
+
+
                     }
                 })
                 .catch(error => {
@@ -158,73 +161,69 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-        const tableBody = document.querySelector('#discountTable tbody');
-        const allRows = Array.from(tableBody.querySelectorAll('tr'));
-        const paginationInfo = document.getElementById('paginationInfo');
-        const prevBtn = document.getElementById('prevPage');
-        const nextBtn = document.getElementById('nextPage');
 
-        const rowsPerPage = 5;
-        let currentPage = 1;
-        let filteredRows = allRows;
+    const discountAllRows = Array.from(document.querySelectorAll("#discountTable tbody tr"));
+    const discountSearchInput = document.getElementById("searchInputDiscount");
+    const discountPaginationInfo = document.getElementById("paginationInfoDiscount");
+    const discountPrevPageBtn = document.getElementById("prevPageDiscount");
+    const discountNextPageBtn = document.getElementById("nextPageDiscount");
 
-        function displayRows(rows, page) {
-            const start = (page - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
+    let discountCurrentPage = 1;
+    const discountRowsPerPage = 10;
+    let discountFilteredRows = [...discountAllRows];
 
-            allRows.forEach(row => row.style.display = 'none');
-            rows.slice(start, end).forEach(row => row.style.display = '');
+    // Hiển thị bảng theo trang
+    function renderDiscountPage(page) {
+        const start = (page - 1) * discountRowsPerPage;
+        const end = start + discountRowsPerPage;
 
-            const showingStart = rows.length === 0 ? 0 : start + 1;
-            const showingEnd = Math.min(end, rows.length);
-            paginationInfo.textContent = `${showingStart} - ${showingEnd} of ${rows.length}`;
-        }
+        // Ẩn toàn bộ rows trước
+        discountAllRows.forEach(row => row.style.display = "none");
 
-        function updatePaginationButtons(rows) {
-            const totalPages = Math.ceil(rows.length / rowsPerPage);
-            prevBtn.disabled = currentPage === 1;
-            nextBtn.disabled = currentPage >= totalPages;
-
-            prevBtn.classList.toggle('opacity-50', currentPage === 1);
-            nextBtn.classList.toggle('opacity-50', currentPage >= totalPages);
-        }
-
-        function goToPage(page, rows) {
-            currentPage = page;
-            displayRows(rows, currentPage);
-            updatePaginationButtons(rows);
-        }
-
-        function filterTable() {
-            const keyword = searchInput.value.toLowerCase();
-            filteredRows = allRows.filter(row => {
-                const discountNameCell = row.querySelectorAll('td')[1];
-                return discountNameCell && discountNameCell.textContent.toLowerCase().includes(keyword);
-            });
-
-            currentPage = 1;
-            goToPage(currentPage, filteredRows);
-        }
-
-        searchInput.addEventListener('input', filterTable);
-
-        prevBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                goToPage(currentPage - 1, filteredRows);
-            }
+        // Hiển thị những dòng phù hợp sau tìm kiếm + phân trang
+        discountFilteredRows.slice(start, end).forEach(row => {
+            row.style.display = "table-row";
         });
 
-        nextBtn.addEventListener('click', () => {
-            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-            if (currentPage < totalPages) {
-                goToPage(currentPage + 1, filteredRows);
-            }
-        });
+        const total = discountFilteredRows.length;
+        const showingStart = total > 0 ? start + 1 : 0;
+        const showingEnd = Math.min(end, total);
+        discountPaginationInfo.textContent = `${showingStart} - ${showingEnd} of ${total}`;
 
-        // Khởi tạo lần đầu
-        goToPage(currentPage, filteredRows);
+        discountPrevPageBtn.disabled = page <= 1;
+        discountNextPageBtn.disabled = end >= total;
+    }
+
+    // Tìm kiếm
+    function filterDiscountTable() {
+        const keyword = discountSearchInput.value.toLowerCase();
+        discountFilteredRows = discountAllRows.filter(row =>
+            row.textContent.toLowerCase().includes(keyword)
+        );
+        discountCurrentPage = 1;
+        renderDiscountPage(discountCurrentPage);
+    }
+
+    // Điều khiển Prev / Next
+    discountPrevPageBtn.addEventListener("click", () => {
+        if (discountCurrentPage > 1) {
+            discountCurrentPage--;
+            renderDiscountPage(discountCurrentPage);
+        }
     });
+
+    discountNextPageBtn.addEventListener("click", () => {
+        const totalPages = Math.ceil(discountFilteredRows.length / discountRowsPerPage);
+        if (discountCurrentPage < totalPages) {
+            discountCurrentPage++;
+            renderDiscountPage(discountCurrentPage);
+        }
+    });
+
+    discountSearchInput.addEventListener("input", filterDiscountTable);
+
+    // Hiển thị lần đầu tiên
+    renderDiscountPage(discountCurrentPage);
     </script>
+
 </body>

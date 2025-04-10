@@ -153,48 +153,95 @@
             </div>
 
             <!-- Bảng danh sách đơn vị tính -->
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto h-[450px]">
                 <table class="w-full text-left border-collapse">
                     <thead class="border-b border-gray-200">
                         <tr class="uppercase text-gray-600 text-sm">
                             <th class="py-3">Mã Đơn Vị</th>
                             <th class="py-3">Tên Đơn Vị</th>
-                            <th class="py-3">Mô Tả</th>
                             <th class="py-3">Hành Động</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100 text-gray-700 text-sm">
-                        <!-- Ví dụ dòng 1 -->
-                        <tr>
-                            <td class="py-3">DV001</td>
-                            <td class="py-3">Cup</td>
-                            <td class="py-3">Ly, cốc phục vụ cà phê</td>
+                    <tbody id="unit-table-body" class="divide-y divide-gray-100 text-gray-700 text-sm">
+
+
+                        <?php
+                            include __DIR__ ."/../../../../controllers/UnitController.php";
+
+                            $unitController = new UnitController();
+                            $units = $unitController->getAllUnits();
+                            foreach ($units as $unitItem) {
+                                echo '
+                                <tr>
+                            <td class="py-3">'.$unitItem->getId().'</td>
+                            <td class="py-3">'.$unitItem->getType().'</td>
+                            
                             <td class="py-3">
                                 <button class="text-blue-500 hover:underline mr-5">Sửa</button>
                                 <p class="inline-block mr-5">|</p>
-                                <button class="text-blue-500 hover:underline">Xóa</button>
+                                <button
+                                onclick=deleteUnit('.$unitItem->getId().')
+                                class="text-blue-500 hover:underline">Xóa</button>
                             </td>
                         </tr>
-                        <!-- Ví dụ dòng 2 -->
-                        <tr>
-                            <td class="py-3">DV002</td>
-                            <td class="py-3">ml</td>
-                            <td class="py-3">Đơn vị đo thể tích</td>
-                            <td class="py-3">
-                                <button class="text-blue-500 hover:underline mr-5">Sửa</button>
-                                <p class="inline-block mr-5">|</p>
-                                <button class="text-blue-500 hover:underline">Xóa</button>
-                            </td>
-                        </tr>
-                        <!-- Thêm các dòng khác -->
+                                ';}
+                        ?>
                     </tbody>
                 </table>
+                <div class="flex items-center justify-between mt-6">
+                    <span class="text-sm text-gray-600">
+                        <span id="paginationInfoUnit">1 - 10</span>
+                    </span>
+                    <div class="flex space-x-2">
+                        <button id="prevPageUnit"
+                            class="px-3 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200">Prev</button>
+                        <button id="nextPageUnit"
+                            class="px-3 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200">Next</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Script chuyển đổi giữa các tab -->
     <script>
+    function deleteUnit(unitId) {
+        // Xóa đơn vị tại đây
+        if (confirm("Bạn có chắc chắn muốn xóa đơn vị này?")) {
+            alert(unitId);
+            fetch('./php/Unit/deleteUnit.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: unitId
+                    })
+                })
+                .then(response => response.text())
+                .then(text => {
+                    console.log("Dữ liệu nhận được:", text);
+                    try {
+                        // Xóa bỏ khoảng trắng đầu/cuối nếu có
+                        const jsonData = JSON.parse(text.trim());
+                        return jsonData;
+                        console.log("Parsed JSON:", jsonData);
+                    } catch (error) {
+                        console.error("Lỗi khi parse JSON:", error);
+                    }
+                })
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) location.reload();
+                })
+                .catch(err => {
+                    console.error("Lỗi khi xóa đơn vị:", err);
+                })
+
+        }
+
+    }
+
     function deleteRecipe(recipeId) {
         // Xóa công thức tại đây
         if (confirm("Bạn có chắc chắn muốn xóa công thức này?")) {
@@ -257,46 +304,46 @@
 
 
 
-    const rowsPerPage = 10;
-    let currentPage = 1;
+    const rowsPerPageRecipe = 10;
+    let currentPageRecipe = 1;
 
-    const tableBody = document.getElementById('recipe-table-body');
-    const searchInput = document.getElementById('search-recipe');
+    const tableBodyRecipe = document.getElementById('recipe-table-body');
+    const searchInputRecipe = document.getElementById('search-recipe');
     const paginationInfo = document.getElementById('paginationInfo');
     const prevBtn = document.getElementById('prevPage');
     const nextBtn = document.getElementById('nextPage');
 
-    let allRows = Array.from(tableBody.querySelectorAll('tr'));
-    let filteredRows = [...allRows]; // Rows sau khi lọc
+    let allRowsRecipe = Array.from(tableBodyRecipe.querySelectorAll('tr'));
+    let filteredRowsRecipe = [...allRowsRecipe]; // Rows sau khi lọc
 
     function displayPage(page) {
-        currentPage = page;
-        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-        if (currentPage > totalPages) currentPage = totalPages;
+        currentPageRecipe = page;
+        const totalPages = Math.ceil(filteredRowsRecipe.length / rowsPerPageRecipe);
+        if (currentPageRecipe > totalPages) currentPageRecipe = totalPages;
 
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
+        const start = (currentPageRecipe - 1) * rowsPerPageRecipe;
+        const end = start + rowsPerPageRecipe;
 
         // Ẩn tất cả
-        allRows.forEach(row => row.style.display = 'none');
+        allRowsRecipe.forEach(row => row.style.display = 'none');
 
         // Hiện filtered rows
-        filteredRows.slice(start, end).forEach(row => {
+        filteredRowsRecipe.slice(start, end).forEach(row => {
             row.style.display = '';
         });
 
         // Cập nhật chỉ số trang
-        if (filteredRows.length === 0) {
+        if (filteredRowsRecipe.length === 0) {
             paginationInfo.textContent = `0 - 0`;
         } else {
-            paginationInfo.textContent = `${start + 1} - ${Math.min(end, filteredRows.length)}`;
+            paginationInfo.textContent = `${start + 1} - ${Math.min(end, filteredRowsRecipe.length)}`;
         }
     }
 
     // Lọc dữ liệu theo input tìm kiếm
-    searchInput.addEventListener('input', () => {
-        const keyword = searchInput.value.toLowerCase();
-        filteredRows = allRows.filter(row => {
+    searchInputRecipe.addEventListener('input', () => {
+        const keyword = searchInputRecipe.value.toLowerCase();
+        filteredRowsRecipe = allRowsRecipe.filter(row => {
             const recipeName = row.children[1]?.textContent?.toLowerCase() || "";
             return recipeName.includes(keyword);
         });
@@ -305,16 +352,81 @@
 
     // Nút chuyển trang
     prevBtn.addEventListener('click', () => {
-        if (currentPage > 1) displayPage(currentPage - 1);
+        if (currentPageRecipe > 1) displayPage(currentPageRecipe - 1);
     });
 
     nextBtn.addEventListener('click', () => {
-        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-        if (currentPage < totalPages) displayPage(currentPage + 1);
+        const totalPages = Math.ceil(filteredRowsRecipe.length / rowsPerPageRecipe);
+        if (currentPageRecipe < totalPages) displayPage(currentPageRecipe + 1);
     });
 
     // Khởi tạo trang đầu tiên
     displayPage(1);
+
+
+
+    // Phân trang và tìm kiếm cho Unit 
+    // Cấu hình cho phần "Đơn vị tính"
+    const rowsPerPageRecipeUnit = 10;
+    let currentPageRecipeUnit = 1;
+    const unitTableBody = document.getElementById('unit-table-body');
+    const unitSearchInput = document.getElementById('search-unit');
+    const paginationInfoUnit = document.getElementById('paginationInfoUnit');
+    const prevBtnUnit = document.getElementById('prevPageUnit');
+    const nextBtnUnit = document.getElementById('nextPageUnit');
+
+    // Lấy tất cả các dòng của bảng đơn vị tính
+    let allRowsRecipeUnit = Array.from(unitTableBody.querySelectorAll('tr'));
+    let filteredRowsRecipeUnit = [...allRowsRecipeUnit]; // Mảng này sẽ lưu các dòng sau khi lọc
+
+    // Hàm hiển thị trang hiện tại cho đơn vị tính
+    function displayUnitPage(page) {
+        currentPageRecipeUnit = page;
+        const totalPagesUnit = Math.ceil(filteredRowsRecipeUnit.length / rowsPerPageRecipeUnit);
+        if (currentPageRecipeUnit > totalPagesUnit) currentPageRecipeUnit = totalPagesUnit;
+
+        const start = (currentPageRecipeUnit - 1) * rowsPerPageRecipeUnit;
+        const end = start + rowsPerPageRecipeUnit;
+
+        // Ẩn tất cả các dòng
+        allRowsRecipeUnit.forEach(row => row.style.display = 'none');
+
+        // Hiển thị các dòng thuộc trang hiện tại (sau khi lọc)
+        filteredRowsRecipeUnit.slice(start, end).forEach(row => {
+            row.style.display = '';
+        });
+
+        // Cập nhật thông tin phân trang
+        if (filteredRowsRecipeUnit.length === 0) {
+            paginationInfoUnit.textContent = `0 - 0`;
+        } else {
+            paginationInfoUnit.textContent = `${start + 1} - ${Math.min(end, filteredRowsRecipeUnit.length)}`;
+        }
+    }
+
+    // Sự kiện tìm kiếm cho đơn vị tính
+    unitSearchInput.addEventListener('input', () => {
+        const keyword = unitSearchInput.value.toLowerCase();
+        filteredRowsRecipeUnit = allRowsRecipeUnit.filter(row => {
+            // Giả sử cột "Tên Đơn Vị" là cột thứ 2 (chỉ số 1)
+            const unitName = row.children[1]?.textContent?.toLowerCase() || "";
+            return unitName.includes(keyword);
+        });
+        displayUnitPage(1); // luôn quay về trang 1 khi tìm kiếm
+    });
+
+    // Xử lý sự kiện chuyển trang
+    prevBtnUnit.addEventListener('click', () => {
+        if (currentPageRecipeUnit > 1) displayUnitPage(currentPageRecipeUnit - 1);
+    });
+
+    nextBtnUnit.addEventListener('click', () => {
+        const totalPagesUnit = Math.ceil(filteredRowsRecipeUnit.length / rowsPerPageRecipeUnit);
+        if (currentPageRecipeUnit < totalPagesUnit) displayUnitPage(currentPageRecipeUnit + 1);
+    });
+
+    // Khởi tạo hiển thị trang đầu tiên cho đơn vị tính
+    displayUnitPage(1);
     </script>
 </body>
 

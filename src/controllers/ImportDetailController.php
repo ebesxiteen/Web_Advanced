@@ -1,6 +1,6 @@
 <?php
 
-require_once './../config/DatabaseConnection.php';
+
 require_once './../models/ImportDetail.php'; // Đảm bảo đường dẫn chính xác
 
 

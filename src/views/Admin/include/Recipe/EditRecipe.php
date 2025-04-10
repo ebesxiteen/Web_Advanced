@@ -1,39 +1,56 @@
-<!DOCTYPE html>
-<html lang="vi">
+<?php
+include __DIR__ ."/../../../../controllers/RecipeController.php";
+include __DIR__ ."/../../../../controllers/RecipeDetailController.php";
+include __DIR__ ."/../../../../controllers/UnitController.php";
+include __DIR__ ."/../../../../controllers/IngredientController.php";
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Nhúng Tailwind CSS từ CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.2.7/dist/tailwind.min.css" rel="stylesheet">
-    <title>Xem và Sửa Công Thức</title>
-</head>
+$recipeController = new RecipeController();
+$recipeDetailController = new RecipeDetailController();
+
+$recipeId =95;
+
+$recipe = $recipeController->getRecipebyId( $recipeId );
+$recipeDetails = $recipeDetailController->getRecipeDetail( $recipeId );
+
+
+$ingredientController = new IngredientController();
+$ingredients = $ingredientController->getAllIngredients();
+
+$unitController = new UnitController();
+$units = $unitController->getAllUnits();
+
+
+// var_dump($units);
+?>
 
 <body class="bg-gray-100 p-6">
-    <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <!-- Tiêu đề trang -->
-        <h2 class="text-2xl font-bold text-gray-700 mb-6">Xem và Sửa Công Thức</h2>
+    <form id="edit-recipe-form" method="POST" action="updateRecipe.php" class="space-y-6">
+        <input type="hidden" name="recipe_id" value="<?php echo $recipeId; ?>">
 
-        <!-- Form hiển thị và chỉnh sửa công thức -->
-        <form id="edit-recipe-form" class="space-y-6">
+        <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
+            <!-- Tiêu đề trang -->
+            <h2 class="text-2xl font-bold text-gray-700 mb-6">Xem và Sửa Công Thức</h2>
+
+            <!-- Form hiển thị và chỉnh sửa công thức -->
+
             <!-- Tên công thức -->
             <div>
                 <label for="recipe_name" class="block text-sm font-medium text-gray-600 mb-1">
                     Tên công thức
                 </label>
-                <input type="text" id="recipe_name" name="recipe_name" value="Espresso" required
-                    class="w-full border rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="text" id="recipe_name" name="recipe_name" value="<?php echo $recipe->getRecipeName(); ?>"
+                    required class="w-full border rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
             </div>
 
             <!-- Mô tả công thức -->
-            <div>
+            <!-- <div>
                 <label for="description" class="block text-sm font-medium text-gray-600 mb-1">
                     Mô tả (tối đa 255 ký tự)
                 </label>
                 <textarea id="description" name="description" rows="3" maxlength="255"
                     class="w-full border rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Nhập mô tả cho công thức">Đây là công thức Espresso cơ bản với hương vị đậm đà...</textarea>
-            </div>
+            </div> -->
 
             <!-- Danh sách nguyên liệu -->
             <div>
@@ -42,31 +59,54 @@
                 </label>
                 <div id="ingredients" class="space-y-2  h-[150px] overflow-auto">
                     <!-- Nguyên liệu 1 -->
-                    <div class="flex space-x-2">
-                        <input type="text" name="ingredient_name[]" placeholder="Tên nguyên liệu" value="Coffee Beans"
-                            class="flex-1 border rounded-md px-2 py-1" required />
-                        <input type="number" name="ingredient_quantity[]" placeholder="Số lượng" value="18"
-                            class="w-24 border rounded-md px-2 py-1" required />
-                        <select name="ingredient_unit[]" class="w-32 border rounded-md px-2 py-1">
-                            <option value="g" selected>g</option>
-                            <option value="ml">ml</option>
-                            <option value="cup">cup</option>
-                            <option value="tbsp">tbsp</option>
-                        </select>
-                    </div>
-                    <!-- Nguyên liệu 2 -->
-                    <div class="flex space-x-2">
-                        <input type="text" name="ingredient_name[]" placeholder="Tên nguyên liệu" value="Water"
-                            class="flex-1 border rounded-md px-2 py-1" required />
-                        <input type="number" name="ingredient_quantity[]" placeholder="Số lượng" value="30"
-                            class="w-24 border rounded-md px-2 py-1" required />
-                        <select name="ingredient_unit[]" class="w-32 border rounded-md px-2 py-1">
-                            <option value="ml" selected>ml</option>
-                            <option value="g">g</option>
-                            <option value="cup">cup</option>
-                            <option value="tbsp">tbsp</option>
-                        </select>
-                    </div>
+                    <?php
+                            foreach ($recipeDetails as $recipeDetail) {
+                                
+                                echo '
+                                <div class="flex space-x-2">
+                                <select name="ingredient_name[]" class="w-64 border rounded-md px-2 py-1" required>
+                            <option value="" disabled selected>-- Chọn nguyên liệu --</option>
+                            ';
+                                foreach ($ingredients as $ingredient) {
+                                    if ($recipeDetail->getIngredientId() == $ingredient->getId()) {
+                                        echo '<option value="' . $ingredient->getId() . '" selected>' . $ingredient->getIngredientName() . '</option>';
+                                    } else {
+                                        echo '<option value="' . $ingredient->getId() . '">' . $ingredient->getIngredientName() . '</option>';
+                                    }
+                                }
+                                echo '
+                            </select>
+                                ';
+
+                                echo '<input type="number" name="ingredient_quantity[]" placeholder="Số lượng" value="' . $recipeDetail->getQuantity() . '"
+                            class="w-24 border rounded-md px-2 py-1" required />';
+                            
+                            echo'
+                            <select name="ingredient_unit[]" id="unit" class="w-64 border rounded-md px-2 py-1" required>
+                            <option value="" disabled selected>-- Chọn đơn vị --</option>
+                            ';
+                            foreach ($units as $unit) {
+                                if ($recipeDetail->getUnitId() == $unit->getId()) {
+                                    echo '<option value="' . $unit->getId() . '" selected>' . $unit->getType() . '</option>';
+                                } else {
+                                    echo '<option value="' . $unit->getId() . '">' . $unit->getType() . '</option>';
+                                }
+                            }
+                            echo '
+                            </select>';
+
+                            echo '
+                            <button type="button" onclick="removeIngredient(this)"
+                            class="text-red-600 hover:underline text-sm bg-red-100 rounded-md px-2 py-1">X</button>
+                            
+                            </div>
+                            ';
+
+                        }
+                        ?>
+
+
+
                 </div>
                 <!-- Nút thêm nguyên liệu -->
                 <button type="button" onclick="addIngredient()" class="mt-3 text-blue-600 hover:underline text-sm">+
@@ -80,8 +120,8 @@
                     Cập nhật công thức
                 </button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 
     <!-- Script thêm dòng nguyên liệu -->
     <script>
@@ -92,14 +132,26 @@
         div.className = "flex space-x-2";
 
         div.innerHTML = `
-        <input type="text" name="ingredient_name[]" placeholder="Tên nguyên liệu" class="flex-1 border rounded-md px-2 py-1" required />
+        <select name="ingredient_name[]" class="w-64 border rounded-md px-2 py-1" required>
+        <option value="" disabled selected>-- Chọn nguyên liệu --</option>
+                            <?php
+                            foreach ($ingredients as $ingredient) { 
+                                echo '<option value="' .$ingredient->getId() . '">' . $ingredient->getIngredientName() . '</option>';
+                            }
+                    
+                            ?>
+
+                        </select>
         <input type="number" name="ingredient_quantity[]" placeholder="Số lượng" class="w-24 border rounded-md px-2 py-1" required />
-        <select name="ingredient_unit[]" class="w-32 border rounded-md px-2 py-1">
-          <option value="ml">ml</option>
-          <option value="g">g</option>
-          <option value="cup">cup</option>
-          <option value="tbsp">tbsp</option>
-        </select>
+        <select name="ingredient_unit[]" id="unit" class="w-64 border rounded-md px-2 py-1" required>
+        <option value="" disabled selected>-- Chọn đơn vị --</option>
+                            <?php
+                            foreach ($units as $unit) {
+                                echo '<option value="' . $unit->getId() . '">' . $unit->getType() . '</option>';
+                            }
+                            ?>
+                        </select>
+        <button type="button" onclick="removeIngredient(this)" class="text-red-600 hover:underline text-sm bg-red-100 rounded-md px-2 py-1">X</button>
       `;
         ingredientsDiv.appendChild(div);
     }
@@ -107,9 +159,36 @@
     // Xử lý submit form (demo)
     document.getElementById("edit-recipe-form").addEventListener("submit", function(e) {
         e.preventDefault();
-        alert("Công thức đã được cập nhật thành công!");
-        // Ở đây bạn có thể thêm logic gọi API hoặc xử lý lưu dữ liệu.
+        const form = e.target;
+
+        // Lấy dữ liệu từ form
+        const formData = new FormData(form);
+
+        // Gửi dữ liệu qua fetch (AJAX)
+        fetch("./php/Recipe/updateRecipe.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text()) // có thể dùng response.json() nếu trả JSON
+            .then(data => {
+                console.log("Dữ liệu nhận được:", data);
+                try {
+                    const jsonData = JSON.parse(data.trim());
+                    console.log("Parsed JSON:", jsonData);
+                } catch (error) {
+                    console.error("Lỗi khi parse JSON:", error);
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi khi gửi form:", error);
+                alert("Có lỗi xảy ra khi cập nhật công thức.");
+            });
     });
+
+    function removeIngredient(button) {
+        const ingredientDiv = button.parentNode;
+        ingredientDiv.remove();
+    }
     </script>
 </body>
 

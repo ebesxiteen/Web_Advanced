@@ -16,55 +16,61 @@
         <div class="mb-4">
             <span class="text-xs text-gray-500">MASTER DATA</span>
         </div>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100 bg-gray-100">
-            <i class="fas fa-box-open mr-2"></i> Products
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100 bg-gray-200">
-            <i class="fas fa-list-ul mr-2"></i> Product List
-        </a>
 
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+        <button data-target="product" onclick="switchSection('product')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100 ">
+            <i class=" fas fa-box-open mr-2"></i> Products
+        </button>
+
+        <button data-target="discounts" onclick="switchSection('discounts')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
             <i class="fas fa-bullhorn mr-2"></i> Discounts
-        </a>
+        </button>
 
         <div class="mt-4">
             <span class="text-xs text-gray-500">MAIN MENU</span>
         </div>
 
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+        <button data-target="statistic" onclick="switchSection('statistic')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
             <i class="fas fa-tachometer-alt mr-2"></i> Stasticts
-        </a>
+        </button>
 
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+        <button data-target="account" onclick="switchSection('account')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
             <i class="fas fa-users mr-2"></i> Customers
-        </a>
+        </button>
 
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+        <button data-target="orders" onclick="switchSection('orders')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
             <i class="fa-solid fa-cart-shopping mr-2"></i>Orders
-        </a>
+        </button>
 
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+        <button data-target="producer" onclick="switchSection('producer')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
             <i class="fa-solid fa-truck-field mr-2"></i> Producer
-        </a>
+        </button>
 
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+        <button data-target="import" onclick="switchSection('import')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
             <i class="fa-solid fa-file-import mr-2 "></i> Import
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+        </button>
+
+        <button data-target="ingredient" onclick="switchSection('ingredient')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
             <i class="fa-solid fa-wheat-awn-circle-exclamation mr-2"></i> Ingredient
-        </a>
-
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fa-solid fa-weight-hanging mr-2"></i> Unit
-        </a>
-
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fa-solid fa-mug-saucer mr-2"></i> Recipe
-        </a>
+        </button>
 
 
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100 mt-4">
+        <button data-target="recipe" onclick="switchSection('recipe')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-weight-hanging mr-2"></i> Unit &
+            <i class="fa-solid fa-mug-saucer ml-2 mr-2"></i> Recipe
+        </button>
+
+
+        <button onclick="logout()" class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100 mt-4">
             <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
-        </a>
+        </button>
     </nav>
 </aside>

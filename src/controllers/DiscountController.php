@@ -1,6 +1,5 @@
 <?php
-
-include __DIR__ ."/../config/DatabaseConnection.php";
+include_once __DIR__ ."/../config/DatabaseConnection.php";
 include __DIR__ ."/../models/Discount.php";
 
 class DiscountController {
@@ -107,14 +106,41 @@ class DiscountController {
     
 
     public function deleteDiscount($id) {
-        $sql = "DELETE FROM DISCOUNTS WHERE ID = ?";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
+        // Bắt đầu transaction
+        $this->connection->begin_transaction();
+    
+        try {
+            // Xóa các record trong bảng orders có DISCOUNTID = ?
+            $sqlOrders = "update orders set DISCOUNTID = null where DISCOUNTID = ?";
+            $stmtOrders = $this->connection->prepare($sqlOrders);
+            $stmtOrders->bind_param("i", $id);
+            if (!$stmtOrders->execute()) {
+                $this->connection->rollback();
+                return false;
+            }
+            $stmtOrders->close();
+    
+            // Xóa discount trong bảng discounts có ID = ?
+            $sqlDiscounts = "DELETE FROM discounts WHERE ID = ?";
+            $stmtDiscounts = $this->connection->prepare($sqlDiscounts);
+            $stmtDiscounts->bind_param("i", $id);
+            if (!$stmtDiscounts->execute()) {
+                $this->connection->rollback();
+                return false;
+            }
+            $stmtDiscounts->close();
+    
+            // Nếu cả 2 câu lệnh đều thành công, commit transaction
+            $this->connection->commit();
             return true;
+            
+        } catch (Exception $e) {
+            // Nếu có ngoại lệ, rollback toàn bộ giao dịch
+            $this->connection->rollback();
+            return false;
         }
-        return false;
     }
+    
 
     public function __destruct() {
         if ($this->connection) {

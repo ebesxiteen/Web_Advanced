@@ -4,9 +4,19 @@ class Unit {
     private $id;
     private $type;
 
-    public function __construct($id = null, $type = null) {
+    private $description;
+
+    public function __construct($id = null, $type = null,$description = null) {
         $this->id = $id;
         $this->type = $type;
+        $this->description = $description;
+    }
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function setDescription($description) {
+        $this->description = $description;
     }
 
     public function getId() {

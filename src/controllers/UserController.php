@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ ."/../config/DatabaseConnection.php";
+include_once __DIR__ ."/../config/DatabaseConnection.php";
 include __DIR__ ."/../models/User.php"; // Đảm bảo bạn đã định nghĩa model User
 include __DIR__ ."/../models/Order.php";
 

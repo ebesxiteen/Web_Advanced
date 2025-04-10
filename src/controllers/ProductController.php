@@ -1,7 +1,7 @@
 <?php
 // File: ProductController.php
+include_once __DIR__ ."/../config/DatabaseConnection.php";
 
-require_once dirname(__FILE__) . "/../config/DatabaseConnection.php";
 require_once dirname(__FILE__) . '/../models/Product.php';
 
 class ProductController {

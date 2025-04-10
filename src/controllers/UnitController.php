@@ -1,7 +1,7 @@
 <?php
 
-include __DIR__ ."/../config/DatabaseConnection.php";
-require_once (dirname(__FILE__)). '/../models/Unit.php';// Đảm bảo rằng bạn đã bao gồm tệp Unit.php
+include_once __DIR__ ."/../config/DatabaseConnection.php";
+include __DIR__ ."/../models/Unit.php";
 
 class UnitController {
     private $connection;
@@ -22,6 +22,7 @@ class UnitController {
             while ($row = $result->fetch_assoc()) {
                 $units[] = new Unit($row['ID'], $row['TYPE']);
             }
+            
             return $units;
             
         }
@@ -37,39 +38,68 @@ class UnitController {
 
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            return new Unit($row['ID'], $row['TYPE']);
+            return new Unit($row['ID'], $row['TYPE'], $row['DESCRIPTION']);
         }
 
         return null;
     }
 
-    public function createUnit($unit) {
-        $sql = "INSERT INTO UNITS (TYPE) VALUES (?)";
+    public function createUnit($unitName, $unitDescription) {
+        
+        $sql = "INSERT INTO UNITS (TYPE, DESCRIPTION) VALUES (?, ?)";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("s", $unit->getType());
+        $stmt->bind_param("ss", $unitName, $unitDescription);
+        if( $stmt->execute() ) {
+        
+            return true;
+        }
+        return false;
+    }
+
+    public function updateUnit($unitId, $unitName, $unitDescription) {
+        $sql = "UPDATE UNITS SET TYPE = ? , DESCRIPTION = ? WHERE ID = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ssi", $unitName, $unitDescription, $unitId);
 
         if ($stmt->execute()) {
-            return $this->connection->insert_id; // Trả về ID của đơn vị mới được tạo
+            return true;
         }
 
         return false;
     }
 
-    public function updateUnit($unit) {
-        $sql = "UPDATE UNITS SET TYPE = ? WHERE ID = ?";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("si", $unit->getType(), $unit->getId());
-
-        return $stmt->execute();
-    }
-
     public function deleteUnit($id) {
-        $sql = "DELETE FROM UNITS WHERE ID = ?";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("i", $id);
-
-        return $stmt->execute();
+        // Bắt đầu transaction
+        $this->connection->begin_transaction();
+    
+        try {
+            // Cập nhật các bảng liên quan, đặt UNITID = NULL
+            $tablesToUpdate = ['products', 'recipedetails', 'ingredients', 'importdetails'];
+            foreach ($tablesToUpdate as $table) {
+                $sql = "UPDATE $table SET UNITID = NULL WHERE UNITID = ?";
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("i", $id);
+                $stmt->execute();
+            }
+    
+            // Xóa khỏi bảng UNITS
+            $deleteSql = "DELETE FROM units WHERE ID = ?";
+            $deleteStmt = $this->connection->prepare($deleteSql);
+            $deleteStmt->bind_param("i", $id);
+            $deleteStmt->execute();
+    
+            // Commit nếu mọi thứ thành công
+            $this->connection->commit();
+            return true;
+    
+        } catch (Exception $e) {
+            // Rollback nếu có lỗi
+            $this->connection->rollback();
+            error_log("Error deleting unit: " . $e->getMessage());
+            return false;
+        }
     }
+    
 }
 
 ?>
