@@ -1,4 +1,5 @@
 
+
 DROP DATABASE IF EXISTS `COFFESHOP`;
 
 CREATE DATABASE IF NOT EXISTS `COFFESHOP`;
@@ -33,11 +34,14 @@ CREATE TABLE IF NOT EXISTS `USERS` (
 DROP TABLE IF EXISTS `PRODUCTS`;
 
 CREATE TABLE IF NOT EXISTS  `PRODUCTS` (
-    `ID`                        INT             NOT NULL           AUTO_INCREMENT              ,
+
+    `ID`                          INT             NOT NULL           AUTO_INCREMENT            ,
     RECIPEID                    INT             NOT NULL                                       ,
     PRODUCTNAME                 VARCHAR(50)     NOT NULL                                       ,
     PRICE                       DOUBLE          NOT NULL                                       ,
-    UNITID                      INT             NOT NULL                                       ,
+    LINKIMAGE                   VARCHAR(255)    NOT NULL                                      ,
+    UNITID                      INT                                                    ,
+
     PRIMARY KEY (`ID`)
 );
 
@@ -55,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `RECIPEDETAILS` (
     RECIPEID                    INT             NOT NULL                                       ,
     INGREDIENTID                INT             NOT NULL                                       ,
     QUANTITY                    DOUBLE          NOT NULL                                       ,
-    UNITID                      INT             NOT NULL                                       
+    UNITID                      INT                                                   
 );
 
 
@@ -65,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `INGREDIENTS` (
     PRODUCERID                  INT             NOT NULL                                       ,
     INGREDIENTNAME              VARCHAR(50)     NOT NULL                                       ,
     QUANTITY                    DOUBLE          NOT NULL                                       ,
-    UNITID                      INT             NOT NULL                                       ,
+    UNITID                      INT                                                    ,
     PRIMARY KEY (ID)
 );
 
@@ -74,6 +78,7 @@ DROP TABLE IF EXISTS `UNITS`;
 CREATE TABLE IF NOT EXISTS `UNITS` (
     ID                          INT             NOT NULL           AUTO_INCREMENT              ,
     TYPE                        VARCHAR(50)     NOT NULL                                       ,
+    DESCRIPTION                 VARCHAR(255)     NOT NULL                                      ,
     PRIMARY KEY (ID)
 );
 
@@ -108,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `IMPORTDETAILS` (
     QUANTITY                    DOUBLE          NOT NULL                                       ,
     PRICE                       DOUBLE          NOT NULL                                       ,
     TOTAL                       DOUBLE          NOT NULL                                       ,
-    UNITID                      INT             NOT NULL                                       ,
+    UNITID                      INT                                                    ,
     PRIMARY KEY (ID)
 );
 
@@ -120,7 +125,9 @@ CREATE TABLE IF NOT EXISTS `ORDERS` (
     TOTAL                       DOUBLE          NOT NULL                                                 ,
     DATEOFORDER                 DATE            NOT NULL                                                 ,
     ORDERSTATUS                 ENUM('PENDING', 'COMPLETED', 'CANCELLED') NOT NULL DEFAULT 'PENDING'     ,
-    DISCOUNTID                  INT             NOT NULL                                                 ,
+
+    DISCOUNTID                  INT                                                              ,
+
     PRICEBEFOREDISCOUNT         DOUBLE          NOT NULL                                                 ,
     PRIMARY KEY (ID)
 );
