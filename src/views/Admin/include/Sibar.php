@@ -69,8 +69,10 @@
         </button>
 
 
-        <button onclick="logout()" class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100 mt-4">
+        <button onclick="switchSection('Login')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100 mt-4">
             <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
         </button>
     </nav>
+
 </aside>

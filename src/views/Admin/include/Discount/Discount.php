@@ -4,7 +4,8 @@
         <!-- Tiêu đề & nút tạo discount mới -->
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
             <h1 class="text-2xl font-bold text-gray-700 mb-4 md:mb-0">Product Discount</h1>
-            <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center shadow-md">
+            <button onclick="switchSection('discountsAdd')"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center shadow-md">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />

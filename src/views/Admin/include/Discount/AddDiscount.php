@@ -5,32 +5,31 @@
         <div class="max-w-5xl mx-auto p-4 md:p-6 h-[700px] overflow-y-scroll">
             <!-- Breadcrumb -->
             <nav class="text-sm text-gray-500 mb-2">
-                <a href="#" class="hover:text-gray-700">Home</a>
+                <a href="#" class="hover:text-gray-700">Trang chủ</a>
                 <span class="mx-1">/</span>
-                <a href="#" class="hover:text-gray-700">Discounts</a>
+                <a href="#" class="hover:text-gray-700">Khuyến mãi</a>
                 <span class="mx-1">/</span>
-                <a href="#" class="hover:text-gray-700">Voucher Discount</a>
-                <span class="mx-1">/</span>
-                <span class="text-gray-700">Add</span>
+
+                <span class="text-gray-700">Thêm khuyến mãi</span>
             </nav>
 
             <!-- Tiêu đề trang -->
-            <h1 class="text-2xl font-bold text-gray-700 mb-6">Add Voucher Discount</h1>
+            <h1 class="text-2xl font-bold text-gray-700 mb-6">Tạo khuyến mãi</h1>
 
             <!-- Form chính -->
             <form class="space-y-8">
                 <!-- BASIC INFORMATION -->
                 <div class="bg-white p-6 rounded-md shadow-sm">
-                    <h2 class="text-lg font-semibold text-gray-700 mb-2">Basic Information</h2>
+                    <h2 class="text-lg font-semibold text-gray-700 mb-2">Thông tin cơ bản</h2>
                     <p class="text-sm text-gray-500 mb-4">
-                        Add the description of the voucher here.
+                        Thêm mô tả của khuyến mãi ở đây
                     </p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Voucher Name -->
                         <div>
                             <label for="voucherName" class="block text-sm font-medium text-gray-700 mb-1">
-                                Voucher Name
+                                Tên chương trình khuyến mãi
                             </label>
                             <input type="text" id="voucherName" name="voucherName" placeholder="e.g. JulyPayday"
                                 class="block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
@@ -39,7 +38,7 @@
                         <!-- Voucher Percent -->
                         <div class="relative">
                             <label for="percent" class="block text-sm font-medium text-gray-700 mb-1">
-                                Percent (%)
+                                Phần trị khuyến mãi(%)
                             </label>
                             <input type="text" id="percent" name="percent" placeholder="10"
                                 class="block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
@@ -49,7 +48,7 @@
                         </div>
                         <div class="relative">
                             <label for="requiredAmount" class="block text-sm font-medium text-gray-700 mb-1">
-                                Required Amount ($)
+                                Số tiền yêu cầu để được khuyến mãi
                             </label>
                             <input type="text" id="requiredAmount" name="requiredAmount" placeholder="1000"
                                 class="block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
@@ -62,14 +61,14 @@
                     <!-- Chọn loại khách hàng (All Customer / Specific Customer) -->
                     <div class="mt-6">
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Who can use this voucher?
+                            Ai có thể được sử dụng khuyến mãi
                         </label>
                         <div class="flex items-center space-x-4">
                             <!-- All Customer -->
                             <label class="inline-flex items-center group cursor-pointer">
                                 <input type="radio" name="customerType" value="all" checked
                                     class="form-radio text-orange-500 focus:ring-blue-500" />
-                                <span class="ml-2 text-gray-700">All Customer</span>
+                                <span class="ml-2 text-gray-700">Tất cả khách hànghàng</span>
                                 <!-- Tooltip -->
                                 <div
                                     class="relative ml-2 group-hover:opacity-100 group-hover:scale-100 transition transform origin-left opacity-0 scale-0">
@@ -94,10 +93,7 @@
 
                 <!-- ACTIVE PERIOD -->
                 <div class="bg-white p-6 rounded-md shadow-sm">
-                    <h2 class="text-lg font-semibold text-gray-700 mb-2">Active Period</h2>
-                    <p class="text-sm text-gray-500 mb-4">
-                        Set the discount period and time range.
-                    </p>
+
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -105,7 +101,7 @@
                         <!-- Start & End Time -->
                         <div>
                             <label for="startTime" class="block text-sm font-medium text-gray-700 mb-1">
-                                Start & End Time
+                                Ngày bắt đầu và ngày kết thúc
                             </label>
                             <div class="flex space-x-2">
                                 <input type="date" id="startTime" name="startTime"
@@ -120,10 +116,8 @@
                 </div>
                 <!-- PRODUCT TYPE -->
                 <div class="bg-white p-6 rounded-md shadow-sm mb-2">
-                    <h2 class="text-lg font-semibold text-gray-700 mb-2">Product Type</h2>
-                    <p class="text-sm text-gray-500 mb-4">
-                        Choose the product range to apply this voucher.
-                    </p>
+                    <h2 class="text-lg font-semibold text-gray-700 mb-2">Loại sản phẩm</h2>
+
                     <div class="flex items-center space-x-6">
                         <label class="inline-flex items-center">
                             <input type="radio" name="productType" value="all"
@@ -141,12 +135,12 @@
                 <!-- Nút điều hướng -->
                 <div class="flex items-center justify-end space-x-4">
                     <button onclick="closeAddDiscountModal()" type="button" class="text-gray-500 hover:text-gray-700">
-                        Cancel
+                        Hủy
                     </button>
 
                     <button type="submit" name="submit"
-                        class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">
-                        Save
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+                        Lưu khuyến mãi
                     </button>
 
                 </div>
@@ -250,24 +244,10 @@
             })
             .then(data => {
                 if (data.success) {
-                    // Thông báo cập nhật thành công (có thể hiển thị thông báo toast, modal, ...)
-                    element.innerHTML = ` $(<?php echo include __DIR__ . '/../NotiSuccess.php'; ?>)`;
-
-                    document.body.appendChild(element);
-                    console.log(data.message);
+                    alert("Thêm khuyến mãi thành công");
                 } else {
-                    // Thông báo cập nhật thất bại
-                    element.innerHTML = ` $(<?php echo include __DIR__ . '/../NotiFail.php'; ?>)`;
-
-                    document.body.appendChild(element);
-
-                    // Thông báo lỗi
-                    console.error(data.message);
+                    alert(data.message);
                 }
-
-                setTimeout(() => {
-                    element.remove();
-                }, 3000);
             })
             .catch(error => {
                 console.error("Error:", error);

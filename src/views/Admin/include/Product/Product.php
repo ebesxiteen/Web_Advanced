@@ -48,7 +48,7 @@
                             <td class="py-3">' . $product->getPrice() . '</td>
                             <td class="py-3">' . $product->getRecipeId() . '</td>
                             <td class="py-3">
-                                <button onclick="switchSection(\'productsEdit\', ' . $product->getId() . ')" class="text-blue-500 hover:text-blue-700 font-medium">Sửa</button>
+                                <button onclick="editProduct(' . $product->getId() . ')" class="text-blue-500 hover:text-blue-700 font-medium">Sửa</button>
                                 <span class="mx-1">|</span>
                                 <button onclick="deleteProduct(' . $product->getId() . ')" class="text-red-500 hover:text-red-700 font-medium">Xoá</button>
                             </td>
@@ -75,6 +75,10 @@
     </div>
 
     <script>
+    function editProduct(productId) {
+        sessionStorage.setItem('productId', productId);
+        switchSection('productsEdit');
+    }
     const rowsPerPage = 10;
     let currentPage = 1;
 
@@ -148,24 +152,6 @@
                     console.error("Lỗi:", err);
                     alert("Đã xảy ra lỗi khi gửi yêu cầu xóa.");
                 });
-        }
-    }
-
-    function switchSection(sectionId, productId) {
-        // Lấy tất cả các section con trong main
-        const sections = document.querySelectorAll('.content-section');
-        sections.forEach(section => {
-            section.classList.remove('active-section');
-        });
-
-        // Hiển thị section tương ứng
-        const activeSection = document.getElementById(sectionId);
-        if (activeSection) {
-            activeSection.classList.add('active-section');
-        }
-        if (productId !== null) {
-            // Lưu id vào localStorage hoặc gọi API/load dữ liệu để hiển thị ở form edit
-            localStorage.setItem('editProductId', productId);
         }
     }
     </script>

@@ -18,13 +18,15 @@
 </head>
 
 <body>
-    <?php
-// require("../Admin/layout/Login/Login.php");
-require("./layout/Dashboard/Dashboard.php");
 
 
 
-?>
+    <div id="Dashboard">
+        <?php
+        include __DIR__."/layout/Dashboard/Dashboard.php";
+        ?>
+    </div>
+
     <script src="../../views/Admin/assets/js/script.js"></script>
 </body>
 

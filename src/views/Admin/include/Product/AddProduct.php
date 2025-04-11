@@ -16,7 +16,7 @@
                     <div
                         class="flex flex-col md:flex-row items-start md:items-center justify-between border-b pb-4 mb-4">
                         <div>
-                            <h1 class="text-xl font-semibold">Add New Product</h1>
+                            <h1 class="text-xl font-semibold">Thêm sản phẩm</h1>
                             <p class="text-sm text-gray-500">Vui lòng điền thông tin bên dưới để thêm dữ liệu!</p>
                         </div>
                         <!-- Product Existing -->
@@ -31,14 +31,14 @@
 
                     <!-- Basic Information -->
                     <div>
-                        <h2 class="text-lg font-semibold mb-3">Basic Information</h2>
+                        <h2 class="text-lg font-semibold mb-3">Thông tin cơ bản</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <!-- Product Name -->
                             <div>
-                                <label for="product-name" class="block text-sm font-medium text-gray-700 mb-1">Product
-                                    Name</label>
+                                <label for="product-name" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Tên sản phẩm</label>
                                 <input type="text" id="product-name" name="product_name" class="block w-full border border-gray-300 rounded-md py-2 px-3
-                         focus:outline-none focus:ring focus:ring-blue-300" placeholder="Enter name" />
+                         focus:outline-none focus:ring focus:ring-blue-300" placeholder="Nhập tên sản phẩm" />
                             </div>
 
 
@@ -49,10 +49,10 @@
 
                     <!-- Recipe -->
                     <div>
-                        <h2 class="text-lg font-semibold mb-3">Recipe</h2>
+                        <h2 class="text-lg font-semibold mb-3">Công thức</h2>
                         <div class="flex flex-wrap gap-4">
                             <select name="recipe" id="recipe">
-                                <option value="">Select a recipe</option>
+                                <option value="">Chọn công thức</option>
                                 <?php 
                                     $recipes = $recipeController->getAllRecipes();
                                     
@@ -69,10 +69,10 @@
                     <!-- Unit -->
 
                     <div>
-                        <h2 class="text-lg font-semibold mb-3">Unit</h2>
+                        <h2 class="text-lg font-semibold mb-3">Đơn vị</h2>
                         <div class="flex flex-wrap gap-4">
                             <select name="unit" id="unit">
-                                <option value="">Select a Unit</option>
+                                <option value="">Chọn đơn vị</option>
                                 <?php
                                 $units = $unitController->getAllUnits();
                                 foreach ($units as $unit) { 
@@ -89,12 +89,12 @@
 
                     <!-- Product Pricing -->
                     <div>
-                        <h2 class="text-lg font-semibold mb-3">Product Pricing</h2>
+                        <h2 class="text-lg font-semibold mb-3">Giá sản phẩm</h2>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
                             <div>
-                                <label for="final-price" class="block text-sm font-medium text-gray-700 mb-1">Final
-                                    Price</label>
+                                <label for="final-price" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Giá bán</label>
                                 <input type="number" id="final-price" name="final_price" class="block w-full border border-gray-300 rounded-md py-2 px-3
                          focus:outline-none focus:ring focus:ring-blue-300" placeholder="0" />
                             </div>
@@ -102,7 +102,7 @@
                     </div>
 
                     <div>
-                        <h2 class="text-lg font-semibold mb-3">Product Image</h2>
+                        <h2 class="text-lg font-semibold mb-3">Ảnh sản phẩm</h2>
                         <p class="text-sm text-gray-500 mb-2">
                             Ảnh nên có định dạng .jpg hoặc .png, kích thước tối thiểu 300x300 px. <br />
                             Đối với hình ảnh quảng cáo lớn, dùng tối thiểu 1200x1200 px.
@@ -121,7 +121,7 @@
                         <button id="create-product" type="submit"
                             class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md" value="Create product"
                             name="create_product">
-                            Create Product
+                            Tạo sản phẩm
                         </button>
 
                     </div>
