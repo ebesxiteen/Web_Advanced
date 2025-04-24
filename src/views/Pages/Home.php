@@ -4,10 +4,12 @@ $page = isset($_GET['LoginAndSignUp']) ? 'LoginAndSignUp' : (isset($_GET['page']
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php require_once '../config/head.php' ?>
-
+<?php
+    require_once '../config/head.php';
+?>
 <body>
-    <?php include '../layout/includes/Header.php'; ?>
+    <?php include '../layout/includes/Header.php'; 
+    ?>
 
     <div class="main-content">
         <?php
@@ -23,7 +25,9 @@ $page = isset($_GET['LoginAndSignUp']) ? 'LoginAndSignUp' : (isset($_GET['page']
         }
         ?>
     </div>
-    <?php include '../config/script.php'; ?>
+    <?php
+        include '../layout/includes/Footer.php';
+        include '../config/script.php';
+    ?>
 </body>
-
 </html>
