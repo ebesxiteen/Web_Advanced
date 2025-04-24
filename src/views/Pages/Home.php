@@ -4,26 +4,26 @@ $page = isset($_GET['LoginAndSignUp']) ? 'LoginAndSignUp' : (isset($_GET['page']
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php require_once '../config/head.php' ?>
+<?php require_once __DIR__ .'/../config/head.php' ?>
 
 <body>
-    <?php include '../layout/includes/Header.php'; ?>
+    <?php include_once __DIR__ .  '/../layout/includes/Header.php'; ?>
 
     <div class="main-content">
         <?php
         if ($page === 'product-details') {
 
-            include '../Components/Products/ProductDetails.php';
-            include '../layout/includes/Footer.php';
+            include_once __DIR__ .  '/../Components/Products/ProductDetails.php';
+            include_once __DIR__ .  '/../layout/include_once __DIR__ . s/Footer.php';
         } else {
-            include '../Components/Banner/Banner.php';
-            include '../Components/Products/Products.php';
-            include '../Components/Feature/Feature.php';
-            include '../layout/includes/Footer.php';
+            include_once __DIR__ .  '/../Components/Banner/Banner.php';
+            include_once __DIR__ .  '/../Components/Products/Products.php';
+            include_once __DIR__ .  '/../Components/Feature/Feature.php';
+            include_once __DIR__ .  '/../layout/include_once __DIR__ . s/Footer.php';
         }
         ?>
     </div>
-    <?php include '../config/script.php'; ?>
+    <?php include_once __DIR__ .  '/../config/script.php'; ?>
 </body>
 
 </html>
