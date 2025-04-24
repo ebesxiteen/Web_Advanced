@@ -8,9 +8,9 @@
                     delicious cup of coffee.</p>
                 <!-- <button class="bg-amber-800 text-white px-6 py-3 rounded-full">Order Now</button> -->
                 <div class="mt-8">
-                    <img src="path/to/product1.png" alt="Product 1" class="inline-block w-24 mx-2">
+                    <!-- <img src="path/to/product1.png" alt="Product 1" class="inline-block w-24 mx-2">
                     <img src="path/to/product2.png" alt="Product 2" class="inline-block w-24 mx-2">
-                    <img src="path/to/product3.png" alt="Product 3" class="inline-block w-24 mx-2">
+                    <img src="path/to/product3.png" alt="Product 3" class="inline-block w-24 mx-2"> -->
                     <p class="text-sm text-gray-600 mt-2">BEST SELLER</p>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     </label>
                     <a href="#" class="text-sm text-amber-800">Forgot Password?</a>
                 </div> -->
-                <button class="bg-amber-800 text-white px-6 py-3 rounded-lg w-full">Sign in</button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg w-full">Sign in</button>
                 <!-- <p class="text-sm text-center mt-4">Don't have an account? <a href="#" class="text-amber-800">Create a
                         account</a></p> -->
             </div>

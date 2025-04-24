@@ -1,7 +1,7 @@
 <?php
 
 require_once './../models/Cart.php';
-require_once './../config/DatabaseConnection.php';
+
 
 class CartController {
     private $conn;

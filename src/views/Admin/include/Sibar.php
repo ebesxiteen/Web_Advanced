@@ -1,14 +1,14 @@
-<aside class="bg-white w-64 p-4">
+<aside class="bg-white w-64 p-4 h-screen ">
     <div class="flex items-center mb-8">
-        <span class="text-xl font-semibold">IMAJI Coffee.</span>
+        <span class="text-xl font-semibold">CoffeeShop</span>
         <button class="ml-auto text-gray-400 focus:outline-none">
             <i class="fas fa-chevron-left"></i>
         </button>
     </div>
     <div class="flex items-center mb-6">
-        <img src="#" alt="Avatar" class="w-12 h-12 rounded-full mr-4">
+
         <div>
-            <span class="block text-sm font-semibold">Louis Carter</span>
+            <span class="block text-sm font-semibold">CoffeeShop_SGU</span>
             <span class="block text-xs text-gray-500">Administrator</span>
         </div>
     </div>
@@ -16,38 +16,63 @@
         <div class="mb-4">
             <span class="text-xs text-gray-500">MASTER DATA</span>
         </div>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100 bg-gray-100">
-            <i class="fas fa-box-open mr-2"></i> Products
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100 bg-gray-200">
-            <i class="fas fa-list-ul mr-2"></i> Product List
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-tags mr-2"></i> Categories
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-bullhorn mr-2"></i> Promotions
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-cog mr-2"></i> Settings
-        </a>
+
+        <button data-target="product" onclick="switchSection('product')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100 ">
+            <i class=" fas fa-box-open mr-2"></i> Products
+        </button>
+
+        <button data-target="discounts" onclick="switchSection('discounts')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fas fa-bullhorn mr-2"></i> Discounts
+        </button>
+
         <div class="mt-4">
             <span class="text-xs text-gray-500">MAIN MENU</span>
         </div>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-shopping-cart mr-2"></i> Orders
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
+
+        <button data-target="statistic" onclick="switchSection('statistic')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fas fa-tachometer-alt mr-2"></i> Stasticts
+        </button>
+
+        <button data-target="account" onclick="switchSection('account')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
             <i class="fas fa-users mr-2"></i> Customers
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100">
-            <i class="fas fa-chart-line mr-2"></i> Reports
-        </a>
-        <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-gray-100 mt-4">
+        </button>
+
+        <button data-target="orders" onclick="switchSection('orders')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-cart-shopping mr-2"></i>Orders
+        </button>
+
+        <button data-target="producer" onclick="switchSection('producer')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-truck-field mr-2"></i> Producer
+        </button>
+
+        <button data-target="import" onclick="switchSection('import')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-file-import mr-2 "></i> Import
+        </button>
+
+        <button data-target="ingredient" onclick="switchSection('ingredient')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-wheat-awn-circle-exclamation mr-2"></i> Ingredient
+        </button>
+
+
+        <button data-target="recipe" onclick="switchSection('recipe')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100">
+            <i class="fa-solid fa-weight-hanging mr-2"></i> Unit &
+            <i class="fa-solid fa-mug-saucer ml-2 mr-2"></i> Recipe
+        </button>
+
+
+        <button onclick="switchSection('Login')"
+            class="flex items-center w-64 py-2 px-4 rounded hover:bg-gray-100 mt-4">
             <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
-        </a>
+        </button>
     </nav>
+
 </aside>
