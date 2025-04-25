@@ -82,7 +82,6 @@ $totalPages = ceil($totalProducts / $limit);
                             Xem chi tiết
                         </a>
                     </div>
-
                 </div>
             </div>
             <?php endforeach; ?>
