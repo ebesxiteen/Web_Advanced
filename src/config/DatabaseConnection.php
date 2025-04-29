@@ -2,6 +2,7 @@
 
 class DatabaseConnection {
     private $host = "localhost"; // Thay đổi nếu cần
+    private $port = "3306";
     private $username = "root"; // Thay đổi bằng tên người dùng MySQL
     private $password = "123456789"; // Thay đổi bằng mật khẩu MySQL
     private $database = "COFFESHOP"; // Tên cơ sở dữ liệu
@@ -10,7 +11,7 @@ class DatabaseConnection {
 
     public function __construct() {
         if (!isset($this->connection)) {
-            $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
+            $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database, $this->port);
             // echo"Ket noi thanh cong ";
             if (!$this->connection) {
                 echo 'Không thể kết nối đến cơ sở dữ liệu: ' . $this->connection->connect_error;
