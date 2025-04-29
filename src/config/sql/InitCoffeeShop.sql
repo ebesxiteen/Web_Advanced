@@ -34,12 +34,13 @@ CREATE TABLE IF NOT EXISTS `CATEGORIES` (
 );
 
 -- UNITS
+DROP TABLE IF EXISTS `UNITS`;
 CREATE TABLE IF NOT EXISTS `UNITS` (
-    ID      INT             NOT NULL AUTO_INCREMENT,
-    TYPE    VARCHAR(50)     NOT NULL,
+    ID                          INT             NOT NULL           AUTO_INCREMENT              ,
+    TYPE                        VARCHAR(50)     NOT NULL                                       ,
+    DESCRIPTION                 VARCHAR(255)     NOT NULL                                      ,
     PRIMARY KEY (ID)
 );
-
 -- PRODUCERS
 CREATE TABLE IF NOT EXISTS `PRODUCERS` (
     ID              INT             NOT NULL AUTO_INCREMENT,
