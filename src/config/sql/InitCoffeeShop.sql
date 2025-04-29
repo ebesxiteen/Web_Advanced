@@ -51,15 +51,17 @@ CREATE TABLE IF NOT EXISTS `PRODUCERS` (
 );
 
 -- INGREDIENTS
+DROP TABLE IF EXISTS `INGREDIENTS`;
 CREATE TABLE IF NOT EXISTS `INGREDIENTS` (
-    ID              INT             NOT NULL AUTO_INCREMENT,
-    PRODUCERID      INT             NOT NULL,
-    INGREDIENTNAME  VARCHAR(50)     NOT NULL,
-    QUANTITY        DOUBLE          NOT NULL,
-    UNITID          INT             NOT NULL,
+    ID                          INT             NOT NULL           AUTO_INCREMENT              ,
+    PRODUCERID                  INT             NOT NULL                                       ,
+    INGREDIENTNAME              VARCHAR(50)     NOT NULL                                       ,
+    QUANTITY                    DOUBLE          NOT NULL                                       ,
+    UNITID                      INT                                                    ,
+    COST                      INT                                                    ,
+
     PRIMARY KEY (ID)
 );
-
 -- RECIPES
 CREATE TABLE IF NOT EXISTS `RECIPES` (
     ID              INT             NOT NULL AUTO_INCREMENT,

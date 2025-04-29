@@ -23,11 +23,11 @@ INSERT INTO `PRODUCERS` (`PRODUCERNAME`, `ADDRESS`, `PHONE`) VALUES
 ('Imported Goods', '45 Trade St', '444-555-6666'),
 ('Regional Supplier', '78 Supply Ln', '777-888-9999');
 
-INSERT INTO `INGREDIENTS` (`PRODUCERID`, `INGREDIENTNAME`, `QUANTITY`, `UNITID`) VALUES
-(1, 'Coffee Beans', 100, 1),
-(1, 'Milk', 500, 3),
-(2, 'Sugar', 50, 1),
-(3, 'Chocolate Syrup', 200, 3);
+INSERT INTO `INGREDIENTS` (`PRODUCERID`, `INGREDIENTNAME`, `QUANTITY`, `UNITID`,`COST`) VALUES
+(1, 'Coffee Beans', 100, 1,50000), -- 100 kg
+(1, 'Milk', 500, 3,40000), -- 500 ml
+(2, 'Sugar', 50, 1,10000), -- 50 kg
+(3, 'Chocolate Syrup', 200, 3,100000); -- 200 ml
 
 -- Recipes: 4 Coffee + 4 Tea + 4 Snacks + 4 Related Items
 INSERT INTO `RECIPES` (`RECIPENAME`) VALUES
