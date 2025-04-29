@@ -24,31 +24,33 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 
             <div class="header-right">
                 <?php if (isset($_SESSION['user'])): ?>
-                    <!-- Khi đăng nhập thành công -->
-                    <div class="my-2 mx-2 d-flex justify-content-center align-items-center position-relative">
-                        <div class="mx-2">
-                            <span class="title-login">Xin chào <?php echo htmlspecialchars($_SESSION['user']); ?></span>
-                        </div>
-                        <div class="dropdown">
-                            <div class="dropdown-toggle border-spacing-2 " data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://th.bing.com/th/id/OIP.zQRVpgMuI711UNlH_VBPHQHaMl?rs=1&pid=ImgDetMain" class="rounded-5" alt="Avatar" width="45px" height="45px">
-                            </div>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="../../../../src/views/Auth/Profile.php">Xem thông tin cá nhân</a></li>
-                                <li><a class="dropdown-item" href="?action=logout">Đăng xuất</a></li>
-                            </ul>
-                        </div>
+                <!-- Khi đăng nhập thành công -->
+                <div class="my-2 mx-2 d-flex justify-content-center align-items-center position-relative">
+                    <div class="mx-2">
+                        <span class="title-login">Xin chào <?php echo htmlspecialchars($_SESSION['user']); ?></span>
                     </div>
+                    <div class="dropdown">
+                        <div class="dropdown-toggle border-spacing-2 " data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrBp4rAadRiXmk6NWl3redkvGJgWGDkBT4vA&s"
+                                class="rounded-5" alt="Avatar" width="45px" height="45px">
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../../../../src/views/Auth/Profile.php">Xem thông tin cá
+                                    nhân</a></li>
+                            <li><a class="dropdown-item" href="?action=logout">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
                 <?php else: ?>
-                    <!-- Khi chưa đăng nhập -->
-                    <div class="my-2 mx-2 d-flex justify-content-center">
-                        <a href="../../../../src/views/Auth/LoginAndSignUp.php">
-                            <span class="title-login">Đăng nhập</span>
-                            <button class="btn btn-login my-2 my-sm-0 mx-2" type="button">
-                                <i class="fa-solid fa-user"></i>
-                            </button>
-                        </a>
-                    </div>
+                <!-- Khi chưa đăng nhập -->
+                <div class="my-2 mx-2 d-flex justify-content-center">
+                    <a href="../../../../Web_Advanced_Project/src/views/Auth/LoginAndSignUp.php">
+                        <span class="title-login">Đăng nhập</span>
+                        <button class="btn btn-login my-2 my-sm-0 mx-2" type="button">
+                            <i class="fa-solid fa-user"></i>
+                        </button>
+                    </a>
+                </div>
                 <?php endif; ?>
             </div>
         </div>
@@ -91,10 +93,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                     </div>
                     <div class="image-logo">
                         <!-- <img src="../assets/images/logo_coffee.png" lt=""> -->
-                        <img src="https://s3-alpha-sig.figma.com/img/07a6/ba17/2ce4b94025b32b1fec0a34927f223d17?Expires=1743984000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=rQ9fDZ-pcqPGbOEiVRRjTT7udH9BsJPxcR9YzpIc07KYFlCan28-fjqpiQ5cdk24QTHinQmi2yJqtheKmiEIL-PuJdfVIoKvLb1jqAF5PTPk~bUNpwIryy1X~EOQQPon50fxY6ZeFk4wIpJeP4wpCCj9q~aoe8yuBmVJbk2ox3lidA0o~zxlf0oWxwFtaYtS7tj4ANVWs~eAip--elBdm0cXsDvYQqOdGmV6pF6CQ4p6JO0NRpX3w0Kl~mgBpeUSlkpQ05ext46f0s8DCnMZ8bPSJ0rbVSRv4gNYcEeRcrCtoj8Amm8NFmowuuS~K5ghfIpnaYAo29apWBUCcdwrSA__"
-                            alt="">
+                        <img src="../assets/images/logo_coffee.png>
                     </div>
-                    <div class="list-item-right">
+                    <div class=" list-item-right">
                         <ul class="navbar-nav  mb-2 mb-lg-0 ml-2">
                             <li class="nav-item">
                                 <a class="nav-link " aria-disabled="true">Dịch vụ</a>
