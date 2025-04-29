@@ -1,10 +1,10 @@
 USE `COFFESHOP`;
 
-INSERT INTO `ACCOUNTS` (`USENAME`, `PASSWORD`) VALUES
-('john_doe', 'password123'),
-('jane_smith', 'securepass'),
-('peter_jones', 'mysecret'),
-('alice_wonder', 'wonderland');
+INSERT INTO `ACCOUNTS` (`USERNAME`, `PASSWORD`, `ROLE`) VALUES
+('john_doe', 'password123', 'admin'),
+('jane_smith', 'securepass', 'user'),
+('peter_jones', 'mysecret', 'user'),
+('alice_wonder', 'wonderland', 'admin');
 
 INSERT INTO `USERS` (`ACCOUNTID`, `FULLNAME`, `ADDRESS`, `PHONE`, `EMAIL`, `DATEOFBIRTH`) VALUES
 (1, 'John Doe', '123 Main St', '123-456-7890', 'john.doe@example.com', '1990-01-15'),
@@ -69,30 +69,12 @@ INSERT INTO CATEGORIES (CATEGORYNAME) VALUES
 ('Khác');
 
 
-INSERT INTO `PRODUCTS` (`ID`, `RECIPEID`, `PRODUCTNAME`, `PRICE`, `UNITID`, `CATEGORYID`) VALUES
--- Coffee
-(1, 1, 'Espresso', 2.50, 1, 1),
-(2, 2, 'Latte', 4.00, 1, 1),
-(3, 3, 'Americano', 3.50, 1, 1),
-(4, 4, 'Mocha', 5.00, 1, 1),
+INSERT INTO `PRODUCTS` ( `ID`,`RECIPEID`, `PRODUCTNAME`, `PRICE`,`LINKIMAGE`, `UNITID`) VALUES
+(1, 1, 'Espresso', 2.50,'assets/img/Americano_3.jpg', 1),
+(2, 2, 'Latte', 4.00,'assets/img/Espresso_1.jpeg', 1),
+(3, 3, 'Americano', 3.50,'assets/img/Latte_2.jpg', 1),
+(4, 4, 'Mocha', 5.00,'assets/img/Mocha_4.jpg', 1);
 
--- Tea
-(5, 5, 'Trà Đào', 3.80, 1, 2),
-(6, 6, 'Trà Sữa Trân Châu', 4.20, 1, 2),
-(7, 7, 'Trà Xanh Mật Ong', 3.60, 1, 2),
-(8, 8, 'Trà Lài Nóng', 3.00, 1, 2),
-
--- Snacks
-(9, 9, 'Bánh Mì Bơ Tỏi', 2.00, 1, 3),
-(10, 10, 'Bánh Quy Socola', 1.80, 1, 3),
-(11, 11, 'Khoai Tây Chiên', 2.50, 1, 3),
-(12, 12, 'Bánh Phô Mai', 3.00, 1, 3),
-
--- Other products
-(13, 13, 'Ly Sứ Cỡ Lớn', 6.50, 1, 4),
-(14, 14, 'Túi Vải Đựng Cà Phê', 5.00, 1, 4),
-(15, 15, 'Bình Giữ Nhiệt', 10.00, 1, 4),
-(16, 16, 'Hộp Quà Tặng Cà Phê', 12.00, 1, 4);
 
 
 INSERT INTO `IMPORTS` (`PRODUCERID`, `DATE`, `TOTAL`) VALUES

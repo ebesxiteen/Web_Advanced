@@ -7,11 +7,14 @@ class Product {
     private $price;
     private $unitId;
 
-    public function __construct($id = null, $recipeId = null, $productName = null, $price = null, $unitId = null) {
+    private $linkImage;
+
+    public function __construct($id = null, $recipeId = null, $productName = null, $price = null,$linkImage = null, $unitId = null) {
         $this->id = $id;
         $this->recipeId = $recipeId;
         $this->productName = $productName;
         $this->price = $price;
+        $this->linkImage = $linkImage;
         $this->unitId = $unitId;
     }
 
@@ -53,6 +56,14 @@ class Product {
 
     public function setUnitId($unitId) {
         $this->unitId = $unitId;
+    }
+
+    public function getLinkImage() {
+        return $this->linkImage;
+    }
+
+    public function setLinkImage($linkImage) {
+        $this->linkImage = $linkImage;
     }
 }
 

@@ -6,8 +6,9 @@ USE `COFFESHOP`;
 -- ACCOUNTS
 CREATE TABLE IF NOT EXISTS `ACCOUNTS` (
     ID          INT             NOT NULL AUTO_INCREMENT,
-    USENAME     VARCHAR(50)     NOT NULL,
+    USERNAME    VARCHAR(50)     NOT NULL,
     PASSWORD    VARCHAR(255)    NOT NULL,
+    ROLE        VARCHAR(50)     NOT NULL DEFAULT 'user',
     PRIMARY KEY (ID)
 );
 
@@ -24,6 +25,8 @@ CREATE TABLE IF NOT EXISTS `USERS` (
 );
 
 -- CATEGORIES
+DROP TABLE IF EXISTS `CATEGORIES`;
+
 CREATE TABLE IF NOT EXISTS `CATEGORIES` (
     ID              INT             NOT NULL AUTO_INCREMENT,
     CATEGORYNAME    VARCHAR(50)     NOT NULL,
@@ -72,14 +75,19 @@ CREATE TABLE IF NOT EXISTS `RECIPEDETAILS` (
 );
 
 -- PRODUCTS
-CREATE TABLE IF NOT EXISTS `PRODUCTS` (
-    ID              INT             NOT NULL AUTO_INCREMENT,
-    RECIPEID        INT             NOT NULL,
-    PRODUCTNAME     VARCHAR(50)     NOT NULL,
-    PRICE           DOUBLE          NOT NULL,
-    UNITID          INT             NOT NULL,
+DROP TABLE IF EXISTS `PRODUCTS`;
+
+CREATE TABLE IF NOT EXISTS  `PRODUCTS` (
+
+    `ID`                          INT             NOT NULL           AUTO_INCREMENT            ,
+    RECIPEID                    INT             NOT NULL                                       ,
+    PRODUCTNAME                 VARCHAR(50)     NOT NULL                                       ,
+    PRICE                       DOUBLE          NOT NULL                                       ,
+    LINKIMAGE                   VARCHAR(255)    NOT NULL                                      ,
+    UNITID                      INT                                                    ,
     CATEGORYID      INT             NOT NULL DEFAULT 1,
-    PRIMARY KEY (ID)
+
+    PRIMARY KEY (`ID`)
 );
 
 -- IMPORTS

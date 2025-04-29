@@ -12,7 +12,7 @@ $limit = 6;
 $offset = ($pg - 1) * $limit;
 
 // Lấy danh sách danh mục
-// $categories = $controller->getAllCategories();
+$categories = $controller->getAllCategories();
 
 // Xử lý lọc/tìm kiếm/phân trang
 if (!empty($keyword)) {
@@ -47,7 +47,7 @@ $totalPages = ceil($totalProducts / $limit);
 
 
         <!-- Lọc danh mục -->
-        <!-- <div class="btn-phantrang d-lg-flex justify-content-center m-5 gap-2">
+        <div class="btn-phantrang d-lg-flex justify-content-center m-5 gap-2">
             <a href="?category=0" class="custom-btn <?= $categoryId == 0 ? 'active' : '' ?>">Tất cả</a>
             <?php foreach ($categories as $cat): ?>
             <a href="?category=<?= $cat->getId() ?>"
@@ -55,17 +55,19 @@ $totalPages = ceil($totalProducts / $limit);
                 <?= htmlspecialchars($cat->getCategoryName()) ?>
             </a>
             <?php endforeach; ?>
-        </div> -->
+        </div>
 
         <!-- Danh sách sản phẩm -->
         <div class="row row-cols-4 d-flex justify-content-center">
             <?php if (!empty($products)): ?>
             <?php foreach ($products as $product): ?>
+            <?php
+echo $product->getLinkImage();
+                ?>
             <div class="col-lg-3 col-sm-6 mb-4">
                 <div class="card">
                     <div class="card__image">
-                        <img src="https://barista.qodeinteractive.com/elementor/wp-content/uploads/2016/03/product-image-1-500x500.jpg"
-                            alt="image" />
+                        <img src="./../../../views/layout/assets/images/b2.jpg" />
                         <div class="card__addtocard text-white">
                             <i class="fa-solid fa-cart-shopping"></i>
                             <h1>ADD TO CART</h1>
