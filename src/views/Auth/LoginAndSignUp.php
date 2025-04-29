@@ -4,8 +4,10 @@ session_start();
 require_once __DIR__ . '../../../config/DatabaseConnection.php';
 require_once __DIR__ . '../../../models/Account.php';
 require_once __DIR__ . '../../../controllers/AccountController.php';
+require_once __DIR__ . '../../../controllers/UserController.php';
 
 $accountController = new AccountController();
+$userController = new UserController();
 
 // Xử lý form khi submit
 $message = '';
@@ -26,6 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result = $accountController->register($username, $password);
             if ($result === true) {
                 $success = true;
+                $account = $accountController->getAccountByUsername($username);
+                $user = new User($account->getId(), $account->getId());
+                $userController->createUser($user);
                 $message =  "Đăng ký thành công! Vui lòng đăng nhập.";
             }
         }
@@ -35,9 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $account = $accountController->login($username, $password);
             if ($account) {
-                $_SESSION['user'] = $account->getUsername();
+                $_SESSION['username'] = $account->getUsername();
                 $message = "Đăng nhập thành công! Chào mừng " . htmlspecialchars($account->getUsername());
                 $success = true;
+                $user = $userController->getUserByAccountId($account->getId());
+                $_SESSION['userId'] = $user->getId();
             } else {
                 $message = "Tên tài khoản hoặc mật khẩu không đúng!";
             }

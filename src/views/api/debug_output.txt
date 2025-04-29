@@ -1,0 +1,8 @@
+array(3) {
+  ["ID"]=>
+  int(11)
+  ["USERID"]=>
+  int(5)
+  ["QUANTITY"]=>
+  float(3)
+}
