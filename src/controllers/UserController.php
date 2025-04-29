@@ -55,7 +55,27 @@ class UserController {
         }
         return null;
     }
+    public function getUserByAccountId($id) {
+        $sql = "SELECT * FROM USERS WHERE ACCOUNTID = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            return new User(
+                $row['ID'],
+                $row['ACCOUNTID'],
+                $row['FULLNAME'],
+                $row['ADDRESS'],
+                $row['PHONE'],
+                $row['EMAIL'],
+                $row['DATEOFBIRTH']
+            );
+        }
+        return null;
+    }
     public function createUser(User $user) {
         $sql = "INSERT INTO USERS (ACCOUNTID, FULLNAME, ADDRESS, PHONE, EMAIL, DATEOFBIRTH) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->connection->prepare($sql);

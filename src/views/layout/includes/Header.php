@@ -23,11 +23,21 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
             </div>
 
             <div class="header-right">
-                <?php if (isset($_SESSION['user'])): ?>
-                <!-- Khi đăng nhập thành công -->
-                <div class="my-2 mx-2 d-flex justify-content-center align-items-center position-relative">
-                    <div class="mx-2">
-                        <span class="title-login">Xin chào <?php echo htmlspecialchars($_SESSION['user']); ?></span>
+                <?php if (isset($_SESSION['username'])): ?>
+                    <!-- Khi đăng nhập thành công -->
+                    <div class="my-2 mx-2 d-flex justify-content-center align-items-center position-relative">
+                        <div class="mx-2">
+                            <span class="title-login">Xin chào <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                        </div>
+                        <div class="dropdown">
+                            <div class="dropdown-toggle border-spacing-2 " data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://th.bing.com/th/id/OIP.zQRVpgMuI711UNlH_VBPHQHaMl?rs=1&pid=ImgDetMain" class="rounded-5" alt="Avatar" width="45px" height="45px">
+                            </div>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../../../../src/views/Auth/Profile.php">Xem thông tin cá nhân</a></li>
+                                <li><a class="dropdown-item" href="?action=logout">Đăng xuất</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="dropdown">
                         <div class="dropdown-toggle border-spacing-2 " data-bs-toggle="dropdown" aria-expanded="false">
@@ -115,9 +125,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                         <a href="#" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i>
                         </a>
 
-                        <a href="#" class="btn-cart position-relative">
+                        <a href="#" class="btn-cart position-relative" id="shopping-cart-btn">
                             <i class="fa-solid fa-cart-shopping"></i>
-                            <p class="quantity-cart position-absolute">0</p>
+                            <p class="quantity-cart position-absolute" id="quantityCart-text">0</p>
                         </a>
                     </div>
 
@@ -144,4 +154,5 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'success') {
         });
     </script>";
 }
+
 ?>
