@@ -174,10 +174,9 @@
     color: black !important;
 }
 
-
-
-
 .search-icon {
+    background: none;
+    border-radius: 20px;
     position: absolute;
     right: 20px;
     top: 50%;

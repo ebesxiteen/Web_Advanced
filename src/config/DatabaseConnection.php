@@ -3,7 +3,7 @@ class DatabaseConnection
 {
     private $host = "127.0.0.1";
     private $username = "root";
-    private $password = "123456789";
+    private $password = "";
     private $database = "COFFESHOP";
     private $connection = null;
 

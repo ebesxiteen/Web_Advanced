@@ -24,31 +24,37 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 
             <div class="header-right">
                 <?php if (isset($_SESSION['user'])): ?>
-                    <!-- Khi đăng nhập thành công -->
-                    <div class="my-2 mx-2 d-flex justify-content-center align-items-center position-relative">
-                        <div class="mx-2">
-                            <span class="title-login">Xin chào <?php echo htmlspecialchars($_SESSION['user']); ?></span>
-                        </div>
-                        <div class="dropdown">
-                            <div class="dropdown-toggle border-spacing-2 " data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://th.bing.com/th/id/OIP.zQRVpgMuI711UNlH_VBPHQHaMl?rs=1&pid=ImgDetMain" class="rounded-5" alt="Avatar" width="45px" height="45px">
-                            </div>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="../../../../src/views/Auth/Profile.php">Xem thông tin cá nhân</a></li>
-                                <li><a class="dropdown-item" href="?action=logout">Đăng xuất</a></li>
-                            </ul>
-                        </div>
+                <!-- Khi đăng nhập thành công -->
+                <div class="my-2 mx-2 d-flex justify-content-center align-items-center position-relative">
+                    <div class="mx-2">
+                        <span class="title-login">Xin chào
+                            <?php echo htmlspecialchars($_SESSION['user']['username']); ?></span>
                     </div>
+                    <div class="dropdown">
+                        <div class="dropdown-toggle border-spacing-2 " data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://th.bing.com/th/id/OIP.zQRVpgMuI711UNlH_VBPHQHaMl?rs=1&pid=ImgDetMain"
+                                class="rounded-5" alt="Avatar" width="45px" height="45px">
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../../../../Web_Advanced/src/views/Auth/Profile.php">Xem
+                                    thông tin cá
+                                    nhân</a></li>
+                            <li><a class="dropdown-item"
+                                    href="../../../../Web_Advanced/src/views/Auth/LoginAndSignUp.php?action=logout">Đăng
+                                    xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
                 <?php else: ?>
-                    <!-- Khi chưa đăng nhập -->
-                    <div class="my-2 mx-2 d-flex justify-content-center">
-                        <a href="../../../../src/views/Auth/LoginAndSignUp.php">
-                            <span class="title-login">Đăng nhập</span>
-                            <button class="btn btn-login my-2 my-sm-0 mx-2" type="button">
-                                <i class="fa-solid fa-user"></i>
-                            </button>
-                        </a>
-                    </div>
+                <!-- Khi chưa đăng nhập -->
+                <div class="my-2 mx-2 d-flex justify-content-center">
+                    <a href="../../../../Web_Advanced/src/views/Auth/LoginAndSignUp.php">
+                        <span class="title-login">Đăng nhập</span>
+                        <button class="btn btn-login my-2 my-sm-0 mx-2" type="button">
+                            <i class="fa-solid fa-user"></i>
+                        </button>
+                    </a>
+                </div>
                 <?php endif; ?>
             </div>
         </div>

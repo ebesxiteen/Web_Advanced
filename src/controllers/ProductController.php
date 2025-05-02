@@ -23,8 +23,9 @@ class ProductController {
                     $row['RECIPEID'],
                     $row['PRODUCTNAME'],
                     $row['PRICE'],
-                    $row['LINKIMAGE'] ?? null, // Nếu có cột LINKIMAGE
-                    $row['UNITID']
+                    $row['LINKIMAGE'] ?? null,
+                    $row['UNITID'],
+                    $row['CATEGORYID']
                 );
                 $products[] = $product;
             }
@@ -48,47 +49,18 @@ class ProductController {
                 $row['PRODUCTNAME'],
                 $row['PRICE'],
                 $row['LINKIMAGE'] ?? null,
-                $row['UNITID']
+                $row['UNITID'],
+                $row['CATEGORYID']
             );
         }
         return null;
     }
 
-    // Tìm sản phẩm theo từ khóa (có hỗ trợ tìm kiếm số hoặc chuỗi)
-    public function searchProducts($keyword): array {
-        $sql = "SELECT * FROM PRODUCTS WHERE PRODUCTNAME LIKE ?";
-        $stmt = $this->connection->prepare($sql);
-
-        // Nếu $keyword là số, ta vẫn sử dụng LIKE (không bind kiểu integer)
-        $keyword = "%" . $keyword . "%";
-        $stmt->bind_param("s", $keyword);
-    
-        $products = [];
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            if ($result && $result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $product = new Product(
-                        $row['ID'],
-                        $row['RECIPEID'],
-                        $row['PRODUCTNAME'],
-                        $row['PRICE'],
-                        $row['LINKIMAGE'] ?? null,
-                        $row['UNITID']
-                    );
-                    $products[] = $product;
-                }
-            }
-        }
-        return $products;
-    }
-
     // Thêm sản phẩm mới vào CSDL
-    public function createProduct($productName, $recipeId, $price,$linkImage, $unitId) {
-
-        $sql = 'INSERT INTO PRODUCTS (RECIPEID, PRODUCTNAME, PRICE, LINKIMAGE, UNITID) VALUES (?, ?, ?, ?, ?)';
+    public function createProduct($productName, $recipeId, $price, $linkImage, $unitId, $categoryId) {
+        $sql = 'INSERT INTO PRODUCTS (RECIPEID, PRODUCTNAME, PRICE, LINKIMAGE, UNITID, CATEGORYID) VALUES (?, ?, ?, ?, ?, ?)';
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("isdsi", $recipeId, $productName, $price, $linkImage, $unitId);
+        $stmt->bind_param("isdsii", $recipeId, $productName, $price, $linkImage, $unitId, $categoryId);
         $result = $stmt->execute();
         if($result) {
             $productId = $this->connection->insert_id;
@@ -103,10 +75,10 @@ class ProductController {
     }
 
     // Cập nhật thông tin sản phẩm
-    public function updateProduct($recipeId,$productName, $price,$linkImage, $unitId, $id) {
-        $sql = "UPDATE PRODUCTS SET RECIPEID = ?, PRODUCTNAME = ?, PRICE = ?, LINKIMAGE = ?, UNITID = ? WHERE ID = ?";
+    public function updateProduct($recipeId, $productName, $price, $linkImage, $unitId, $categoryId, $id) {
+        $sql = "UPDATE PRODUCTS SET RECIPEID = ?, PRODUCTNAME = ?, PRICE = ?, LINKIMAGE = ?, UNITID = ?, CATEGORYID = ? WHERE ID = ?";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("isdsii",$recipeId,$productName, $price, $linkImage, $unitId, $id);
+        $stmt->bind_param("isdsiii",$recipeId, $productName, $price, $linkImage, $unitId, $categoryId, $id);
         $result = $stmt->execute();
         if($result) {
             $stmt->close();
@@ -156,128 +128,112 @@ class ProductController {
         }
     }
 
+    // <-..->
+    
+    // Tìm sản phẩm theo từ khóa (tên + giá)
+    public function searchProducts($keyword){
+        $keyword = strtolower(trim(htmlspecialchars(strip_tags($keyword))));
+        if(is_numeric($keyword)){
+            $sql = "SELECT * FROM PRODUCTS WHERE LOWER(PRODUCTNAME) LIKE ? OR PRICE = ?";
+            $stmt = $this->connection->prepare($sql);
+            $like = "%$keyword%";
+            $stmt->bind_param("sd", $like, $keyword);
+        } else {
+            $sql = "SELECT * FROM PRODUCTS WHERE LOWER(PRODUCTNAME) LIKE ?";
+            $stmt = $this->connection->prepare($sql);
+            $like = "%$keyword%";
+            $stmt->bind_param("s",$like);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $products = [];
+        while($row = $result->fetch_assoc()){
+            $products[] = $row;
+        }
+
+        $stmt->close();
+        return $products;
+    }
+    
     // Phân trang
-    public function getProductsByPage($offset, $limit) {
-        $sql = "SELECT * FROM PRODUCTS LIMIT ?, ?";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("ii", $offset, $limit);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    public function getPaginatedProducts($offset, $limit, $search = '', $categoryId = '') {
+        $sql = "SELECT * FROM PRODUCTS WHERE 1";
+        $params = [];
+        $types = '';
 
+        if (!empty($search)) {
+            $sql .= " AND PRODUCTNAME LIKE ?";
+            $params[] = "%" . $search . "%";
+            $types .= 's';
+        }
+
+        if (!empty($categoryId)) {
+            $sql .= " AND CATEGORYID = ?";
+            $params[] = $categoryId;
+            $types .= 'i';
+        }
+
+        $sql .= " LIMIT ?, ?";
+        $params[] = $offset;
+        $params[] = $limit;
+        $types .= 'ii';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
         $products = [];
+
         while ($row = $result->fetch_assoc()) {
             $product = new Product(
                 $row['ID'],
                 $row['RECIPEID'],
                 $row['PRODUCTNAME'],
                 $row['PRICE'],
-                $row['UNITID']
+                $row['LINKIMAGE'] ?? null,
+                $row['UNITID'],
+                $row['CATEGORYID']
             );
             $products[] = $product;
         }
 
+        $stmt->close();
         return $products;
     }
+ 
 
+    public function getTotalPages($limit, $search = '', $categoryId = '') {
+        $sql = "SELECT COUNT(*) as total FROM PRODUCTS WHERE 1";
+        $params = [];
+        $types = '';
 
-    public function getTotalProducts() {
-        $sql = "SELECT COUNT(*) as total FROM PRODUCTS";
-        $result = $this->connection->query($sql);
-        $row = $result->fetch_assoc();
-        return $row['total'];
-    }
-    // Tìm kiếm theo từ khóa
-    public function searchProduct($keyword, $categoryId, $offset, $limit) {
-        $keyword = '%' . $keyword . '%';
-
-        if ($categoryId == 0) {
-            $sql = "SELECT * FROM PRODUCTS WHERE PRODUCTNAME LIKE ? LIMIT ?, ?";
-            $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("sii", $keyword, $offset, $limit);
-        } else {
-            $sql = "SELECT * FROM PRODUCTS WHERE PRODUCTNAME LIKE ? AND CATEGORYID = ? LIMIT ?, ?";
-            $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("siii", $keyword, $categoryId, $offset, $limit);
+        if (!empty($search)) {
+            $sql .= " AND PRODUCTNAME LIKE ?";
+            $params[] = "%" . $search . "%";
+            $types .= 's';
         }
 
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $products = [];
-        while ($row = $result->fetch_assoc()) {
-            $product = new Product(
-                $row['ID'],
-                $row['RECIPEID'],
-                $row['PRODUCTNAME'],
-                $row['PRICE'],
-                $row['UNITID']
-            );
-            $products[] = $product;
+        if (!empty($categoryId)) {
+            $sql .= " AND CATEGORYID = ?";
+            $params[] = $categoryId;
+            $types .= 'i';
         }
 
-        return $products;
-    }
-
-
-    public function countSearchProducts($keyword, $categoryId) {
-        $keyword = '%' . $keyword . '%';
-
-        if ($categoryId == 0) {
-            $sql = "SELECT COUNT(*) as total FROM PRODUCTS WHERE PRODUCTNAME LIKE ?";
-            $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("s", $keyword);
-        } else {
-            $sql = "SELECT COUNT(*) as total FROM PRODUCTS WHERE PRODUCTNAME LIKE ? AND CATEGORYID = ?";
-            $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("si", $keyword, $categoryId);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row['total'];
-    }
-
-
-    // Lọc theo danh mục
-    public function getProductsByCategory($categoryId, $offset, $limit) {
-        if ($categoryId == 0) {
-            return $this->getProductsByPage($offset, $limit);
-        }
-
-        $sql = "SELECT * FROM PRODUCTS WHERE CATEGORYID = ? LIMIT ?, ?";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("iii", $categoryId, $offset, $limit);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $products = [];
-        while ($row = $result->fetch_assoc()) {
-            $product = new Product(
-                $row['ID'],
-                $row['RECIPEID'],
-                $row['PRODUCTNAME'],
-                $row['PRICE'],
-                $row['UNITID']
-            );
-            $products[] = $product;
-        }
-        return $products;
-    }
-
-    public function countProductsByCategory($categoryId) {
-        if ($categoryId == 0) {
-            return $this->getTotalProducts();
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
         }
 
-        $sql = "SELECT COUNT(*) as total FROM PRODUCTS WHERE CATEGORYID = ?";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("i", $categoryId);
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        return $row['total'];
+        $stmt->close();
+
+        return ceil($row['total'] / $limit);
     }
+
     public function getAllCategories() {
         require_once(__DIR__ . '/../models/Category.php');
         $sql = "SELECT * FROM CATEGORIES";
@@ -309,6 +265,34 @@ class ProductController {
         return round($result['average'] ?? 0, 1);
     }
 
+    // Thêm sản phẩm vào giỏ hàng
+    public function addToCart($productId, $quantity, $userId) {
+        // Kiểm tra xem người dùng đã có giỏ hàng chưa
+        $query = "SELECT * FROM CARTS WHERE USERID = ?";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 0) {
+            // Người dùng chưa có giỏ hàng, tạo giỏ hàng mới
+            $insertCartQuery = "INSERT INTO CARTS (USERID, QUANTITY) VALUES (?, ?)";
+            $stmt = $this->connection->prepare($insertCartQuery);
+            $stmt->bind_param("ii", $userId, $quantity);
+            $stmt->execute();
+            $cartId = $stmt->insert_id; // Lấy ID của giỏ hàng mới tạo
+        } else {
+            // Người dùng đã có giỏ hàng, lấy ID của giỏ hàng
+            $cart = $result->fetch_assoc();
+            $cartId = $cart['ID'];
+        }
+
+        // Thêm sản phẩm vào CARTDETAILS
+        $insertCartDetailsQuery = "INSERT INTO CARTDETAILS (CARTID, PRODUCTID, QUANTITY) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE QUANTITY = QUANTITY + ?";
+        $stmt = $this->connection->prepare($insertCartDetailsQuery);
+        $stmt->bind_param("iiii", $cartId, $productId, $quantity, $quantity);
+        $stmt->execute();
+    }
 }
 
 ?>

@@ -79,14 +79,13 @@ DROP TABLE IF EXISTS `PRODUCTS`;
 
 CREATE TABLE IF NOT EXISTS  `PRODUCTS` (
 
-    `ID`                          INT             NOT NULL           AUTO_INCREMENT            ,
-    RECIPEID                    INT             NOT NULL                                       ,
-    PRODUCTNAME                 VARCHAR(50)     NOT NULL                                       ,
-    PRICE                       DOUBLE          NOT NULL                                       ,
+    `ID`                        INT             NOT NULL           AUTO_INCREMENT             ,
+    RECIPEID                    INT             NOT NULL                                      ,
+    PRODUCTNAME                 VARCHAR(50)     NOT NULL                                      ,
+    PRICE                       DOUBLE          NOT NULL                                      ,
     LINKIMAGE                   VARCHAR(255)    NOT NULL                                      ,
-    UNITID                      INT                                                    ,
-    CATEGORYID      INT             NOT NULL DEFAULT 1,
-
+    UNITID                      INT                                                           ,
+    CATEGORYID                  INT             NOT NULL DEFAULT 1,
     PRIMARY KEY (`ID`)
 );
 

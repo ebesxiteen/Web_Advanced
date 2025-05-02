@@ -4,6 +4,8 @@ $page = isset($_GET['LoginAndSignUp']) ? 'LoginAndSignUp' : (isset($_GET['page']
 ?>
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" href="../layout/assets/css/cartDetail.css">
+<link rel="stylesheet" href="../layout/assets/css/cart.css">
 <?php require_once __DIR__ .'/../config/head.php' ?>
 
 <body>

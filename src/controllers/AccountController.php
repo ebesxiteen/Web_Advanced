@@ -24,7 +24,8 @@ class AccountController
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             $stmt->close();
-            return new Account($row['ID'], $row['USENAME'], $row['PASSWORD']);
+            return new Account($row['ID'], $row['USERNAME
+'], $row['PASSWORD']);
         }
         $stmt->close();
         return null;
@@ -32,7 +33,7 @@ class AccountController
 
     public function createAccount(Account $account)
     {
-        $sql = "INSERT INTO ACCOUNTS (USENAME, PASSWORD) VALUES (?, ?)";
+        $sql = "INSERT INTO ACCOUNTS (USERNAME, PASSWORD) VALUES (?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ss", $account->getUsername(), $account->getPassword());
 
@@ -47,7 +48,7 @@ class AccountController
 
     public function updateAccount(Account $account)
     {
-        $sql = "UPDATE ACCOUNTS SET USENAME = ?, PASSWORD = ? WHERE ID = ?";
+        $sql = "UPDATE ACCOUNTS SET USERNAME = ?, PASSWORD = ? WHERE ID = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssi", $account->getUsername(), $account->getPassword(), $account->getId());
 
@@ -81,7 +82,8 @@ class AccountController
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $accounts[] = new Account($row['ID'], $row['USENAME'], $row['PASSWORD']);
+                $accounts[] = new Account($row['ID'], $row['USERNAME
+    '], $row['PASSWORD']);
             }
         }
         return $accounts;
@@ -89,7 +91,7 @@ class AccountController
 
     public function login($username, $password)
     {
-        $sql = "SELECT * FROM ACCOUNTS WHERE USENAME = ?";
+        $sql = "SELECT * FROM ACCOUNTS WHERE USERNAME = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -102,7 +104,7 @@ class AccountController
             // Kiểm tra mật khẩu bằng password_verify
             if (password_verify($password, $row['PASSWORD'])) {
                 $stmt->close();
-                return new Account($row['ID'], $row['USENAME'], $row['PASSWORD']);
+                return new Account($row['ID'], $row['USERNAME'], $row['PASSWORD']);
             } else {
                 error_log("Mật khẩu không khớp.");
             }
@@ -117,7 +119,7 @@ class AccountController
 
     public function register($username, $password)
     {
-        $sql = "SELECT * FROM ACCOUNTS WHERE USENAME = ?";
+        $sql = "SELECT * FROM ACCOUNTS WHERE USERNAME = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -132,7 +134,7 @@ class AccountController
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         error_log("Hashed password for $username: $hashedPassword");
 
-        $sql = "INSERT INTO ACCOUNTS (USENAME, PASSWORD) VALUES (?, ?)";
+        $sql = "INSERT INTO ACCOUNTS (USERNAME, PASSWORD) VALUES (?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ss", $username, $hashedPassword);
 

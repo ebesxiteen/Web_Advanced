@@ -1,176 +1,237 @@
-<?php
-require_once(__DIR__ . '/../../../controllers/ProductController.php');
-require_once(__DIR__ . '/../../../models/Category.php');
-
-$controller = new ProductController();
-
-// Lấy tham số từ URL
-$keyword = $_GET['search'] ?? '';
-$categoryId = isset($_GET['category']) ? (int)$_GET['category'] : 0;
-$pg = isset($_GET['pg']) ? (int)$_GET['pg'] : 1;
-$limit = 6;
-$offset = ($pg - 1) * $limit;
-
-// Lấy danh sách danh mục
-$categories = $controller->getAllCategories();
-
-// Xử lý lọc/tìm kiếm/phân trang
-if (!empty($keyword)) {
-    $products = $controller->searchProducts($keyword, $categoryId, $offset, $limit);
-    $totalProducts = $controller->countSearchProducts($keyword, $categoryId);
-} elseif ($categoryId > 0) {
-    $products = $controller->getProductsByCategory($categoryId, $offset, $limit);
-    $totalProducts = $controller->countProductsByCategory($categoryId);
-} else {
-    $products = $controller->getProductsByPage($offset, $limit);
-    $totalProducts = $controller->getTotalProducts();
+<style>
+/* Danh mục (category buttons) */
+.category-filter {
+    padding: 0.3rem 0.9rem;
+    font-size: 0.5rem;
+    border-radius: 10px;
+    border: 1.5px solid #6c757d;
+    background-color: #fff;
+    color: #343a40;
+    transition: all 0.3s ease;
+    margin: 4px;
+    font-weight: 500;
 }
 
-$totalPages = ceil($totalProducts / $limit);
-?>
+.category-filter:hover,
+.category-filter.active {
+    background-color: #343a40;
+    color: #fff;
+    border-color: #343a40;
+}
 
+/* Phân trang */
+.pagination .page-item .page-link {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0 5px;
+    line-height: 38px;
+    text-align: center;
+    color: #343a40;
+    border: 1px solid #dee2e6;
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #343a40;
+    color: #fff;
+    border-color: #343a40;
+}
+</style>
+<!-- Coffee house merchandise -->
 <div class="spacing">
     <div class="container text-dark text-center">
+        <!-- Header -->
         <div class="text-center">
             <h1 class="menu-div-h1 fs-1 mb-3">MENU HÔM NAY</h1>
             <h5 class="menu-div-h5 fs-4 mb-4 fw-bold text-dark">Xem món hôm nay</h5>
         </div>
 
-        <!-- Tìm kiếm -->
-        <form method="GET" action="" class="search-container mb-4">
-            <input type="hidden" name="pg" value="<?= $pg ?? 1 ?>">
-            <input type="hidden" name="category" value="<?= $categoryId ?? 0 ?>">
-            <input type="text" name="search" class="search-input" placeholder="Tìm kiếm sản phẩm"
-                value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-            <button type="submit" class="search-icon"><i class="fas fa-search"></i></button>
-        </form>
-
-
-        <!-- Lọc danh mục -->
-        <div class="btn-phantrang d-lg-flex justify-content-center m-5 gap-2">
-            <a href="?category=0" class="custom-btn <?= $categoryId == 0 ? 'active' : '' ?>">Tất cả</a>
-            <?php foreach ($categories as $cat): ?>
-            <a href="?category=<?= $cat->getId() ?>"
-                class="custom-btn <?= $cat->getId() == $categoryId ? 'active' : '' ?>">
-                <?= htmlspecialchars($cat->getCategoryName()) ?>
-            </a>
-            <?php endforeach; ?>
+        <!-- Search Box -->
+        <div class="search-container mb-3">
+            <input type="text" class="search-input" id="search-input" placeholder="Tìm kiếm sản phẩm">
+            <i class="fas fa-search search-icon"></i>
         </div>
 
-        <!-- Danh sách sản phẩm -->
-        <div class="row row-cols-4 d-flex justify-content-center">
-            <?php if (!empty($products)): ?>
-            <?php foreach ($products as $product): ?>
-            <?php
-echo $product->getLinkImage();
-                ?>
-            <div class="col-lg-3 col-sm-6 mb-4">
-                <div class="card">
-                    <div class="card__image">
-                        <img src="./../../../views/layout/assets/images/b2.jpg" />
-                        <div class="card__addtocard text-white">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <h1>ADD TO CART</h1>
-                        </div>
-                    </div>
-                    <div class="card__content">
-                        <h1><?= $product->getProductName(); ?></h1>
-                        <div class="card__content__line"></div>
-                        <h1><?= number_format($product->getPrice(), 0, ',', '.') . 'Đ'; ?></h1>
-                    </div>
-                    <p class="mt-3 card__content_desc">Mô tả sản phẩm...</p>
-                    <div class="text-center">
-                        <a href="?page=product-details&id=<?= $product->getId(); ?>" class="card__details-btn">
-                            Xem chi tiết
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
-            <?php else: ?>
-            <p class="text-muted">Không có sản phẩm để hiển thị.</p>
-            <?php endif; ?>
+        <!-- Category Filter Buttons -->
+        <div class="btn-phantrang d-lg-flex justify-content-center m-4 gap-2 flex-wrap">
+            <button class="btn btn-outline-dark category-filter" data-category="">Tất cả</button>
+            <button class="btn btn-outline-dark category-filter" data-category="1">Cafe</button>
+            <button class="btn btn-outline-dark category-filter" data-category="2">Trà</button>
+            <button class="btn btn-outline-dark category-filter" data-category="3">Khác</button>
         </div>
 
-        <!-- Phân trang -->
-        <?php if ($totalPages > 1): ?>
-        <div class="pagination-summary d-flex justify-content-center align-items-center gap-3 mt-4">
-            <!-- Nút trước -->
-            <?php if ($pg > 1): ?>
-            <a href="?pg=<?= $pg - 1 ?>&category=<?= $categoryId ?>&search=<?= urlencode($keyword) ?>"
-                class="nav-circle-btn">
-                &#8249;
-                <!-- hoặc dùng icon ← -->
-            </a>
-            <?php else: ?>
-            <span class="nav-circle-btn disabled">&#8249;</span>
-            <?php endif; ?>
-
-            <!-- Trang hiện tại / Tổng trang -->
-            <span class="page-info">
-                <span class="text-success fw-bold"><?= $pg ?></span> / <?= $totalPages ?> trang
-            </span>
-
-            <!-- Nút sau -->
-            <?php if ($pg < $totalPages): ?>
-            <a href="?pg=<?= $pg + 1 ?>&category=<?= $categoryId ?>&search=<?= urlencode($keyword) ?>"
-                class="nav-circle-btn">
-                &#8250;
-                <!-- hoặc dùng icon → -->
-            </a>
-            <?php else: ?>
-            <span class="nav-circle-btn disabled">&#8250;</span>
-            <?php endif; ?>
+        <!-- Product List Container -->
+        <div id="product-list"
+            class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 justify-content-center">
+            <!-- Products will be injected via JS -->
         </div>
-        <?php endif; ?>
+
+        <!-- Pagination Container -->
+        <div class="pagination-div mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center" id="pagination">
+                    <!-- Page numbers will be injected via JS -->
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
 
-<style>
-.nav-circle-btn {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 32px;
-    height: 32px;
-    border: 2px solid #28a745;
-    /* Màu viền xanh */
-    border-radius: 50%;
-    color: #28a745;
-    font-size: 16px;
-    text-decoration: none;
-    transition: 0.3s;
+<script>
+let currentPage = 1;
+let searchKeyword = "";
+let categoryId = "";
+
+function loadProducts(page = 1) {
+    const url =
+        `http://localhost/Web_Advanced/src/views/Components/Products/fetch_products.php?page=${page}&search=${encodeURIComponent(searchKeyword)}&category=${categoryId}`;
+
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            renderProducts(data.products);
+            renderPagination(data.totalPages, page);
+        });
 }
 
-.nav-circle-btn:hover {
-    background-color: #28a745;
-    color: white;
+
+function renderProducts(products) {
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = "";
+
+    if (products.length === 0) {
+        productList.innerHTML = "<p>Không tìm thấy sản phẩm.</p>";
+        return;
+    }
+
+    // Tạo HTML cho từng sản phẩm và thêm vào giao diện
+    products.forEach(p => {
+        const baseImagePath = '/Web_Advanced/src/views/Admin/';
+        productList.innerHTML += `
+            <div class="col-lg-3 col-sm-6 mb-4">
+                <div class="card">
+                    <div class="card__image">
+                        <img src="${window.location.origin + baseImagePath + p.linkImage}" />
+                    </div>
+                    <div class="card__content">
+                        <h1>${p.productName}</h1>
+                        <div class="card__content__line"></div>
+                        <h1>${Number(p.price).toLocaleString()}đ</h1>
+                    </div>
+                    <div class="text-center">
+                        <a href="/Web_Advanced/src/views/Components/Products/ProductDetails.php?id=${p.id}" class="card__details-btn">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
 }
 
-.nav-circle-btn.disabled {
-    border-color: #ccc;
-    color: #ccc;
-    pointer-events: none;
+function renderPagination(totalPages, currentPage) {
+    const pagination = document.getElementById("pagination");
+    const paginationWrapper = document.querySelector(".pagination-div");
+
+    pagination.innerHTML = "";
+
+    if (totalPages <= 1) {
+        paginationWrapper.style.display = "none";
+        return;
+    } else {
+        paginationWrapper.style.display = "block";
+    }
+
+    for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement("li");
+        li.className = `page-item ${i === currentPage ? "active" : ""}`;
+
+        const a = document.createElement("a");
+        a.className = "page-link";
+        a.href = "#";
+        a.textContent = i;
+
+        // Ngăn cuộn lên đầu và gọi chuyển trang
+        a.addEventListener("click", function(event) {
+            event.preventDefault(); // Ngăn cuộn lên đầu
+            changePage(i);
+        });
+
+        li.appendChild(a);
+        pagination.appendChild(li);
+    }
 }
 
-.page-info {
-    font-size: 16px;
-    color: #6c757d;
+
+function changePage(page) {
+    currentPage = page;
+    loadProducts(page);
 }
 
-.custom-btn {
-    background-color: white;
-    color: #FFC107;
-    border: 2px solid #FFC107;
-    padding: 8px 16px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
+// Lắng nghe sự kiện nhập liệu trên ô tìm kiếm
+document.getElementById("search-input").addEventListener("input", function() {
+    searchKeyword = this.value;
+    loadProducts(1); // Tải lại sản phẩm khi tìm kiếm thay đổi
+});
+
+// Lắng nghe sự kiện chọn bộ lọc theo danh mục
+document.querySelectorAll(".category-filter").forEach(btn => {
+    btn.addEventListener("click", function() {
+        categoryId = this.dataset.category;
+        loadProducts(1); // Tải lại sản phẩm khi chọn bộ lọc
+    });
+});
+
+// Tải sản phẩm lần đầu tiên khi trang được tải
+loadProducts(1);
+
+//
+function loadCategories() {
+    fetch("http://localhost/Web_Advanced/src/views/Components/Products/fetch_categories.php")
+        .then(res => res.json())
+        .then(categories => {
+            const container = document.querySelector(".btn-phantrang");
+            container.innerHTML = ""; // Xóa các nút cũ
+
+            // Nút "Tất cả"
+            const allBtn = document.createElement("button");
+            allBtn.className = "btn btn-outline-dark category-filter";
+            allBtn.dataset.category = "";
+            allBtn.textContent = "Tất cả";
+            container.appendChild(allBtn);
+
+            // Các nút danh mục từ DB
+            categories.forEach(cat => {
+                const btn = document.createElement("button");
+                btn.className = "btn btn-outline-dark category-filter";
+                btn.dataset.category = cat.id;
+                btn.textContent = cat.name;
+                container.appendChild(btn);
+            });
+
+            // Gắn lại sự kiện sau khi tạo nút
+            addCategoryFilterEvents();
+        });
 }
 
-.custom-btn.active,
-.custom-btn:hover {
-    background-color: #FFC107;
-    color: white;
+function addCategoryFilterEvents() {
+    document.querySelectorAll(".category-filter").forEach(btn => {
+        btn.addEventListener("click", function() {
+            categoryId = this.dataset.category;
+            currentPage = 1;
+            loadProducts(currentPage);
+
+            // Highlight nút đang chọn
+            document.querySelectorAll(".category-filter").forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
 }
-</style>
+
+loadCategories();
+</script>
