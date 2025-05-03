@@ -14,6 +14,7 @@ class Product {
         $this->recipeId = $recipeId;
         $this->productName = $productName;
         $this->price = $price;
+        $this->linkImage = $linkImage;
         $this->unitId = $unitId;
         $this->linkImage = $linkImage;
         $this->categoryId = $categoryId;

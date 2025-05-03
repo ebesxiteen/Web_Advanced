@@ -78,7 +78,6 @@ CREATE TABLE IF NOT EXISTS `RECIPEDETAILS` (
 DROP TABLE IF EXISTS `PRODUCTS`;
 
 CREATE TABLE IF NOT EXISTS  `PRODUCTS` (
-
     `ID`                        INT             NOT NULL           AUTO_INCREMENT             ,
     RECIPEID                    INT             NOT NULL                                      ,
     PRODUCTNAME                 VARCHAR(50)     NOT NULL                                      ,
@@ -100,17 +99,33 @@ CREATE TABLE IF NOT EXISTS `IMPORTS` (
 
 -- IMPORTDETAILS
 CREATE TABLE IF NOT EXISTS `IMPORTDETAILS` (
-    ID              INT             NOT NULL AUTO_INCREMENT,
-    IMPORTID        INT             NOT NULL,
-    INGREDIENTID    INT             NOT NULL,
-    QUANTITY        DOUBLE          NOT NULL,
-    PRICE           DOUBLE          NOT NULL,
-    TOTAL           DOUBLE          NOT NULL,
-    UNITID          INT             NOT NULL,
+    ID                          INT             NOT NULL           AUTO_INCREMENT              ,
+    IMPORTID                    INT             NOT NULL                                       ,
+    INGREDIENTID                INT             NOT NULL                                       ,
+    QUANTITY                    DOUBLE          NOT NULL                                       ,
+    PRICE                       DOUBLE          NOT NULL                                       ,
+    TOTAL                       DOUBLE          NOT NULL                                       ,
+    UNITID                      INT                                                    ,
     PRIMARY KEY (ID)
 );
 
--- DISCOUNTS
+
+DROP TABLE IF EXISTS `ORDERS`; 
+CREATE TABLE IF NOT EXISTS `ORDERS` (
+    ID                          INT             NOT NULL           AUTO_INCREMENT                        ,
+    USERID                      INT             NOT NULL                                                 ,
+    TOTAL                       DOUBLE          NOT NULL                                                 ,
+    DATEOFORDER                 DATE            NOT NULL                                                 ,
+    ORDERSTATUS                 ENUM('PENDING', 'COMPLETED', 'CANCELLED') NOT NULL DEFAULT 'PENDING'     ,
+
+    DISCOUNTID                  INT                                                              ,
+
+    PRICEBEFOREDISCOUNT         DOUBLE          NOT NULL                                                 ,
+    PRIMARY KEY (ID)
+);
+
+
+DROP TABLE IF EXISTS `DISCOUNTS`;
 CREATE TABLE IF NOT EXISTS `DISCOUNTS` (
     ID              INT             NOT NULL AUTO_INCREMENT,
     DISCOUNTNAME    VARCHAR(50)     NOT NULL,

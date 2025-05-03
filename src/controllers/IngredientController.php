@@ -1,7 +1,7 @@
 <?php
 
-require_once 'config/DatabaseConnection.php';
-require_once 'models/Ingredient.php'; // Đảm bảo đường dẫn chính xác
+
+include __DIR__ ."/../models/Ingredient.php";
 
 class IngredientController {
     private $connection;

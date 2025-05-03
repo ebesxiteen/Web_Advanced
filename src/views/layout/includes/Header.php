@@ -119,9 +119,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                         <a href="#" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i>
                         </a>
 
-                        <a href="#" class="btn-cart position-relative">
+                        <a href="#" class="btn-cart position-relative" id="shopping-cart-btn">
                             <i class="fa-solid fa-cart-shopping"></i>
-                            <p class="quantity-cart position-absolute">0</p>
+                            <p class="quantity-cart position-absolute" id="quantityCart-text">0</p>
                         </a>
                     </div>
 
@@ -148,4 +148,5 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'success') {
         });
     </script>";
 }
+
 ?>

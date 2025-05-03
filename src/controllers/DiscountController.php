@@ -1,7 +1,6 @@
 <?php
-
-require_once 'config/DatabaseConnection.php';
-require_once 'models/Discount.php'; // Đường dẫn đến file Discount.php
+include_once __DIR__ ."/../config/DatabaseConnection.php";
+include __DIR__ ."/../models/Discount.php";
 
 class DiscountController {
     private $connection;
@@ -13,12 +12,13 @@ class DiscountController {
 
     public function getAllDiscounts() {
         $sql = "SELECT * FROM DISCOUNTS";
-        $result = $this->connection->query($sql);
+        
+        $result = $this->connection->query( $sql );
 
         $discounts = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $discount = new Discount(
+                $discount= new Discount(
                     $row['ID'],
                     $row['DISCOUNTNAME'],
                     $row['DISCOUNTPERCENT'],
@@ -69,32 +69,78 @@ class DiscountController {
         return false;
     }
 
-    public function updateDiscount(Discount $discount) {
-        $sql = "UPDATE DISCOUNTS SET DISCOUNTNAME = ?, DISCOUNTPERCENT = ?, REQUIREMENT = ?, STARTDATE = ?, ENDDATE = ? WHERE ID = ?";
+    public function updateDiscount($voucherName, $percent, $requirement, $startDate, $endDate, $id) {
+        $sql = "UPDATE DISCOUNTS 
+                SET DISCOUNTNAME = ?, DISCOUNTPERCENT = ?, REQUIREMENT = ?, STARTDATE = ?, ENDDATE = ? 
+                WHERE ID = ?";
+    
         $stmt = $this->connection->prepare($sql);
-        $id = $discount->getId();
-        $discountName = $discount->getDiscountName();
-        $discountPercent = $discount->getDiscountPercent();
-        $requirement = $discount->getRequirement();
-        $startDate = $discount->getStartDate();
-        $endDate = $discount->getEndDate();
-
-        $stmt->bind_param("sddssi", $discountName, $discountPercent, $requirement, $startDate, $endDate, $id);
-        if ($stmt->execute()) {
-            return true;
+    
+        if (!$stmt) {
+            return [
+                "success" => false,
+                "message" => "Lỗi chuẩn bị truy vấn: " . $this->connection->error
+            ];
         }
-        return false;
+    
+        if (!$stmt->bind_param("sdsssi", $voucherName, $percent, $requirement, $startDate, $endDate, $id)) {
+            return [
+                "success" => false,
+                "message" => "Lỗi khi bind tham số: " . $stmt->error
+            ];
+        }
+    
+        if (!$stmt->execute()) {
+            return [
+                "success" => false,
+                "message" => "Lỗi thực thi truy vấn: " . $stmt->error
+            ];
+        }
+    
+        return [
+            "success" => true,
+            "message" => "Cập nhật khuyến mãi thành công!"
+        ];
     }
+    
+    
 
     public function deleteDiscount($id) {
-        $sql = "DELETE FROM DISCOUNTS WHERE ID = ?";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
+        // Bắt đầu transaction
+        $this->connection->begin_transaction();
+    
+        try {
+            // Xóa các record trong bảng orders có DISCOUNTID = ?
+            $sqlOrders = "update orders set DISCOUNTID = null where DISCOUNTID = ?";
+            $stmtOrders = $this->connection->prepare($sqlOrders);
+            $stmtOrders->bind_param("i", $id);
+            if (!$stmtOrders->execute()) {
+                $this->connection->rollback();
+                return false;
+            }
+            $stmtOrders->close();
+    
+            // Xóa discount trong bảng discounts có ID = ?
+            $sqlDiscounts = "DELETE FROM discounts WHERE ID = ?";
+            $stmtDiscounts = $this->connection->prepare($sqlDiscounts);
+            $stmtDiscounts->bind_param("i", $id);
+            if (!$stmtDiscounts->execute()) {
+                $this->connection->rollback();
+                return false;
+            }
+            $stmtDiscounts->close();
+    
+            // Nếu cả 2 câu lệnh đều thành công, commit transaction
+            $this->connection->commit();
             return true;
+            
+        } catch (Exception $e) {
+            // Nếu có ngoại lệ, rollback toàn bộ giao dịch
+            $this->connection->rollback();
+            return false;
         }
-        return false;
     }
+    
 
     public function __destruct() {
         if ($this->connection) {
