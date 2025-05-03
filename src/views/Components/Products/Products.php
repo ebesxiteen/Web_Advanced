@@ -119,6 +119,10 @@ function renderProducts(products) {
                 <div class="card">
                     <div class="card__image">
                         <img src="${window.location.origin + baseImagePath + p.linkImage}" />
+                        <div class="card__addtocard text-white" onclick="handleAddToCart(${p.id})">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <h1>ADD TO CART</h1>
+                        </div>
                     </div>
                     <div class="card__content">
                         <h1>${p.productName}</h1>
@@ -234,4 +238,26 @@ function addCategoryFilterEvents() {
 }
 
 loadCategories();
+
+function handleAddToCart(productId) {
+    fetch('/Web_Advanced/src/views/Components/Products/add_to_cart_handler.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: productId
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'not_logged_in') {
+                window.location.href = '/Web_Advanced/src/views/Auth/LoginAndSignUp.php';
+            } else if (data.status === 'success') {
+                alert('Đã thêm vào giỏ hàng!');
+            } else {
+                alert('Có lỗi xảy ra khi thêm vào giỏ hàng.');
+            }
+        });
+}
 </script>
