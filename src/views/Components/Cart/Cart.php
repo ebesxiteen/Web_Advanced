@@ -82,7 +82,7 @@
             const productId = this.getAttribute('data-product-id');
             const itemRow = document.querySelector(`#item-${productId}`);
 
-            fetch('http://localhost/WebAdvanced/Web_Advanced/src/views/api/deleteCartDetail.php', {
+            fetch('http://localhost//Web_Advanced/src/views/api/deleteCartDetail.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

@@ -2,7 +2,7 @@ array(3) {
   ["ID"]=>
   int(1)
   ["USERID"]=>
-  int(1)
+  int(5)
   ["QUANTITY"]=>
-  float(1)
+  float(14)
 }

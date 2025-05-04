@@ -4,7 +4,7 @@ class DatabaseConnection {
     private $host = "localhost"; // Thay đổi nếu cần
     private $port = "3306";
     private $username = "root"; // Thay đổi bằng tên người dùng MySQL
-    private $password = ""; // Thay đổi bằng mật khẩu MySQL
+    private $password = "123456789"; // Thay đổi bằng mật khẩu MySQL
     private $database = "COFFESHOP"; // Tên cơ sở dữ liệu
 
     protected $connection;

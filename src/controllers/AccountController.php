@@ -34,7 +34,7 @@ class AccountController
     public function getAccountByUsername($username)
 {
     // Câu lệnh SQL tìm tài khoản theo USERNAME
-    $sql = "SELECT * FROM ACCOUNTS WHERE USENAME = ?";
+    $sql = "SELECT * FROM ACCOUNTS WHERE username = ?";
     $stmt = $this->conn->prepare($sql);
 
     // Gắn giá trị của tham số USERNAME vào câu lệnh SQL
@@ -50,7 +50,7 @@ class AccountController
         $stmt->close();
 
         // Tạo đối tượng Account và trả về
-        return new Account($row['ID'], $row['USENAME'], $row['PASSWORD']);
+        return new Account($row['ID'], $row['username'], $row['PASSWORD']);
     }
 
     // Nếu không tìm thấy tài khoản, trả về null

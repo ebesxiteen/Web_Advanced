@@ -1,36 +1,27 @@
 <?php
+error_reporting(0);
+ini_set('display_errors', 0);
 session_start();
+ob_start();
+require_once(__DIR__ . '/../../../controllers/CartDetailController.php');
+require_once(__DIR__ . '/../../../controllers/CartController.php');
 require_once(__DIR__ . '/../../../controllers/ProductController.php');
-$controller = new ProductController();
+require_once(__DIR__ . '/../../../views/Auth/CartProcessor.php');
+$cartController = new CartController();
+$cartDetailController = new CartDetailController();
+$productController = new ProductController();
+$cartProcessor = new CartProcessor($cartController, $cartDetailController, $productController);
 
 $productId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-$product = $controller->getProductById($productId);
+$product = $productController->getProductById($productId);
 
 if (!$product) {
     echo "<div class='text-center mt-5'>Không tìm thấy sản phẩm.</div>";
     return;
 }
 else {
-    $reviews = $controller->getReviewsByProductId($productId);
-    $averageRating = $controller->getAverageRating($productId);
-}
-
-// Xử lý thêm sản phẩm vào giỏ
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
-    if (!isset($_SESSION['user_id'])) {
-        echo "<script>alert('Bạn cần đăng nhập để thêm vào giỏ hàng'); window.location.href='/Web_Advanced/src/views/Auth/LoginAndSignUp.php';</script>";
-        exit;
-    }
-
-    $productId = (int)$_POST['product_id'];
-    $quantity = (int)$_POST['quantity'];
-    $userId = $_SESSION['user_id'];
-
-    $controller->addToCart($productId, $quantity, $userId);
-    echo "<script>
-        alert('Đã thêm vào giỏ hàng!');
-        event.preventDefault(); 
-    </script>";
+    $reviews = $productController->getReviewsByProductId($productId);
+    $averageRating = $productController->getAverageRating($productId);
 }
 ?>
 <!-- Bootstrap CSS v5.3.2 -->
@@ -218,6 +209,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         </div>
     </div>
 </div>
+<?php
+session_start();  // Đảm bảo rằng session đã được bắt đầu
+
+// Kiểm tra nếu có yêu cầu POST và có nút 'add_to_cart' được nhấn
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    // Kiểm tra nếu người dùng đã đăng nhập
+    if (isset($_SESSION['user_id'])) {
+        // Nếu đã đăng nhập, xử lý thông tin thêm sản phẩm vào giỏ hàng
+        $productId = (int)$_POST['product_id'];
+        $quantity = (int)$_POST['quantity'];
+        $userId = $_SESSION['user_id'];
+        
+        // Giả sử bạn gọi một phương thức để thêm sản phẩm vào giỏ hàng (Ví dụ: $cartDetailController->addItem(...))
+        $cartDetailController->addItem($cartProcessor->getCart($userId), $productId, $quantity);
+        
+        // Sau khi thêm sản phẩm thành công, hiển thị thông báo thành công
+        echo "<script>
+            alert('Thêm vào giỏ hàng thành công!');
+        </script>";
+        
+    } else {
+        // Nếu người dùng chưa đăng nhập, hiển thị thông báo lỗi và chuyển hướng đến trang đăng nhập
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            Swal.fire({
+                title: 'Bạn chưa đăng nhập',
+                text: 'Vui lòng đăng nhập để tiếp tục.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'http://localhost/Web_Advanced/src/views/Auth/LoginAndSignUp.php';  // Chuyển hướng đến trang đăng nhập
+                }
+            });
+        </script>";
+    }
+    exit(); // Đảm bảo không có phần mã PHP nào chạy sau khi gửi JavaScript
+}
+?>
+
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
 </script>

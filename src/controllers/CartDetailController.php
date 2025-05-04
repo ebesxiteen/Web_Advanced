@@ -114,7 +114,6 @@ public function getCartDetailByCartId($cartId) {
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ii", $cartId, $cartId);
         $stmt->execute();
-    
         return $stmt->affected_rows > 0;
     }
     

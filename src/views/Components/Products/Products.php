@@ -240,24 +240,47 @@ function addCategoryFilterEvents() {
 loadCategories();
 
 function handleAddToCart(productId) {
-    fetch('/Web_Advanced/src/views/Components/Products/add_to_cart_handler.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                productId: productId
+    fetch("/Web_Advanced/src/views/config/checkSession.php", {
+                method: "POST"
             })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === 'not_logged_in') {
-                window.location.href = '/Web_Advanced/src/views/Auth/LoginAndSignUp.php';
-            } else if (data.status === 'success') {
-                alert('Đã thêm vào giỏ hàng!');
-            } else {
-                alert('Có lỗi xảy ra khi thêm vào giỏ hàng.');
-            }
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.isLoggedIn) {
+                    // Người dùng đã đăng nhập 
+                    fetch('/Web_Advanced/src/views/Components/Products/add_to_cart_handler.php', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                    },
+                        body: JSON.stringify({
+                        productId: productId
+                    })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success === true) {
+                            updateCartQuantityInHeader(); // Cập nhật số lượng giỏ hàng
+                            alert('Đã thêm vào giỏ hàng!');
+                        } else {
+                        alert('Có lỗi xảy ra khi thêm vào giỏ hàng.');
+                        }
+                    });
+                } else {
+                    // Người dùng chưa đăng nhập -> Hiển thị cảnh báo
+                    Swal.fire({
+                        title: "<?php echo 'Bạn chưa đằng nhập'; ?>",
+                        text: "<?php echo addslashes('Vui lòng đăng nhập'); ?>",
+                        icon: "<?php echo 'error'; ?>",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "../Auth/LoginAndSignUp.php";
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Có lỗi xảy ra:", error);
+            });
 }
 </script>
