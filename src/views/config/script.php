@@ -23,40 +23,44 @@ $(document).ready(function() {
 
 </body>
 <script>
-    $(document).ready(function () {
-        // Xử lý sự kiện click vào nút shopping
-        $('#shopping-cart-btn').on('click', function () {
+$(document).ready(function() {
+    // Xử lý sự kiện click vào nút shopping
+    $('#shopping-cart-btn').on('click', function() {
         // Gửi yêu cầu AJAX đến server để kiểm tra session
-        fetch("../config/checkSession.php", { method: "POST" })
+        fetch("../config/checkSession.php", {
+                method: "POST"
+            })
             .then(response => response.json())
             .then(data => {
                 if (data.isLoggedIn) {
-                // Người dùng đã đăng nhập -> Chuyển hướng đến cart.php
+                    // Người dùng đã đăng nhập -> Chuyển hướng đến cart.php
                     updateCartQuantityInHeader();
-                    $('.main-content').load('../Components/Cart/Cart.php', function (response, status, xhr) {
-                    if (status === "error") {
-                        console.error("Không thể tải nội dung: " + xhr.status + " " + xhr.statusText);
-                    }
+                    $('.main-content').load('../Components/Cart/Cart.php', function(response,
+                        status, xhr) {
+                        if (status === "error") {
+                            console.error("Không thể tải nội dung: " + xhr.status + " " +
+                                xhr.statusText);
+                        }
                     });
                 } else {
-                // Người dùng chưa đăng nhập -> Hiển thị cảnh báo
-                Swal.fire({
-                    title: "<?php echo 'Bạn chưa đằng nhập'; ?>",
-                    text: "<?php echo addslashes('Vui lòng đăng nhập'); ?>",
-                    icon: "<?php echo 'error'; ?>",
-                    confirmButtonText: "OK"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "../Auth/LoginAndSignUp.php";
-                    }
-                });
-            }
-        })
-        .catch(error => {
-            console.error("Có lỗi xảy ra:", error);
-        });
-        });
+                    // Người dùng chưa đăng nhập -> Hiển thị cảnh báo
+                    Swal.fire({
+                        title: "<?php echo 'Bạn chưa đằng nhập'; ?>",
+                        text: "<?php echo addslashes('Vui lòng đăng nhập'); ?>",
+                        icon: "<?php echo 'error'; ?>",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "../Auth/LoginAndSignUp.php";
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Có lỗi xảy ra:", error);
+            });
     });
+});
 </script>
 <script>
 function updateCartQuantityInHeader() {
@@ -137,7 +141,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
-    
 const mithSignupButton = document.getElementById('mith-signup-btn');
 const lythLoginButton = document.getElementById('lyth-login-btn');
 const qwixBox = document.getElementById('qwix-box');
@@ -167,7 +170,7 @@ document.querySelectorAll('.toggle-password').forEach(eye => {
 });
 </script>
 <script>
-    
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"

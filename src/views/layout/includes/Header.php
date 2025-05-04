@@ -40,7 +40,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                                     thông tin cá
                                     nhân</a></li>
                             <li><a class="dropdown-item"
-                                    href="../../../../Web_Advanced/src/views/Auth/LoginAndSignUp.php?action=logout">Đăng
+                                    href="../../../../Web_Advanced/src/views/Auth/LoginAndSignUp.php?logout=success">Đăng
                                     xuất</a></li>
                         </ul>
                     </div>
@@ -48,6 +48,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                 <?php else: ?>
                 <!-- Khi chưa đăng nhập -->
                 <div class="my-2 mx-2 d-flex justify-content-center">
+
                     <a href="../../../../Web_Advanced/src/views/Auth/LoginAndSignUp.php">
                         <span class="title-login">Đăng nhập</span>
                         <button class="btn btn-login my-2 my-sm-0 mx-2" type="button">
