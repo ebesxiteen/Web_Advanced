@@ -60,7 +60,6 @@ class CartController {
             $row = $result->fetch_assoc();
             
             // Tạo đối tượng Cart từ dữ liệu trả về
-            var_dump($row);
             $cart= new Cart($row['ID'], $row['USERID'], $row['QUANTITY']);  // Chỉnh lại các tên cột cho đúng
             return $cart;  // Chỉnh lại các tên cột cho đúng
         } else {

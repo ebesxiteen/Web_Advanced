@@ -1,10 +1,6 @@
 <?php
-error_reporting(0);
-ini_set('display_errors', 0);
-
 session_start();
 header('Content-Type: application/json');
-ob_start();
 
 require_once __DIR__ . '/../../config/DatabaseConnection.php';
 require_once __DIR__ . '/../../controllers/CartController.php';
@@ -36,10 +32,6 @@ try {
     $totalPrice = $cartProcessor->calculateTotalPrice($userId);
 
     // Trả về kết quả JSON hợp lệ
-    $debugOutput = ob_get_clean();
-if (!empty($debugOutput)) {
-    file_put_contents('debug_output.txt', $debugOutput);
-}
     echo json_encode([
         'success' => true,
         'totalPrice' => $totalPrice

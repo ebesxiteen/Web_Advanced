@@ -1,8 +1,0 @@
-array(3) {
-  ["ID"]=>
-  int(1)
-  ["USERID"]=>
-  int(1)
-  ["QUANTITY"]=>
-  float(1)
-}

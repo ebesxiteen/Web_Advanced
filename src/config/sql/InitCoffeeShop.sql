@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `CATEGORIES` (
 CREATE TABLE IF NOT EXISTS `UNITS` (
     ID      INT             NOT NULL AUTO_INCREMENT,
     TYPE    VARCHAR(50)     NOT NULL,
+    DESCRIPTION VARCHAR(255) ,
     PRIMARY KEY (ID)
 );
 
@@ -108,22 +109,6 @@ CREATE TABLE IF NOT EXISTS `IMPORTDETAILS` (
     UNITID                      INT                                                    ,
     PRIMARY KEY (ID)
 );
-
-
-DROP TABLE IF EXISTS `ORDERS`; 
-CREATE TABLE IF NOT EXISTS `ORDERS` (
-    ID                          INT             NOT NULL           AUTO_INCREMENT                        ,
-    USERID                      INT             NOT NULL                                                 ,
-    TOTAL                       DOUBLE          NOT NULL                                                 ,
-    DATEOFORDER                 DATE            NOT NULL                                                 ,
-    ORDERSTATUS                 ENUM('PENDING', 'COMPLETED', 'CANCELLED') NOT NULL DEFAULT 'PENDING'     ,
-
-    DISCOUNTID                  INT                                                              ,
-
-    PRICEBEFOREDISCOUNT         DOUBLE          NOT NULL                                                 ,
-    PRIMARY KEY (ID)
-);
-
 
 DROP TABLE IF EXISTS `DISCOUNTS`;
 CREATE TABLE IF NOT EXISTS `DISCOUNTS` (
@@ -230,7 +215,8 @@ ADD CONSTRAINT `FK_USERS_CARTS` FOREIGN KEY (USERID) REFERENCES USERS(ID);
 -- CARTDETAILS
 ALTER TABLE `CARTDETAILS`
 ADD CONSTRAINT `FK_CARTS` FOREIGN KEY (CARTID) REFERENCES CARTS(ID),
-ADD CONSTRAINT `FK_PRODUCTS_CARTDETAILS` FOREIGN KEY (PRODUCTID) REFERENCES PRODUCTS(ID);
+ADD CONSTRAINT `FK_PRODUCTS_CARTDETAILS` FOREIGN KEY (PRODUCTID) REFERENCES PRODUCTS(ID),
+ADD CONSTRAINT `UQ_CART_PRODUCT` UNIQUE (`CARTID`, `PRODUCTID`);
 
 -- PRODUCTREVIEWS
 ALTER TABLE `PRODUCTREVIEWS`

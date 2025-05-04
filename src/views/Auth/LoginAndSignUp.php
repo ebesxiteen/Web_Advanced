@@ -82,13 +82,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Form Đăng ký -->
             <div class="vorn-form mith-signup">
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
-                    <h1 class="login-title">Tạo tài Khoản</h1>
-                    <div class="jynx-social">
+                    <h1 class="login-title mb-4">Tạo tài Khoản</h1>
+                    <!-- <div class="jynx-social">
                         <a href="#" class="social"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="social"><i class="fab fa-twitter"></i></a>
                         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social"><i class="fab fa-tiktok"></i></a>
-                    </div>
+                    </div> -->
                     <input type="text" name="username" placeholder="Tên tài khoản của bạn" required />
                     <div class="zylith-pass-wrapper">
                         <input type="password" name="password" placeholder="Nhập mật khẩu của bạn"
@@ -108,13 +108,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Form Đăng nhập -->
             <div class="vorn-form lyth-login">
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
-                    <h1 class="login-title">Đăng nhập</h1>
-                    <div class="jynx-social">
+                    <h1 class="login-title mb-4">Đăng nhập</h1>
+                    <!-- <div class="jynx-social">
                         <a href="#" class="social"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="social"><i class="fab fa-twitter"></i></a>
                         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social"><i class="fab fa-tiktok"></i></a>
-                    </div>
+                    </div> -->
                     <input type="text" name="username" placeholder="Tên tài khoản của bạn" required />
                     <div class="zylith-pass-wrapper">
                         <input type="password" name="password" placeholder="Nhập mật khẩu của bạn"

@@ -33,26 +33,27 @@
                 $item = $entry['product'];
                 $total= $entry['quantity'] * $item->getPrice();
             ?>
-                <tr class="text-center" id="item-<?= $item->getId(); ?>">
-                    <td>
-                        <img src="<?= htmlspecialchars($item->getLinkImage()); ?>" alt="<?= htmlspecialchars($item->getProductName()); ?>" class="product-image">
-                    </td>
-                    <td>
-                        <div>
-                            <span class="cart-product-name"><?= htmlspecialchars($item->getProductName()); ?></span>
-                        </div>
-                        <div class="mt-2">
-                            <button class="btn btn-sm btn-delete-item" data-product-id="<?= $item->getId(); ?>">Xóa</button>
-                        </div>
-                    </td>
-                    <td class="price-text"><?= number_format($item->getPrice(), 1, ',', '.'); ?>₫</td>
-                    <td>
-                        <div class="cart-quantity-box">
-                            <?= $entry['quantity']; ?>
-                        </div>
-                    </td>
-                    <td class="price-text"><?= number_format($total, 1, ',', '.'); ?>₫</td>
-                </tr>
+            <tr class="text-center" id="item-<?= $item->getId(); ?>">
+                <td>
+                    <img src="<?= htmlspecialchars($item->getLinkImage()); ?>"
+                        alt="<?= htmlspecialchars($item->getProductName()); ?>" class="product-image">
+                </td>
+                <td>
+                    <div>
+                        <span class="cart-product-name"><?= htmlspecialchars($item->getProductName()); ?></span>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-sm btn-delete-item" data-product-id="<?= $item->getId(); ?>">Xóa</button>
+                    </div>
+                </td>
+                <td class="price-text"><?= number_format($item->getPrice(), 1, ',', '.'); ?>₫</td>
+                <td>
+                    <div class="cart-quantity-box">
+                        <?= $entry['quantity']; ?>
+                    </div>
+                </td>
+                <td class="price-text"><?= number_format($total, 1, ',', '.'); ?>₫</td>
+            </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
@@ -66,23 +67,23 @@
     </div>
 </div>
 <script>
-    // Tiếp tục mua hàng
-    document.querySelector('.btn-continue-shopping').addEventListener('click', function () {
-        window.location.href = '../Pages/home.php';
-    });
+// Tiếp tục mua hàng
+document.querySelector('.btn-continue-shopping').addEventListener('click', function() {
+    window.location.href = '../Pages/home.php';
+});
 
-    // Tiến hành thanh toán
-    document.querySelector('.btn-payment').addEventListener('click', function () {
-        window.location.href = '/Web_Advanced/src/views/Payment/Payment.php';
-    });
+// Tiến hành thanh toán
+document.querySelector('.btn-payment').addEventListener('click', function() {
+    window.location.href = '/Web_Advanced/src/views/Payment/Payment.php';
+});
 
-    // Xóa sản phẩm khỏi giỏ
-    document.querySelectorAll('.btn-delete-item').forEach(function (button) {
-        button.addEventListener('click', function () {
-            const productId = this.getAttribute('data-product-id');
-            const itemRow = document.querySelector(`#item-${productId}`);
+// Xóa sản phẩm khỏi giỏ
+document.querySelectorAll('.btn-delete-item').forEach(function(button) {
+    button.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        const itemRow = document.querySelector(`#item-${productId}`);
 
-            fetch('http://localhost/WebAdvanced/Web_Advanced/src/views/api/deleteCartDetail.php', {
+        fetch('http://localhost/Web_Advanced/src/views/api/deleteCartDetail.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -95,10 +96,10 @@
                     if (itemRow) itemRow.remove();
                     updateCartQuantityInHeader();
 
-            // ✅ Cập nhật lại tổng tiền nếu có
-            document.querySelector('#totalPrice').innerText = `${data.totalPrice}₫`;
+                    // ✅ Cập nhật lại tổng tiền nếu có
+                    document.querySelector('#totalPrice').innerText = `${data.totalPrice}₫`;
                 }
             });
-        });
     });
+});
 </script>

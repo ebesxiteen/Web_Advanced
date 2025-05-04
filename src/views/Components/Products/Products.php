@@ -45,7 +45,7 @@
 }
 </style>
 <!-- Coffee house merchandise -->
-<div class="spacing">
+<div id="san-pham" class="spacing">
     <div class="container text-dark text-center">
         <!-- Header -->
         <div class="text-center">
@@ -239,6 +239,8 @@ function addCategoryFilterEvents() {
 
 loadCategories();
 
+
+
 function handleAddToCart(productId) {
     fetch('/Web_Advanced/src/views/Components/Products/add_to_cart_handler.php', {
             method: 'POST',
@@ -255,6 +257,7 @@ function handleAddToCart(productId) {
                 window.location.href = '/Web_Advanced/src/views/Auth/LoginAndSignUp.php';
             } else if (data.status === 'success') {
                 alert('Đã thêm vào giỏ hàng!');
+                updateCartQuantityInHeader();
             } else {
                 alert('Có lỗi xảy ra khi thêm vào giỏ hàng.');
             }

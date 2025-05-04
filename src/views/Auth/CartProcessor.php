@@ -53,4 +53,37 @@ class CartProcessor {
         }
         return $totalPrice;
     }
+
+    // 
+    public function calculateTotalQuantity($userId) {
+        $products = $this->getProductsInCart($userId);
+        $totalQuantity = 0;
+        foreach ($products as $entry) {
+            $totalQuantity += $entry['quantity'];
+        }
+        return $totalQuantity;
+    }
+    //
+    public function countProductTypesInCart($userId) {
+        $cartDetails = $this->getCartDetails($userId);
+        if (!$cartDetails) {
+            return 0;
+        }
+        return count($cartDetails); // Mỗi chi tiết là 1 loại sản phẩm
+    }
+
+    public function clearCart($userId) {
+        // Kết nối đến cơ sở dữ liệu
+        $db = (new DatabaseConnection())->getConnection();
+
+        // Xóa tất cả sản phẩm trong giỏ hàng của người dùng
+        $stmt = $db->prepare("DELETE FROM CARTDETAILS WHERE CARTID IN (SELECT ID FROM CARTS WHERE USERID = ?)");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+
+        // Xóa giỏ hàng của người dùng
+        $stmt = $db->prepare("DELETE FROM CARTS WHERE USERID = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+    }
 }

@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $controller->addToCart($productId, $quantity, $userId);
     echo "<script>
         alert('Đã thêm vào giỏ hàng!');
-        event.preventDefault(); 
+        history.go(-2);
     </script>";
 }
 ?>
