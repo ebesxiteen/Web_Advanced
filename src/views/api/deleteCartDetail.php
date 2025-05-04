@@ -6,12 +6,12 @@ session_start();
 header('Content-Type: application/json');
 ob_start();
 
-require_once 'C:\xampp\htdocs\WebAdvanced\Web_Advanced\src\config\DatabaseConnection.php';
-require_once 'C:\xampp\htdocs\WebAdvanced\Web_Advanced\src\controllers\CartController.php';
-require_once 'C:\xampp\htdocs\WebAdvanced\Web_Advanced\src\controllers\CartDetailController.php';
-require_once 'C:\xampp\htdocs\WebAdvanced\Web_Advanced\src\controllers\UserController.php';
-require_once 'C:\xampp\htdocs\WebAdvanced\Web_Advanced\src\controllers\ProductController.php';
-require_once 'C:\xampp\htdocs\WebAdvanced\Web_Advanced\src\views\Auth\CartProcessor.php';
+require_once __DIR__ . '/../../config/DatabaseConnection.php';
+require_once __DIR__ . '/../../controllers/CartController.php';
+require_once __DIR__ . '/../../controllers/CartDetailController.php';
+require_once __DIR__ . '/../../controllers/UserController.php';
+require_once __DIR__ . '/../../controllers/ProductController.php';
+require_once __DIR__ . '/../../views/Auth/CartProcessor.php';
 
 $userId = $_SESSION['userId'] ?? null;
 $productId = $_POST['productId'] ?? null;

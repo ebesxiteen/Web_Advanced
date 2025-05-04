@@ -65,7 +65,7 @@ $(document).ready(function() {
 <script>
 function updateCartQuantityInHeader() {
     // Lưu ý: đường dẫn từ file home.php đến updatecart.php là "../api/updatecart.php"
-    fetch('http://localhost/WebAdvanced/Web_Advanced/src/views/api/updateCart.php')
+    fetch('http://localhost/Web_Advanced/src/views/api/updateCart.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {

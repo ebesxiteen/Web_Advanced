@@ -39,8 +39,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                             <li><a class="dropdown-item" href="../../../../Web_Advanced/src/views/Auth/Profile.php">Xem
                                     thông tin cá
                                     nhân</a></li>
-                            <li><a class="dropdown-item"
-                                    href="../../../../Web_Advanced/src/views/Auth/LoginAndSignUp.php?logout=success">Đăng
+                            <li><a class="dropdown-item" href="../../../../Web_Advanced/src/views/Auth/logout.php">Đăng
                                     xuất</a></li>
                         </ul>
                     </div>
