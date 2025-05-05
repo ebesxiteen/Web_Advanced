@@ -5,9 +5,11 @@ require_once __DIR__ . '/../../config/DatabaseConnection.php';
 require_once __DIR__ . '/../../models/Account.php';
 require_once __DIR__ . '/../../controllers/AccountController.php';
 require_once __DIR__ . '/../../controllers/UserController.php';
+require_once __DIR__ . '/../../controllers/CartController.php';
 
 $accountController = new AccountController();
 $userController = new UserController();
+$cartController = new CartController();
 
 // Xử lý form khi submit
 $message = '';
@@ -30,7 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $success = true;
                 $account = $accountController->getAccountByUsername($username);
                 $user = new User($account->getId(), $account->getId());
+
                 $userController->createUser($user);
+                $cartController->createCart($user->getId(),0);
                 $message =  "Đăng ký thành công! Vui lòng đăng nhập.";
             }
         }

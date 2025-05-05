@@ -16,13 +16,14 @@ CREATE TABLE IF NOT EXISTS `ACCOUNTS` (
 CREATE TABLE IF NOT EXISTS `USERS` (
     ID              INT             NOT NULL AUTO_INCREMENT,
     ACCOUNTID       INT             NOT NULL,
-    FULLNAME        VARCHAR(50)     NOT NULL,
-    ADDRESS         VARCHAR(50)     NOT NULL,
-    PHONE           VARCHAR(50)     NOT NULL,
-    EMAIL           VARCHAR(50)     NOT NULL,
-    DATEOFBIRTH     DATE            NOT NULL,
+    FULLNAME        VARCHAR(50)     NULL,
+    ADDRESS         VARCHAR(50)     NULL,
+    PHONE           VARCHAR(50)     NULL,
+    EMAIL           VARCHAR(50)     NULL,
+    DATEOFBIRTH     DATE            NULL,
     PRIMARY KEY (ID)
 );
+
 
 -- CATEGORIES
 DROP TABLE IF EXISTS `CATEGORIES`;

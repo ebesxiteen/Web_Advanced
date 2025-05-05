@@ -91,7 +91,7 @@ let categoryId = "";
 
 function loadProducts(page = 1) {
     const url =
-        `http://localhost/Web_Advanced/src/views/Components/Products/fetch_products.php?page=${page}&search=${encodeURIComponent(searchKeyword)}&category=${categoryId}`;
+        `http://localhost/Web_Advanced_Project/src/views/Components/Products/fetch_products.php?page=${page}&search=${encodeURIComponent(searchKeyword)}&category=${categoryId}`;
 
     fetch(url)
         .then(res => res.json())
@@ -113,7 +113,7 @@ function renderProducts(products) {
 
     // Tạo HTML cho từng sản phẩm và thêm vào giao diện
     products.forEach(p => {
-        const baseImagePath = '/Web_Advanced/src/views/Admin/';
+        const baseImagePath = '/Web_Advanced_Project/src/views/Admin/';
         productList.innerHTML += `
             <div class="col-lg-3 col-sm-6 mb-4">
                 <div class="card">
@@ -130,7 +130,7 @@ function renderProducts(products) {
                         <h1>${Number(p.price).toLocaleString()}đ</h1>
                     </div>
                     <div class="text-center">
-                        <a href="/Web_Advanced/src/views/Components/Products/ProductDetails.php?id=${p.id}" class="card__details-btn">Xem chi tiết</a>
+                        <a href="/Web_Advanced_Project/src/views/Components/Products/ProductDetails.php?id=${p.id}" class="card__details-btn">Xem chi tiết</a>
                     </div>
                 </div>
             </div>
@@ -196,7 +196,7 @@ loadProducts(1);
 
 //
 function loadCategories() {
-    fetch("http://localhost/Web_Advanced/src/views/Components/Products/fetch_categories.php")
+    fetch("http://localhost/Web_Advanced_Project/src/views/Components/Products/fetch_categories.php")
         .then(res => res.json())
         .then(categories => {
             const container = document.querySelector(".btn-phantrang");
@@ -242,7 +242,7 @@ loadCategories();
 
 
 function handleAddToCart(productId) {
-    fetch('/Web_Advanced/src/views/Components/Products/add_to_cart_handler.php', {
+    fetch('/Web_Advanced_Project/src/views/Components/Products/add_to_cart_handler.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -254,7 +254,7 @@ function handleAddToCart(productId) {
         .then(res => res.json())
         .then(data => {
             if (data.status === 'not_logged_in') {
-                window.location.href = '/Web_Advanced/src/views/Auth/LoginAndSignUp.php';
+                window.location.href = '/Web_Advanced_Project/src/views/Auth/LoginAndSignUp.php';
             } else if (data.status === 'success') {
                 alert('Đã thêm vào giỏ hàng!');
                 updateCartQuantityInHeader();

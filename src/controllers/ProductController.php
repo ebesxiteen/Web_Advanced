@@ -292,6 +292,7 @@ class ProductController {
 
         // Thêm sản phẩm vào CARTDETAILS
         $insertCartDetailsQuery = "INSERT INTO CARTDETAILS (CARTID, PRODUCTID, QUANTITY) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE QUANTITY = QUANTITY + ?";
+
         $stmt = $this->conn->prepare($insertCartDetailsQuery);
         $stmt->bind_param("iiii", $cartId, $productId, $quantity, $quantity);
         $stmt->execute();

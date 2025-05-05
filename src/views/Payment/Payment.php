@@ -89,7 +89,7 @@ let discountPercent = 0;
 document.getElementById('applyDiscount').addEventListener('click', function() {
     const code = document.getElementById('discountCode').value;
 
-    fetch('http://localhost/Web_Advanced/src/views/Payment/applyDiscount.php', {
+    fetch('http://localhost/Web_Advanced_Project/src/views/Payment/applyDiscount.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -121,7 +121,7 @@ document.getElementById('applyDiscount').addEventListener('click', function() {
 });
 
 document.getElementById('confirmOrder').addEventListener('click', function() {
-    fetch('http://localhost/Web_Advanced/src/views/Payment/createOrder.php', {
+    fetch('http://localhost/Web_Advanced_Project/src/views/Payment/createOrder.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

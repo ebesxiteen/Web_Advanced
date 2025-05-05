@@ -35,10 +35,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                                 class="rounded-5" alt="Avatar" width="45px" height="45px">
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../../../../Web_Advanced/src/views/Auth/Profile.php">Xem
+                            <li><a class="dropdown-item"
+                                    href="../../../../Web_Advanced_Project/src/views/Auth/Profile.php">Xem
                                     thông tin cá
                                     nhân</a></li>
-                            <li><a class="dropdown-item" href="../../../../Web_Advanced/src/views/Auth/logout.php">Đăng
+                            <li><a class="dropdown-item"
+                                    href="../../../../Web_Advanced_Project/src/views/Auth/logout.php">Đăng
                                     xuất</a></li>
                         </ul>
                     </div>
@@ -47,7 +49,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                 <!-- Khi chưa đăng nhập -->
                 <div class="my-2 mx-2 d-flex justify-content-center">
 
-                    <a href="../../../../Web_Advanced/src/views/Auth/LoginAndSignUp.php">
+                    <a href="../../../../Web_Advanced_Project/src/views/Auth/LoginAndSignUp.php">
                         <span class="title-login">Đăng nhập</span>
                         <button class="btn btn-login my-2 my-sm-0 mx-2" type="button">
                             <i class="fa-solid fa-user"></i>
@@ -68,7 +70,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                     <div class="list-item-left">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-white">
                             <li class="nav-item">
-                                <a class="nav-link active text-white" aria-current="page" href="Home.php?isHome">Trang
+                                <a class="nav-link active text-white" aria-current="page" href="Home.php">Trang
                                     chủ</a>
                             </li>
 

@@ -18,7 +18,7 @@ else {
 // Xử lý thêm sản phẩm vào giỏ
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     if (!isset($_SESSION['user_id'])) {
-        echo "<script>alert('Bạn cần đăng nhập để thêm vào giỏ hàng'); window.location.href='/Web_Advanced/src/views/Auth/LoginAndSignUp.php';</script>";
+        echo "<script>alert('Bạn cần đăng nhập để thêm vào giỏ hàng'); window.location.href='/Web_Advanced_Project/src/views/Auth/LoginAndSignUp.php';</script>";
         exit;
     }
 
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     <div class="row">
         <!-- Product Image -->
         <div class="col-md-6 text-center">
-            <img src="http://localhost/Web_Advanced/src/views/Admin/public/images/b2.jpg"
+            <img src="http://localhost/Web_Advanced_Project/src/views/Admin/public/images/b2.jpg"
                 alt="<?= htmlspecialchars($product->getProductName()) ?>" class="product-image">
         </div>
 

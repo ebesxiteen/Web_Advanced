@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/Web_Advanced/src/config/DatabaseConnection.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/Web_Advanced_Project/src/config/DatabaseConnection.php');
 
 header('Content-Type: application/json');
 

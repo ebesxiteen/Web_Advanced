@@ -1,7 +1,12 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/Web_Advanced/src/config/DatabaseConnection.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/Web_Advanced/src/models/Product.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/Web_Advanced/src/controllers/ProductController.php');
+// require_once($_SERVER['DOCUMENT_ROOT'] . '/Web_Advanced/src/config/DatabaseConnection.php');
+// require_once($_SERVER['DOCUMENT_ROOT'] . '/Web_Advanced/src/models/Product.php');
+// require_once($_SERVER['DOCUMENT_ROOT'] . '/Web_Advanced/src/controllers/ProductController.php');
+
+require_once __DIR__. "/../../../config/DatabaseConnection.php";
+require_once __DIR__. "/../../../models/Product.php";
+require_once __DIR__. "/../../../controllers/ProductController.php";
+
 
 header('Content-Type: application/json');
 

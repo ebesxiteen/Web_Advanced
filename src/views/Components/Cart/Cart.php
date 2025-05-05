@@ -5,6 +5,7 @@
     require_once __DIR__ . '/../../../controllers/CartDetailController.php';
     require_once __DIR__ . '/../../../controllers/ProductController.php';
     require_once __DIR__ . '../../../Auth/CartProcessor.php';
+    
     $userId = $_SESSION['userId'];
     $cartController = new CartController();
     $cartDetailController = new CartDetailController();
@@ -74,7 +75,7 @@ document.querySelector('.btn-continue-shopping').addEventListener('click', funct
 
 // Tiến hành thanh toán
 document.querySelector('.btn-payment').addEventListener('click', function() {
-    window.location.href = '/Web_Advanced/src/views/Payment/Payment.php';
+    window.location.href = '/Web_Advanced_Project/src/views/Payment/Payment.php';
 });
 
 // Xóa sản phẩm khỏi giỏ
@@ -83,7 +84,7 @@ document.querySelectorAll('.btn-delete-item').forEach(function(button) {
         const productId = this.getAttribute('data-product-id');
         const itemRow = document.querySelector(`#item-${productId}`);
 
-        fetch('http://localhost/Web_Advanced/src/views/api/deleteCartDetail.php', {
+        fetch('http://localhost/Web_Advanced_Project/src/views/api/deleteCartDetail.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
