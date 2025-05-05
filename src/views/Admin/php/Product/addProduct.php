@@ -27,7 +27,7 @@ try {
 
     // --- Xử lý upload file ảnh ---
     // Đặt đường dẫn tới thư mục lưu ảnh (lưu ý: đây là đường dẫn vật lý trên server)
-    $targetFolder = __DIR__ . '/../../assets/img/'; // Thay đổi nếu cần
+    $targetFolder = __DIR__ . '/../../public/imgages/'; // Thay đổi nếu cần
     if (!file_exists($targetFolder)) {
         if (!mkdir($targetFolder, 0777, true)) {
             throw new Exception("Không thể tạo thư mục: " . $targetFolder);
@@ -67,13 +67,13 @@ try {
         }
 
         // Lưu tên file (hoặc đường dẫn tương đối dùng để hiển thị ảnh) để lưu vào DB
-        $uploadedFileName = 'assets/img/' . $newFileName;
+        $uploadedFileName = 'public/images/' . $newFileName;
     }
 
     // --- Lưu sản phẩm vào Database ---
     // Giả sử ProductController có phương thức createProduct($name, $recipe, $price, $image, $unit)
     $productController = new ProductController();
-    $product = $productController->createProduct($productName, $recipe, $finalPrice, $uploadedFileName, $unit);
+    $product = $productController->createProduct($productName, $recipe, $finalPrice, $uploadedFileName, $unit, 1);
 
     if (!$product) {
         $response['success'] = false;

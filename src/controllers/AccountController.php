@@ -31,11 +31,39 @@ class AccountController
         return null;
     }
 
-    public function createAccount(Account $account)
+    public function getAccountByUsername($username)
+{
+    // Câu lệnh SQL tìm tài khoản theo USERNAME
+    $sql = "SELECT * FROM ACCOUNTS WHERE USERNAME = ?";
+    $stmt = $this->conn->prepare($sql);
+
+    // Gắn giá trị của tham số USERNAME vào câu lệnh SQL
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+
+    // Lấy kết quả từ truy vấn
+    $result = $stmt->get_result();
+
+    // Kiểm tra xem tài khoản có tồn tại không
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        $stmt->close();
+
+        // Tạo đối tượng Account và trả về
+        return new Account($row['ID'], $row['USERNAME'], $row['PASSWORD']);
+    }
+
+    // Nếu không tìm thấy tài khoản, trả về null
+    $stmt->close();
+    return null;
+}
+
+
+    public function createAccount($username,$pass)
     {
         $sql = "INSERT INTO ACCOUNTS (USERNAME, PASSWORD) VALUES (?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ss", $account->getUsername(), $account->getPassword());
+        $stmt->bind_param("ss", $username, $pass);
 
         if ($stmt->execute()) {
             $id = $this->conn->insert_id;
@@ -138,8 +166,9 @@ class AccountController
         $stmt->bind_param("sss", $username, $hashedPassword, $defaultRole);
 
         if ($stmt->execute()) {
+            $id = $this->conn->insert_id;
             $stmt->close();
-            return true;
+            return $id;
         }
 
         $stmt->close();

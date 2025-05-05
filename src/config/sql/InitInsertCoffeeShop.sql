@@ -1,13 +1,13 @@
 USE `COFFESHOP`;
 
 INSERT INTO `ACCOUNTS` (`USERNAME`, `PASSWORD`, `ROLE`) VALUES
-('john_doe', 'password123', 'admin'),
+('user123', '$2a$10$.iJ7tEt5yM1uSi6JxSO9xeScLVVMkqRAilprwra7B2WNvHrxl9YX6', 'user'),
 ('jane_smith', 'securepass', 'user'),
 ('peter_jones', 'mysecret', 'user'),
 ('alice_wonder', 'wonderland', 'admin');
 
 INSERT INTO `USERS` (`ACCOUNTID`, `FULLNAME`, `ADDRESS`, `PHONE`, `EMAIL`, `DATEOFBIRTH`) VALUES
-(1, 'John Doe', '123 Main St', '123-456-7890', 'john.doe@example.com', '1990-01-15'),
+(1, 'User123', '123 Main St', '123-456-7890', 'user123@example.com', '1990-01-15'),
 (2, 'Jane Smith', '456 Oak Ave', '987-654-3210', 'jane.smith@example.com', '1985-05-20'),
 (3, 'Peter Jones', '789 Pine Ln', '555-123-4567', 'peter.jones@example.com', '1992-11-08'),
 (4, 'Alice Wonderland', '10 Downing St', '012-345-6789', 'alice.wonder@example.com', '2000-03-22');
@@ -68,11 +68,19 @@ INSERT INTO CATEGORIES (CATEGORYNAME) VALUES
 ('Khác');
 
 
-INSERT INTO `PRODUCTS` ( `ID`,`RECIPEID`, `PRODUCTNAME`, `PRICE`,`LINKIMAGE`, `UNITID`) VALUES
-(1, 1, 'Espresso', 2.50,'assets/img/Americano_3.jpg', 1),
-(2, 2, 'Latte', 4.00,'assets/img/Espresso_1.jpeg', 1),
-(3, 3, 'Americano', 3.50,'assets/img/Latte_2.jpg', 1),
-(4, 4, 'Mocha', 5.00,'assets/img/Mocha_4.jpg', 1);
+INSERT INTO `PRODUCTS` ( `ID`,`RECIPEID`, `PRODUCTNAME`, `PRICE`,`LINKIMAGE`, `UNITID`, `CATEGORYID`) VALUES
+(1, 1, 'Espresso', 2.50,'public/images/b2.jpg', 1, 1),
+(2, 2, 'Atiso', 4.00,'public/images/b2.jpg', 1, 2),
+(3, 3, 'Snack', 3.50,'public/images/b2.jpg', 1, 3),
+(4, 4, 'Matcha Latte', 5.00,'public/images/b2.jpg', 1, 2),
+(5, 4, 'Cappuccino', 3.75, 'public/images/b2.jpg', 1, 1),
+(6, 3, 'Trà đào', 3.25, 'public/images/b2.jpg', 1, 2),
+(7, 2, 'Trà vải hoa hồng', 4.25, 'public/images/b2.jpg', 1, 2),
+(8, 1, 'Cacao Latte', 3.00, 'public/images/b2.jpg', 1, 1),
+(9, 1, 'Trà tắc', 5.50, 'public/images/b2.jpg', 1, 2),
+(10, 2, 'Trà sữa', 4.75, 'public/images/b2.jpg', 1, 2),
+(11, 3, 'Trà dâu', 3.25, 'public/images/b2.jpg', 1, 2),
+(12, 2, 'Trà ổi', 4.25, 'public/images/b2.jpg', 1, 2);
 
 
 

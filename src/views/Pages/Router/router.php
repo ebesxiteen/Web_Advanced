@@ -49,4 +49,3 @@ function route($page)
             break;
     }
 }
-

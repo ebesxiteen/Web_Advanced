@@ -1,50 +1,36 @@
 <?php
-class DatabaseConnection
-{
-    private $host = "localhost";
-    private $username = "root";
-    private $password = "123456789";
-    private $database = "COFFESHOP";
-    private $connection = null;
 
-    public function __construct()
-    {
-        try {
-            // Kiểm tra và tạo kết nối
-            if ($this->connection === null) {
-                $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
+class DatabaseConnection {
+    private $host = "localhost"; // Thay đổi nếu cần
+    private $port = "3306";
+    private $username = "root"; // Thay đổi bằng tên người dùng MySQL
+    private $password = "123456789"; // Thay đổi bằng mật khẩu MySQL
+    private $database = "COFFESHOP"; // Tên cơ sở dữ liệu
 
-                // Kiểm tra kết nối
-                if ($this->connection->connect_error) {
-                    throw new Exception("Không thể kết nối đến cơ sở dữ liệu: " . $this->connection->connect_error);
-                }
+    protected $connection;
+
+    public function __construct() {
+        if (!isset($this->connection)) {
+            $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database, $this->port);
+            // echo"Ket noi thanh cong ";
+            if (!$this->connection) {
+                echo 'Không thể kết nối đến cơ sở dữ liệu: ' . $this->connection->connect_error;
+                exit;
             }
-        } catch (Exception $e) {
-            // Ghi log lỗi hoặc hiển thị thông báo lỗi
-            error_log("Lỗi kết nối database: " . $e->getMessage());
-            die("Lỗi hệ thống. Vui lòng liên hệ quản trị viên.");
         }
     }
 
-    public function getConnection()
-    {
-        if ($this->connection === null) {
-            new self(); // Tạo mới kết nối nếu chưa có
-        }
+    public function getConnection() {
         return $this->connection;
     }
 
-    public function closeConnection()
-    {
+    public function closeConnection() {
         if ($this->connection !== null) {
             $this->connection->close();
             $this->connection = null;
         }
     }
-
-
-    public function __destruct()
-    {
-        $this->closeConnection();
-    }
 }
+
+
+?>

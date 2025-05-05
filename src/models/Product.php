@@ -5,17 +5,19 @@ class Product {
     private $recipeId;
     private $productName;
     private $price;
-    private $unitId;
-
     private $linkImage;
+    private $unitId;
+    private $categoryId;
 
-    public function __construct($id = null, $recipeId = null, $productName = null, $price = null,$linkImage = null, $unitId = null) {
+    public function __construct($id = null, $recipeId = null, $productName = null, $price = null, $linkImage = null, $unitId = null, $categoryId = null) {
         $this->id = $id;
         $this->recipeId = $recipeId;
         $this->productName = $productName;
         $this->price = $price;
         $this->linkImage = $linkImage;
         $this->unitId = $unitId;
+        $this->linkImage = $linkImage;
+        $this->categoryId = $categoryId;
     }
 
     public function getId() {
@@ -64,6 +66,14 @@ class Product {
 
     public function setLinkImage($linkImage) {
         $this->linkImage = $linkImage;
+    }
+
+    public function getCategoryId(){
+        return $this->categoryId;
+    }
+
+    public function setCategoryId($categoryId){
+        $this->categoryId = $categoryId;
     }
 }
 

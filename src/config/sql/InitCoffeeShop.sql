@@ -16,11 +16,11 @@ CREATE TABLE IF NOT EXISTS `ACCOUNTS` (
 CREATE TABLE IF NOT EXISTS `USERS` (
     ID              INT             NOT NULL AUTO_INCREMENT,
     ACCOUNTID       INT             NOT NULL,
-    FULLNAME        VARCHAR(50)     NOT NULL,
-    ADDRESS         VARCHAR(50)     NOT NULL,
-    PHONE           VARCHAR(50)     NOT NULL,
-    EMAIL           VARCHAR(50)     NOT NULL,
-    DATEOFBIRTH     DATE            NOT NULL,
+    FULLNAME        VARCHAR(50)     NULL,
+    ADDRESS         VARCHAR(50)     NULL,
+    PHONE           VARCHAR(50)     NULL,
+    EMAIL           VARCHAR(50)     NULL,
+    DATEOFBIRTH     DATE            NULL,
     PRIMARY KEY (ID)
 );
 
@@ -81,15 +81,13 @@ CREATE TABLE IF NOT EXISTS `RECIPEDETAILS` (
 DROP TABLE IF EXISTS `PRODUCTS`;
 
 CREATE TABLE IF NOT EXISTS  `PRODUCTS` (
-
-    `ID`                          INT             NOT NULL           AUTO_INCREMENT            ,
-    RECIPEID                    INT             NOT NULL                                       ,
-    PRODUCTNAME                 VARCHAR(50)     NOT NULL                                       ,
-    PRICE                       DOUBLE          NOT NULL                                       ,
+    `ID`                        INT             NOT NULL           AUTO_INCREMENT             ,
+    RECIPEID                    INT             NOT NULL                                      ,
+    PRODUCTNAME                 VARCHAR(50)     NOT NULL                                      ,
+    PRICE                       DOUBLE          NOT NULL                                      ,
     LINKIMAGE                   VARCHAR(255)    NOT NULL                                      ,
-    UNITID                      INT                                                    ,
-    CATEGORYID      INT             NOT NULL DEFAULT 1,
-
+    UNITID                      INT                                                           ,
+    CATEGORYID                  INT             NOT NULL DEFAULT 1,
     PRIMARY KEY (`ID`)
 );
 
@@ -114,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `IMPORTDETAILS` (
     PRIMARY KEY (ID)
 );
 
--- DISCOUNTS
+DROP TABLE IF EXISTS `DISCOUNTS`;
 CREATE TABLE IF NOT EXISTS `DISCOUNTS` (
     ID              INT             NOT NULL AUTO_INCREMENT,
     DISCOUNTNAME    VARCHAR(50)     NOT NULL,
@@ -219,7 +217,8 @@ ADD CONSTRAINT `FK_USERS_CARTS` FOREIGN KEY (USERID) REFERENCES USERS(ID);
 -- CARTDETAILS
 ALTER TABLE `CARTDETAILS`
 ADD CONSTRAINT `FK_CARTS` FOREIGN KEY (CARTID) REFERENCES CARTS(ID),
-ADD CONSTRAINT `FK_PRODUCTS_CARTDETAILS` FOREIGN KEY (PRODUCTID) REFERENCES PRODUCTS(ID);
+ADD CONSTRAINT `FK_PRODUCTS_CARTDETAILS` FOREIGN KEY (PRODUCTID) REFERENCES PRODUCTS(ID),
+ADD CONSTRAINT `UQ_CART_PRODUCT` UNIQUE (`CARTID`, `PRODUCTID`);
 
 -- PRODUCTREVIEWS
 ALTER TABLE `PRODUCTREVIEWS`
